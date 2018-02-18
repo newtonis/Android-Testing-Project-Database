@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">vote_app_test</string>
+    <string name="title_activity_vote_area">voteArea</string>
+    <string name="title_activity_vote">vote</string>
+</resources>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="vote_app_test.com.test_library_import.vote">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="53dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="32dp"
+            android:text="What do you prefer?"
+            android:textSize="30sp"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="59dp" />
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="175dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/button2"
+            android:layout_alignLeft="@+id/button2"
+            android:layout_alignStart="@+id/button2"
+            android:layout_marginBottom="16dp"
+            android:text="work"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            tools:layout_editor_absoluteX="105dp" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="175dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="eating"
+            app:layout_constraintTop_toBottomOf="@+id/button1"
+            tools:layout_editor_absoluteX="105dp" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="175dp"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/button2"
+            android:layout_alignStart="@+id/button2"
+            android:layout_below="@+id/button2"
+            android:layout_marginTop="16dp"
+            android:text="sleep"
+            tools:layout_editor_absoluteX="105dp"
+            tools:layout_editor_absoluteY="249dp" />
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="175dp"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/button3"
+            android:layout_alignStart="@+id/button3"
+            android:layout_below="@+id/button3"
+            android:layout_marginTop="14dp"
+            android:text="freetime"
+            app:layout_constraintTop_toBottomOf="@+id/button3"
+            tools:layout_editor_absoluteX="105dp" />
+
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>
