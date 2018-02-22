@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Adapter;
 import android.widget.ExpandableListView;
+import android.widget.ListView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,12 +16,16 @@ public class ActivityProfessorList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_professor_list);
 
-        ExpandableListView professorList = findViewById(R.id.ProfessorList);
+        /*ListView professorList = findViewById(R.id.p);
 
-        Map<String,String> content = new HashMap<String,String>();
-        content.put("p1","p2");
+        Map<String,String> content = new HashMap<>();
+        content.put("Martin Garcia","ITBA");
+        content.put("Joaquin Gonzalez","ITBA");
+        content.put("Moria Rodriguez","ITBA");
 
-        Adapter adapter = new MyAdapter(content);
+        AdapterList adapter = new AdapterList(content);
+
+        professorList.setAdapter(adapter);*/
 
     }
 

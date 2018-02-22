@@ -29,6 +29,13 @@
     <string name="ListProfessor">Enlistar profesores</string>
     <string name="title_activity_professor_list">ActivityProfessorList</string>
     <string name="ListProfessorTitle">Lista de profesores</string>
+    <string name="TextProfessor">Profesor</string>
+    <string name="TextSchool">Universidad</string>
+    <string name="ProfessorName">Profesor X</string>
+    <string name="SelectAll">Todas</string>
+    <string name="RateText">Calificar</string>
+    <string name="NumberExample">4.5</string>
+    <string name="TextInfoCal"><b>CA</b>: Conocimiento aparente\n<b>CE</b>: Coeficiente de endendimiento\n<b>A</b>: Amabilidad</string>
     <item name="visible" type="id" />
     <item name="masked" type="id" />
 </resources>

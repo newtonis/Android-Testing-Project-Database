@@ -15,17 +15,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ActivityLogin">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".ActivitySignIn" />
         <activity android:name=".ActivityUser" />
         <activity android:name=".ActivitySignUp" />
         <activity android:name=".ActivitySearchProfessor" />
-        <activity android:name=".ActivityProfessorList"></activity>
+        <activity android:name=".ActivityProfessorList" />
+        <activity android:name=".ActivityProfesorFrontPage">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
     </application>
 
 </manifest>
