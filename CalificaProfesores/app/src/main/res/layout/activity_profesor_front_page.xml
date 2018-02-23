@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#F1F3C3"
+        android:background="@color/background_color"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,9 +24,10 @@
 
             <TextView
                 android:id="@+id/ProfessorName"
-                android:layout_width="151dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:fontFamily="@font/alfa_slab_one"
                 android:text="@string/ProfessorName"
                 android:textAlignment="center"
                 android:textSize="30sp"
@@ -40,55 +41,58 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
-                app:srcCompat="@drawable/ic_professor"
+                app:srcCompat="@drawable/professor"
                 tools:layout_editor_absoluteX="302dp"
                 tools:layout_editor_absoluteY="3dp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:background="#B38867"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/ScoreText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:fontFamily="alfa_slab_one"
+                    android:text="@string/NumberExample"
+                    android:textAlignment="center"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:id="@+id/imageButton"
+                    android:layout_width="40dp"
+                    android:layout_height="46dp"
+                    android:adjustViewBounds="true"
+                    android:background="#B38867"
+                    android:cropToPadding="false"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/star" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="0px"
             android:layout_weight="1"
-            android:orientation="horizontal">
+            android:orientation="horizontal" android:baselineAligned="false">
 
             <LinearLayout
                 android:layout_width="0px"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
                 android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="46dp"
-                    android:background="#B38867"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="100dp"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/ScoreText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:text="@string/NumberExample"
-                            android:textAlignment="center"
-                            android:textSize="30sp"
-                            android:textStyle="bold" />
-
-                        <ImageButton
-                            android:id="@+id/imageButton"
-                            android:layout_width="40dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:background="#B38867"
-                            app:srcCompat="@drawable/ic_star" />
-                    </LinearLayout>
-
-                </LinearLayout>
 
                 <ListView
                     android:id="@+id/ListViewSubject"
@@ -102,6 +106,7 @@
                     android:id="@+id/CheckAll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="alfa_slab_one"
                     android:text="@string/SelectAll" />
             </LinearLayout>
 
@@ -119,14 +124,15 @@
                     android:layout_marginEnd="8dp"
                     android:layout_weight="1"
                     android:padding="10dp"
-                    app:egBarWidth="20dp"
+                    app:egBarWidth="40dp"
                     app:egFixedBarWidth="true"
+                    app:egLegendColor="#F1F3C3"
                     app:egLegendHeight="40dp"
+                    app:egShowValues="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.832"
                     app:layout_constraintStart_toStartOf="parent"
                     tools:layout_editor_absoluteY="2dp">
-
 
                 </org.eazegraph.lib.charts.StackedBarChart>
 
@@ -150,6 +156,7 @@
             android:id="@+id/RateButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="alfa_slab_one"
             android:text="@string/RateText" />
 
     </LinearLayout>

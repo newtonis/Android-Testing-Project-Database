@@ -35,7 +35,10 @@
     <string name="SelectAll">Todas</string>
     <string name="RateText">Calificar</string>
     <string name="NumberExample">4.5</string>
-    <string name="TextInfoCal"><b>CA</b>: Conocimiento aparente\n<b>CE</b>: Coeficiente de endendimiento\n<b>A</b>: Amabilidad</string>
+    <string name="TextInfoCal"><b>CE</b>: Coeficiente de endendimiento\n<b>CA</b>: Conocimiento aparente\n<b>A</b>: Amabilidad</string>
+    <string name="HintProfessor">Ingresa profesor ...</string>
+    <string name="searchIcon">icono de busqueda</string>
+    <string name="Fac">Uni</string>
     <item name="visible" type="id" />
     <item name="masked" type="id" />
 </resources>
