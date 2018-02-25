@@ -39,6 +39,17 @@
     <string name="HintProfessor">Ingresa profesor ...</string>
     <string name="searchIcon">icono de busqueda</string>
     <string name="Fac">Uni</string>
+    <string name="ScoreTitle">Calificacion</string>
     <item name="visible" type="id" />
     <item name="masked" type="id" />
+    <string name="title_activity_cal_prof">ActivityCalProf</string>
+    <string name="CEtext">Entendimiento</string>
+    <string name="CAtext">Conocimiento aparente</string>
+    <string name="Atext">Amabilidad</string>
+    <string name="TextRegisterAndVote">Registrarse &amp; votar</string>
+    <string name="InfoCE">Habilidad del profesor como orador para que en todo momento se entienda en el contexto en el que articula sus ideas sin la necesidad de un esfuerzo abrumador por parte del alumno</string>
+    <string name="InfoCA">Que tanto parece saber el profesor acerca de la materia que dicta</string>
+    <string name="InfoA">Nivel de predisposición del profesor ante dudas, sean para aprender, sean para entender los criterios de evaluacion en los examenes</string>
+    <string name="In">en</string>
+    <string name="DefaultSubject">Materia Y</string>
 </resources>

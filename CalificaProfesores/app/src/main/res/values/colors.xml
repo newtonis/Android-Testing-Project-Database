@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="score_color">#b7b097</color>
     <color name="background_color">#f1f3c3</color>
     <color name="CA_color_a">#6FD93E</color>
     <color name="CA_color_b">#FFFFFF</color>

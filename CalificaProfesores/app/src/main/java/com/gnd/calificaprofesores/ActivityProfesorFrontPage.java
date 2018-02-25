@@ -117,7 +117,7 @@ public class ActivityProfesorFrontPage extends AppCompatActivity {
         CA = (float)Math.round(CA*10f)/10f;
         CE = (float)Math.round(CE*10f)/10f;
         A  = (float)Math.round(A *10f)/10f;
-      //  s1.addBar(new BarModel(CA,));
+        //s1.addBar(new BarModel(CA,));
         s1.addBar(new BarModel(CE,this.getResources().getColor(R.color.CA_color_a)));
         s1.addBar(new BarModel(5f - CE ,this.getResources().getColor(R.color.CA_color_b)));
 
