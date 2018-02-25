@@ -30,9 +30,9 @@ public class ActivityCalProf extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cal_prof);
 
-        Intent intent = getIntent();
-        profId = intent.getLongExtra("ProfId",1l);
-        matId = intent.getLongExtra("MatId",1l);
+        //Intent intent = getIntent();
+        profId = 1l; //intent.getLongExtra("ProfId",1l);
+        matId = 1l; //intent.getLongExtra("MatId",1l);
 
 
         calButton = findViewById(R.id.CalButton);
@@ -52,14 +52,14 @@ public class ActivityCalProf extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        if (mAuth.getCurrentUser().isAnonymous()){
+        if (mAuth.getCurrentUser() == null || mAuth.getCurrentUser().isAnonymous()){
             calButton.setText(getResources().getText(R.string.TextRegisterAndVote));
         }
 
         calButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mAuth.getCurrentUser().isAnonymous() || mAuth.getCurrentUser() == null){
+                if (mAuth.getCurrentUser() == null || mAuth.getCurrentUser().isAnonymous()){
                     Intent intent = new Intent(ActivityCalProf.this,ActivitySignUp.class);
                     startActivity(intent);
                 }else{

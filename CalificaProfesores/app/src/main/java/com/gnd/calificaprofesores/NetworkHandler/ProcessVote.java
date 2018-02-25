@@ -35,6 +35,7 @@ public class ProcessVote {
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
     public ProcessVote(final Long CA,final Long CE,final Long A, final Long profId, final Long matId){
+
         mAuth = FirebaseAuth.getInstance();
 
         if (mAuth.getCurrentUser() == null || mAuth.getCurrentUser().isAnonymous()){
