@@ -31,7 +31,7 @@
     <string name="ListProfessorTitle">Lista de profesores</string>
     <string name="TextProfessor">Profesor</string>
     <string name="TextSchool">Universidad</string>
-    <string name="ProfessorName">Profesor X</string>
+    <string name="ProfessorName">Tiger Woods</string>
     <string name="SelectAll">Todas</string>
     <string name="RateText">Calificar</string>
     <string name="NumberExample">4.5</string>
@@ -44,12 +44,12 @@
     <item name="masked" type="id" />
     <string name="title_activity_cal_prof">ActivityCalProf</string>
     <string name="CEtext">Entendimiento</string>
-    <string name="CAtext">Conocimiento aparente</string>
+    <string name="CAtext">Conocimiento</string>
     <string name="Atext">Amabilidad</string>
     <string name="TextRegisterAndVote">Registrarse &amp; votar</string>
     <string name="InfoCE">Habilidad del profesor como orador para que en todo momento se entienda en el contexto en el que articula sus ideas sin la necesidad de un esfuerzo abrumador por parte del alumno</string>
-    <string name="InfoCA">Que tanto parece saber el profesor acerca de la materia que dicta</string>
-    <string name="InfoA">Nivel de predisposición del profesor ante dudas, sean para aprender, sean para entender los criterios de evaluacion en los examenes</string>
+    <string name="InfoCA">Nivel de conocimiento que parece tener el profesor acerca de la materia</string>
+    <string name="InfoA">Predisposición del profesor ante dudas, sean para aprender, sean para entender los criterios de evaluacion en los examenes</string>
     <string name="In">en</string>
-    <string name="DefaultSubject">Materia Y</string>
+    <string name="DefaultSubject">Golf</string>
 </resources>

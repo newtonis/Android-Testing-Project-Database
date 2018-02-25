@@ -29,6 +29,7 @@ dependencies {
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.google.firebase:firebase-database:11.4.2'
     compile 'com.firebaseui:firebase-ui-auth:3.1.0'
+    compile 'org.apache.directory.studio:org.apache.commons.io:2.4'
     implementation files('commons-io-2.6.jar')
 }
 apply plugin: 'com.google.gms.google-services'
