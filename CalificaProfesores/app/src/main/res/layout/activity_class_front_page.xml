@@ -13,91 +13,93 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <android.support.constraint.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="50dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/ProfessorName"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:fontFamily="@font/alfa_slab_one"
-                android:foregroundGravity="center_horizontal"
-                android:gravity="center"
-                android:text="@string/ClassText"
+                android:text="@string/ProfessorName"
                 android:textAlignment="center"
                 android:textSize="30sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintVertical_bias="0.555"
+                tools:layout_editor_absoluteX="42dp" />
 
             <ImageView
-                android:id="@+id/imageView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.444"
-                app:srcCompat="@drawable/blackboard" />
+                android:id="@+id/imageView"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/professor"
+                tools:layout_editor_absoluteX="302dp"
+                tools:layout_editor_absoluteY="3dp" />
 
-        </android.support.constraint.ConstraintLayout>
+        </LinearLayout>
 
-
-        <android.support.constraint.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/score_color">
+            android:layout_gravity="center_vertical"
+            android:background="@color/score_color"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
 
-
-            <TextView
-                android:id="@+id/ScoreTitle"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@font/alfa_slab_one"
-                android:text="ITBA"
-                android:textAlignment="center"
-                android:textSize="12sp"
-                android:textStyle="bold|italic"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/ScoreText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|center_horizontal|fill_horizontal|center"
-                android:layout_weight="1"
-                android:fontFamily="alfa_slab_one"
-                android:gravity="bottom|center_horizontal|fill_horizontal"
-                android:text="@string/NumberExample"
-                android:textAlignment="center"
-                android:textSize="30sp"
-                android:textStyle="italic"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:layout_editor_absoluteY="16dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-        </android.support.constraint.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/ScoreTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/alfa_slab_one"
+                        android:text="@string/ScoreTitle"
+                        android:textAlignment="center"
+                        android:textSize="12sp"
+                        android:textStyle="bold|italic" />
+
+                    <TextView
+                        android:id="@+id/ScoreText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|center_horizontal|fill_horizontal|center"
+                        android:layout_weight="1"
+                        android:fontFamily="alfa_slab_one"
+                        android:gravity="bottom|center_horizontal|fill_horizontal"
+                        android:text="@string/NumberExample"
+                        android:textAlignment="center"
+                        android:textSize="30sp"
+                        android:textStyle="italic" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0px"
             android:layout_weight="1"
-            android:baselineAligned="false"
-            android:orientation="horizontal">
+            android:orientation="horizontal" android:baselineAligned="false">
 
             <LinearLayout
                 android:layout_width="0px"
@@ -170,8 +172,6 @@
             android:fontFamily="alfa_slab_one"
             android:text="@string/RateText" />
 
-
     </LinearLayout>
-
 
 </android.support.constraint.ConstraintLayout>

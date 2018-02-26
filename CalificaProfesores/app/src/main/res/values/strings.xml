@@ -39,7 +39,7 @@
     <string name="HintProfessor">Ingresa profesor ...</string>
     <string name="searchIcon">icono de busqueda</string>
     <string name="Fac">Uni</string>
-    <string name="ScoreTitle">Calificacion</string>
+    <string name="ScoreTitle"><b>Total</b></string>
     <item name="visible" type="id" />
     <item name="masked" type="id" />
     <string name="title_activity_cal_prof">ActivityCalProf</string>
@@ -52,4 +52,6 @@
     <string name="InfoA">Predisposición del profesor ante dudas, sean para aprender, sean para entender los criterios de evaluacion en los examenes</string>
     <string name="In">en</string>
     <string name="DefaultSubject">Golf</string>
+    <string name="ClassText">Probabilidad y Est. </string>
+    <string name="ScoreText"><b>Total</b></string>
 </resources>
