@@ -12,12 +12,12 @@ exports.SendVote = functions.https.onRequest((request, response) => {
   /// verificamos login del usuario
   admin.auth().verifyIdToken(request.headers.authorization).then(decodedIdToken => {
     //admin.auth().getUser(uid).then(function(userRecord) {
-      console.log("User: ",decodedIdToken.displayName);
-      console.log("CA: " , request.headers.CA);
-      console.log("CE: " , request.headers.CE);
-      console.log("A : " , request.headers.A);
-      console.log("Professor Id: " , request.headers.ProfId);
-      console.log("Subject Id: ", request.headers.MatId);
+      console.log("User: ",decodedIdToken.name);
+      console.log("CA: " , request.headers.ca);
+      console.log("CE: " , request.headers.ce);
+      console.log("A : " , request.headers.a);
+      console.log("Professor Id: " , request.headers.profid);
+      console.log("Subject Id: ", request.headers.matid);
     //})
     //.catch(function(error) {
    //   console.log("Error fetching user data:", error);
