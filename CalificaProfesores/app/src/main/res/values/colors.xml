@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="score_color">#b7b097</color>
+    <color name="background_color">#f1f3c3</color>
+    <color name="CA_color_a">#6FD93E</color>
+    <color name="CA_color_b">#FFFFFF</color>
+    <color name="CE_color_a">#4060FF</color>
+    <color name="CE_color_b">#FFFFFF</color>
+    <color name="A_color_a">#FF9940</color>
+    <color name="A_color_b">#FFFFFF</color>
+</resources>

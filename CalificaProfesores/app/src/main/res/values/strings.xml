@@ -1,0 +1,55 @@
+<resources>
+    <string name="app_name">CalificaProfesores</string>
+    <string name="LoginText">LOGIN</string>
+    <string name="SignInText">SIGN IN</string>
+    <string name="SignOutText">SIGN OUT</string>
+    <string name="title_activity_sign_in">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="title_activity_sign_up">ActivitySignUp</string>
+    <string name="HintUsername">username</string>
+    <string name="HintPassword">password</string>
+    <string name="SignUpText">SIGN UP</string>
+    <string name="TextoBienvenido">Bienvenido, usuario</string>
+    <string name="SearchProfessor">Buscar profesor</string>
+    <string name="HintEmail">email</string>
+    <string name="SearchClass">Buscar clase</string>
+    <string name="GuestButon">Invitado</string>
+    <string name="ListProfessor">Enlistar profesores</string>
+    <string name="title_activity_professor_list">ActivityProfessorList</string>
+    <string name="ListProfessorTitle">Lista de profesores</string>
+    <string name="TextProfessor">Profesor</string>
+    <string name="TextSchool">Universidad</string>
+    <string name="ProfessorName">Tiger Woods</string>
+    <string name="SelectAll">Todas</string>
+    <string name="RateText">Calificar</string>
+    <string name="NumberExample">4.5</string>
+    <string name="TextInfoCal"><b>CE</b>: Coeficiente de endendimiento\n<b>CA</b>: Conocimiento aparente\n<b>A</b>: Amabilidad</string>
+    <string name="HintProfessor">Ingresa profesor ...</string>
+    <string name="searchIcon">icono de busqueda</string>
+    <string name="Fac">Uni</string>
+    <string name="ScoreTitle">Calificacion</string>
+    <item name="visible" type="id" />
+    <item name="masked" type="id" />
+    <string name="title_activity_cal_prof">ActivityCalProf</string>
+    <string name="CEtext">Entendimiento</string>
+    <string name="CAtext">Conocimiento</string>
+    <string name="Atext">Amabilidad</string>
+    <string name="TextRegisterAndVote">Registrarse &amp; votar</string>
+    <string name="InfoCE">Habilidad del profesor como orador para que en todo momento se entienda en el contexto en el que articula sus ideas sin la necesidad de un esfuerzo abrumador por parte del alumno</string>
+    <string name="InfoCA">Nivel de conocimiento que parece tener el profesor acerca de la materia</string>
+    <string name="InfoA">Predisposición del profesor ante dudas, sean para aprender, sean para entender los criterios de evaluacion en los examenes</string>
+    <string name="In">en</string>
+    <string name="DefaultSubject">Golf</string>
+</resources>
