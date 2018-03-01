@@ -21,7 +21,7 @@ public abstract class ProfesorDataManager {
     int matCount;
     Long profId;
 
-    protected ProfesorDataManager(Long _profId) {
+    public ProfesorDataManager(Long _profId) {
         profId = _profId;
         auxData = new TreeMap<>();
 

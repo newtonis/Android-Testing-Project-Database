@@ -43,7 +43,7 @@ public class ActivitySignIn extends AppCompatActivity {
                             //Log.d(TAG, "signInWithEmail:success");
                             Toast.makeText(ActivitySignIn.this, "Authentication success.",
                                     Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(ActivitySignIn.this, ActivityCalProf.class);
+                            Intent intent = new Intent(ActivitySignIn.this, ActivityProfesorFrontPage.class);
                             startActivity(intent);
                         }else{
                             Toast.makeText(ActivitySignIn.this, "Authentication failed.",
