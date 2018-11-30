@@ -79,7 +79,7 @@ public class ActivityProfessorList extends AppCompatActivity {
     }
 
     protected void firebaseProfSearch(String searchText){
-        Toast.makeText(ActivityProfessorList.this, "Started Search", Toast.LENGTH_LONG).show();
+        //Toast.makeText(ActivityProfessorList.this, "Started Search", Toast.LENGTH_LONG).show();
 
         Query firebaseSearchQuery = mUserDatabase
                 .orderByChild("Name").startAt(searchText).endAt(searchText + "\uf8ff");

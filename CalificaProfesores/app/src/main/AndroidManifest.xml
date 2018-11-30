@@ -44,7 +44,9 @@
         <activity android:name=".ActivityClassFrontPage">
 
         </activity>
+        <activity android:name=".ActivitySearchCourse">
 
+        </activity>
     </application>
 
 </manifest>

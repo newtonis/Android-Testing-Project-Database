@@ -24,6 +24,7 @@
     <string name="SignUpText">REGISTRARSE</string>
     <string name="TextoBienvenido">Bienvenido, usuario</string>
     <string name="SearchProfessor">Buscar profesor</string>
+    <string name="SearchCourse">Buscar curso</string>
     <string name="HintEmail">email</string>
     <string name="SearchClass">Buscar clase</string>
     <string name="GuestButon">INVITADO</string>
@@ -38,6 +39,7 @@
     <string name="NumberExample">4.5</string>
     <string name="TextInfoCal"><b>CE</b>: Coeficiente de endendimiento\n<b>CA</b>: Conocimiento aparente\n<b>A</b>: Amabilidad</string>
     <string name="HintProfessor">Ingresa profesor ...</string>
+    <string name="HintCourse">Ingresa curso ...</string>
     <string name="searchIcon">icono de busqueda</string>
     <string name="Fac">Uni</string>
     <string name="ScoreTitle"><b>Total</b></string>

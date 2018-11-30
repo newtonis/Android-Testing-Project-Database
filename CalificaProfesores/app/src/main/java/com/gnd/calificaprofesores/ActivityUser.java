@@ -36,7 +36,17 @@ public class ActivityUser extends AppCompatActivity {
         searchProfesorButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ActivityUser.this, ActivitySearchProfessor.class);
+                Intent intent = new Intent(ActivityUser.this, ActivityProfessorList.class);
+                startActivity(intent);
+            }
+        });
+
+        Button searchClassButton = findViewById(R.id.SearchClass);
+
+        searchClassButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(ActivityUser.this, ActivitySearchCourse.class);
                 startActivity(intent);
             }
         });
