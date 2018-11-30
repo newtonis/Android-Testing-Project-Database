@@ -1,8 +1,9 @@
 <resources>
+    <string name="toolbarTopText">CALIFICA PROFESORES</string>
     <string name="app_name">CalificaProfesores</string>
     <string name="LoginText">LOGIN</string>
-    <string name="SignInText">SIGN IN</string>
-    <string name="SignOutText">SIGN OUT</string>
+    <string name="SignInText">INGRESAR</string>
+    <string name="SignOutText">SALIR</string>
     <string name="title_activity_sign_in">Sign in</string>
 
     <!-- Strings related to login -->
@@ -20,13 +21,13 @@
     <string name="title_activity_sign_up">ActivitySignUp</string>
     <string name="HintUsername">username</string>
     <string name="HintPassword">password</string>
-    <string name="SignUpText">SIGN UP</string>
+    <string name="SignUpText">REGISTRARSE</string>
     <string name="TextoBienvenido">Bienvenido, usuario</string>
     <string name="SearchProfessor">Buscar profesor</string>
     <string name="HintEmail">email</string>
     <string name="SearchClass">Buscar clase</string>
-    <string name="GuestButon">Invitado</string>
-    <string name="ListProfessor">Enlistar profesores</string>
+    <string name="GuestButon">INVITADO</string>
+    <string name="ListProfessor">Buscar profesor</string>
     <string name="title_activity_professor_list">ActivityProfessorList</string>
     <string name="ListProfessorTitle">Lista de profesores</string>
     <string name="TextProfessor">Profesor</string>
@@ -43,7 +44,7 @@
     <item name="visible" type="id" />
     <item name="masked" type="id" />
     <string name="title_activity_cal_prof">ActivityCalProf</string>
-    <string name="CEtext">Entendimiento</string>
+    <string name="CEtext">Explicaciones</string>
     <string name="CAtext">Conocimiento</string>
     <string name="Atext">Amabilidad</string>
     <string name="TextRegisterAndVote">Registrarse &amp; votar</string>

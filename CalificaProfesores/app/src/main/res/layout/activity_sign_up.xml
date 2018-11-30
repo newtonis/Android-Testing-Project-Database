@@ -78,7 +78,6 @@
             android:id="@+id/SignUpButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/alfa_slab_one"
             android:text="@string/SignUpText" />
 
     </LinearLayout>

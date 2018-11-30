@@ -4,7 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.gnd.calificaprofesores.ActivityLogin">
+    tools:context="com.gnd.calificaprofesores.ActivityLogin"
+    android:background="@color/background_color">
+
+    <include
+        layout="@layout/toolbar_layout"
+        android:layout_height="61dp" />
 
     <TextView
         android:id="@+id/LoginText"
@@ -12,7 +17,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="80dp"
+        android:fontFamily="@font/alfa_slab_one"
         android:text="@string/LoginText"
         android:textSize="36sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,6 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/signUpButton"
             android:layout_below="@+id/LoginText"
+            android:fontFamily="@font/alfa_slab_one"
             android:text="@string/SignInText"
             android:textSize="18sp"
             tools:layout_editor_absoluteX="148dp"
@@ -47,6 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/LoginText"
             android:layout_below="@+id/signInButton"
+            android:fontFamily="@font/alfa_slab_one"
             android:text="@string/SignUpText"
             android:textSize="18sp"
             tools:layout_editor_absoluteX="146dp"
@@ -58,6 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/LoginText"
             android:layout_below="@+id/signUpButton"
+            android:fontFamily="@font/alfa_slab_one"
             android:text="@string/GuestButon"
             android:textSize="18sp"
             tools:layout_editor_absoluteX="139dp"

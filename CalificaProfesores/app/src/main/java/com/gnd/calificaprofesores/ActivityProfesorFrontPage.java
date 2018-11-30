@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-
 import com.gnd.calificaprofesores.NetworkHandler.MatData;
 import com.gnd.calificaprofesores.NetworkHandler.ProfesorDataManager;
 import com.google.firebase.database.DatabaseError;
