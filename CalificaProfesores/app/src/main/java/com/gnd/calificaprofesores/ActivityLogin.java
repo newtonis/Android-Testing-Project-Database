@@ -7,6 +7,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toolbar;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -49,5 +53,30 @@ public class ActivityLogin extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        SignInButton googleSignInButton = findViewById(R.id.sign_in_button);
+        googleSignInButton.setSize(SignInButton.SIZE_STANDARD);
+
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        //updateUI(account);
+
+        googleSignInButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                googleSignIn();
+            }
+        });
     }
+    private void googleSignIn() {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
 }
