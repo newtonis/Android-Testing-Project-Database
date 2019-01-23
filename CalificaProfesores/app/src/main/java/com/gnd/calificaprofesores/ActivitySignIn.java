@@ -1,4 +1,10 @@
+
+/* En esta actividad logeamos usando el sistema particular de de la aplicacion, NO con google,
+facebook, etc */
+
+
 package com.gnd.calificaprofesores;
+
 
 import android.content.Intent;
 import android.renderscript.ScriptGroup;
@@ -43,7 +49,7 @@ public class ActivitySignIn extends AppCompatActivity {
                             //Log.d(TAG, "signInWithEmail:success");
                             Toast.makeText(ActivitySignIn.this, "Authentication success.",
                                     Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(ActivitySignIn.this, ActivityProfesorFrontPage.class);
+                            Intent intent = new Intent(ActivitySignIn.this, ActivityUser.class);
                             startActivity(intent);
                         }else{
                             Toast.makeText(ActivitySignIn.this, "Authentication failed.",
@@ -51,8 +57,8 @@ public class ActivitySignIn extends AppCompatActivity {
                         }
                     }
                 });
-
             }
         });
+
     }
 }
