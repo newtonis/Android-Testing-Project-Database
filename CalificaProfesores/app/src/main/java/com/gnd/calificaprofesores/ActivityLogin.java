@@ -12,11 +12,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toolbar;
+import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -32,10 +35,11 @@ public class ActivityLogin extends AppCompatActivity {
 
     private android.support.v7.widget.Toolbar toolbar;
 
-    static GoogleSignInClient mGoogleSignInClient;
-    static GoogleApiClient googleApiClient;
+    private static GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth;
     private static final String TAG = "LoginLogs";
+
+    public static GoogleApiClient mGoogleApiClient;
 
 
     private static final int REQ_CODE = 9001;
@@ -77,18 +81,32 @@ public class ActivityLogin extends AppCompatActivity {
             }
         });
 
-
+        /** Objetos de login de google **/
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
 
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
+                    @Override
+                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+                    }
+                })
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+        /** Fin objetos de login de google **/
+
 
         SignInButton googleSignInButton = findViewById(R.id.sign_in_button);
         googleSignInButton.setSize(SignInButton.SIZE_STANDARD);
 
+        /// para checkear si ya estuvo logeado
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         //updateUI(account);
+
+        mAuth = FirebaseAuth.getInstance();
 
         googleSignInButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -98,7 +116,7 @@ public class ActivityLogin extends AppCompatActivity {
         });
     }
     private void googleSignIn() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, REQ_CODE);
     }
 
@@ -131,7 +149,7 @@ public class ActivityLogin extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            //Log.d(TAG, "signInWithCredential:success");
+                            Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
 
                             Intent intent = new Intent(ActivityLogin.this, ActivityUser.class);
