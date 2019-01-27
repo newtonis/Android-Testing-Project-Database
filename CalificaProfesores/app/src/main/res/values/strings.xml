@@ -57,4 +57,5 @@
     <string name="DefaultSubject">Golf</string>
     <string name="ClassText">Probabilidad y Estadistica </string>
     <string name="ScoreText"><b>Total</b></string>
+    <string name="textHacerCosas"><b>BUSCAR</b></string>
 </resources>
