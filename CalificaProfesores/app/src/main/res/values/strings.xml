@@ -58,4 +58,7 @@
     <string name="ClassText">Probabilidad y Estadistica </string>
     <string name="ScoreText"><b>Total</b></string>
     <string name="textHacerCosas"><b>BUSCAR</b></string>
+    <string name="configText">OPCIONES</string>
+    <string name="textNovedades">NOVEDADES</string>
+    <string name="textProximamente">PROXIMAMENTE</string>
 </resources>

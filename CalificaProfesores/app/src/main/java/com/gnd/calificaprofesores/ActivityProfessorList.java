@@ -1,5 +1,7 @@
 package com.gnd.calificaprofesores;
 
+/** Esta actividad es search professor, el nombre es equivocado **/
+
 import android.app.LauncherActivity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -44,19 +46,18 @@ public class ActivityProfessorList extends AppCompatActivity {
         mUserDatabase = FirebaseDatabase.getInstance().getReference("Prof");
 
         mProfInput = findViewById(R.id.ProfInput);
-        mSearchButton = findViewById(R.id.SearchButton);
         mResultList = findViewById(R.id.ResultList);
 
         mResultList.setLayoutManager(new LinearLayoutManager(this));
 
-        mSearchButton.setOnClickListener(new View.OnClickListener() {
+        /*mSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String searchText = mProfInput.getText().toString();
 
                 firebaseProfSearch(searchText);
             }
-        });
+        });*/
         mProfInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
