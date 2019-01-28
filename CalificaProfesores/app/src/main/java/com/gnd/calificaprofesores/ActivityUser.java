@@ -9,7 +9,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -20,7 +22,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class ActivityUser extends AppCompatActivity {
     private FirebaseAuth mAuth;
-    public static GoogleApiClient mGoogleApiClient;
+    private static GoogleApiClient mGoogleApiClient;
+    private static GoogleSignInClient mGoogleSignInClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +36,13 @@ public class ActivityUser extends AppCompatActivity {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        /*mGoogleApiClient = new GoogleApiClient.Builder(this)
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
                     @Override
                     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
@@ -41,7 +50,11 @@ public class ActivityUser extends AppCompatActivity {
                     }
                 })
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();*/
+                .build();
+
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
 
         TextView welcomeText = findViewById(R.id.welcomeText);
 
@@ -80,9 +93,15 @@ public class ActivityUser extends AppCompatActivity {
         exitButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                mAuth.getInstance().signOut();
-                Intent intent = new Intent(ActivityUser.this, ActivityLogin.class);
-                startActivity(intent);
+                mAuth.signOut();
+
+                mGoogleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Intent intent = new Intent(ActivityUser.this, ActivityLogin.class);
+                        startActivity(intent);
+                    }
+                });
+
             }
         });
         /*** end logout function ***/
