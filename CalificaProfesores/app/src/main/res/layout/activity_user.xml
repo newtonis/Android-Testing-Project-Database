@@ -23,7 +23,7 @@
 
     <Button
         android:id="@+id/ButtonExit"
-        android:layout_width="398dp"
+        android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"

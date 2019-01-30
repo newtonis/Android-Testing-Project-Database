@@ -72,7 +72,7 @@ public class ActivityUser extends AppCompatActivity {
         searchProfesorButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ActivityUser.this, ActivityProfessorList.class);
+                Intent intent = new Intent(ActivityUser.this, ActivitySearchProfessor.class);
                 startActivity(intent);
             }
         });
@@ -82,7 +82,7 @@ public class ActivityUser extends AppCompatActivity {
         searchClassButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Intent intent = new Intent(ActivityUser.this, ActivitySearchCourse.class);
+                Intent intent = new Intent(ActivityUser.this, ActivitySelectUni.class);
                 startActivity(intent);
             }
         });

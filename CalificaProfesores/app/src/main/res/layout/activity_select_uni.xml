@@ -5,56 +5,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color">
+    android:background="@color/background_color"
+    tools:context="com.gnd.calificaprofesores.ActivitySelectUni">
+
 
     <android.support.design.widget.TextInputEditText
-        android:id="@+id/courseInput"
+        android:id="@+id/courseInput2"
         android:layout_width="296dp"
-        android:layout_height="47dp"
-        android:layout_marginEnd="8dp"
+        android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="36dp"
-        android:hint="@string/HintCourse"
+        android:layout_marginEnd="8dp"
+        android:hint="@string/HintFacultad"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+        app:layout_constraintTop_toBottomOf="@+id/titleSelectUni" />
 
     <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/titleSelectUni"
+        android:layout_width="251dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         android:fontFamily="@font/alfa_slab_one"
-        android:text="@string/SearchCourse"
-        android:textSize="36sp"
+        android:text="@string/searchUniText"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.521"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/ResultList"
         android:layout_width="match_parent"
-        android:layout_height="437dp"
+        android:layout_height="440dp"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="64dp"
         android:layout_marginEnd="50dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.19"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/courseInput" />
+        app:layout_constraintTop_toBottomOf="@+id/courseInput2" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
         android:fontFamily="@font/alfa_slab_one"
-        android:text="@string/NoCourseText"
+        android:text="@string/AddFacultad"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
 </android.support.constraint.ConstraintLayout>

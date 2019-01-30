@@ -26,7 +26,10 @@ import com.google.firebase.database.Query;
 
 /**
  * Created by newtonis on 29/11/18.
+ * Actividad para que el usuario seleccione un curso
+ * se necesita como informacion del intent Uni: codigo de universidad
  */
+
 
 public class ActivitySearchCourse extends AppCompatActivity {
     private TextInputEditText mCourseInput;
@@ -34,6 +37,9 @@ public class ActivitySearchCourse extends AppCompatActivity {
     private RecyclerView mResultList;
 
     private DatabaseReference mUserDatabase;
+
+    private Long uniId; // identificacion de la univerisdad de la que se buscaran cursos
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +53,10 @@ public class ActivitySearchCourse extends AppCompatActivity {
         mResultList = findViewById(R.id.ResultList);
 
         mResultList.setLayoutManager(new LinearLayoutManager(this));
+
+        /* Cargamos la universidad de la que buscaremos cursos */
+        Intent intent = getIntent();
+        uniId = intent.getLongExtra("Uni",1L);
 
         mCourseInput.addTextChangedListener(new TextWatcher() {
             @Override
@@ -67,21 +77,28 @@ public class ActivitySearchCourse extends AppCompatActivity {
         });
     }
     public void firebaseClassSearch(String searchText){
+
         Query firebaseSearchQuery = mUserDatabase.orderByChild("Name").startAt(searchText).endAt(searchText + "\uf8ff");
 
+        /** Conseguimos la informacion de la query de seachText **/
         FirebaseRecyclerOptions<BasicListItem> options =
                 new FirebaseRecyclerOptions.Builder<BasicListItem>()
                         .setQuery(firebaseSearchQuery, new SnapshotParser<BasicListItem>() {
                             @NonNull
                             @Override
                             public BasicListItem parseSnapshot(@NonNull DataSnapshot snapshot) {
-                                String facultad = (String)snapshot.child("Facultad").getValue();
 
-
-                                return new BasicListItem((String)snapshot.child("Name").getValue(), facultad,Long.parseLong(snapshot.getKey()));
+                                if (uniId != 0 && snapshot.child("Facultad").getValue() == uniId) {
+                                    return new BasicListItem((String) snapshot.child("Name").getValue(),
+                                            (String) snapshot.child("FacultadName").getValue(),
+                                            Long.parseLong(snapshot.getKey()));
+                                }else{
+                                    return null;
+                                }
                             }
                         }).build();
 
+        /** La colocamos en la lista de cosas **/
         FirebaseRecyclerAdapter adapter = new FirebaseRecyclerAdapter<BasicListItem,ListItemViewHolder>(options) {
             @Override
             protected void onBindViewHolder(ListItemViewHolder holder, int position, BasicListItem model) {
