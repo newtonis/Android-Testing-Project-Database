@@ -88,13 +88,10 @@ public class ActivitySearchCourse extends AppCompatActivity {
                             @Override
                             public BasicListItem parseSnapshot(@NonNull DataSnapshot snapshot) {
 
-                                if (uniId != 0 && snapshot.child("Facultad").getValue() == uniId) {
-                                    return new BasicListItem((String) snapshot.child("Name").getValue(),
-                                            (String) snapshot.child("FacultadName").getValue(),
-                                            Long.parseLong(snapshot.getKey()));
-                                }else{
-                                    return null;
-                                }
+                                return new BasicListItem((String) snapshot.child("Name").getValue(),
+                                        (String) snapshot.child("FacultadName").getValue(),
+                                        Long.parseLong(snapshot.getKey()));
+
                             }
                         }).build();
 
