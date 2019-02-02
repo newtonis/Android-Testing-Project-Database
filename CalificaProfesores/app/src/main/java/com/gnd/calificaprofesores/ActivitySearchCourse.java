@@ -46,17 +46,17 @@ public class ActivitySearchCourse extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_course);
 
-        mUserDatabase = FirebaseDatabase.getInstance().getReference("Materias");
+        /* Cargamos la universidad de la que buscaremos cursos */
+        Intent intent = getIntent();
+        uniId = intent.getLongExtra("Uni",1L);
+
+        mUserDatabase = FirebaseDatabase.getInstance().getReference("MateriasPorFacultad/"+String.valueOf(uniId));
 
         mCourseInput = findViewById(R.id.courseInput);
 
         mResultList = findViewById(R.id.ResultList);
 
         mResultList.setLayoutManager(new LinearLayoutManager(this));
-
-        /* Cargamos la universidad de la que buscaremos cursos */
-        Intent intent = getIntent();
-        uniId = intent.getLongExtra("Uni",1L);
 
         mCourseInput.addTextChangedListener(new TextWatcher() {
             @Override
@@ -76,7 +76,9 @@ public class ActivitySearchCourse extends AppCompatActivity {
             }
         });
     }
-    public void firebaseClassSearch(String searchText){
+    public void firebaseClassSearch(String searchTextOriginal){
+
+        String searchText = searchTextOriginal.toLowerCase();
 
         Query firebaseSearchQuery = mUserDatabase.orderByChild("Name").startAt(searchText).endAt(searchText + "\uf8ff");
 
@@ -89,7 +91,7 @@ public class ActivitySearchCourse extends AppCompatActivity {
                             public BasicListItem parseSnapshot(@NonNull DataSnapshot snapshot) {
 
                                 return new BasicListItem((String) snapshot.child("Name").getValue(),
-                                        (String) snapshot.child("FacultadName").getValue(),
+                                        "",
                                         Long.parseLong(snapshot.getKey()));
 
                             }
@@ -100,17 +102,17 @@ public class ActivitySearchCourse extends AppCompatActivity {
             @Override
             protected void onBindViewHolder(ListItemViewHolder holder, int position, BasicListItem model) {
                 holder.setDetails(getApplicationContext(), model.getName(), model.getDetail());
-                /*final String professorName = model.getName();
-                final Long professorId = model.getId();*/
+                final String courseName = model.getName();
+                final Long courseId = model.getId();
 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        /*Intent intent = new Intent(ActivityProfessorList.this, ActivityProfesorFrontPage.class);
-                        intent.putExtra("ProfessorName",professorName);
-                        intent.putExtra("ProfessorId",professorId);
+                        Intent intent = new Intent(ActivitySearchCourse.this, ActivityClassFrontPage.class);
+                        intent.putExtra("CourseName",courseName);
+                        intent.putExtra("CourseId",courseId);
 
-                        startActivity(intent);*/
+                        startActivity(intent);
                     }
                 });
 

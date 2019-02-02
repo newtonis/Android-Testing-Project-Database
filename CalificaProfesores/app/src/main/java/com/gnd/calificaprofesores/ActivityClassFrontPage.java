@@ -25,6 +25,9 @@ import java.util.TreeMap;
 
 /**
  * Created by newtonis on 26/02/18.
+ * Pagina principal de un curso
+ * Para entrar se necesita dos datos
+ *  CourseName , CourseId
  */
 
 public class ActivityClassFrontPage extends AppCompatActivity {
@@ -47,8 +50,8 @@ public class ActivityClassFrontPage extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        className = "Probabilidad y Estadistica"; //intent.getStringExtra("ClassName");
-        classId = intent.getLongExtra("ClassNameId",1L);
+        className = intent.getStringExtra("CourseName");
+        classId = intent.getLongExtra("CourseId",1L);
 
         TextView title = findViewById(R.id.ClassName);
         title.setText(className);
@@ -140,11 +143,6 @@ public class ActivityClassFrontPage extends AppCompatActivity {
         score = (float)Math.round(score);
         ScoreText.setText( Float.toString(score) );
     }
-
-
-
-
-
 
 
 }
