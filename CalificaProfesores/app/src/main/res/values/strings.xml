@@ -65,4 +65,5 @@
     <string name="HintFacultad">Ingresa facultad</string>
     <string name="AddFacultad">¿No está tu facultad?</string>
     <string name="NoCourseText">¿No está tu clase?</string>
+    <string name="clase">clase</string>
 </resources>

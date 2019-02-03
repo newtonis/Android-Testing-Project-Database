@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.gnd.calificaprofesores">
-
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <!-- <uses-permission android:name="android.permission.INTERNET" /> -->
 
     <application
         android:allowBackup="true"
@@ -15,25 +13,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ActivityLogin" >
+        <activity android:name=".ActivityClassFrontPageV2">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".ActivitySignIn">
 
         </activity>
+        <activity android:name=".ActivityLogin">
+
+        </activity>
+        <activity android:name=".ActivitySignIn" />
         <activity android:name=".ActivityUser" />
         <activity android:name=".ActivitySignUp" />
         <activity android:name=".ActivitySelectUni" />
-        <activity android:name=".ActivitySearchProfessor" >
-
-        </activity>
-        <activity android:name=".ActivityProfesorFrontPage" >
-
-        </activity>
+        <activity android:name=".ActivitySearchProfessor" />
+        <activity android:name=".ActivityProfesorFrontPage" />
 
         <meta-data
             android:name="preloaded_fonts"
@@ -42,12 +38,8 @@
         <activity
             android:name=".ActivityCalProf"
             android:screenOrientation="portrait" />
-        <activity android:name=".ActivityClassFrontPage">
-
-        </activity>
-        <activity android:name=".ActivitySearchCourse">
-
-        </activity>
+        <activity android:name=".ActivityClassFrontPage" />
+        <activity android:name=".ActivitySearchCourse" />
     </application>
 
 </manifest>

@@ -96,6 +96,7 @@
 
         </LinearLayout>
 
+
         <LinearLayout
             android:id="@+id/Content1"
             android:layout_width="match_parent"
@@ -136,7 +137,7 @@
                 <org.eazegraph.lib.charts.StackedBarChart
                     android:id="@+id/stackedbarchart"
                     android:layout_width="match_parent"
-                    android:layout_height="0px"
+                    android:layout_height="514dp"
                     android:layout_marginEnd="8dp"
                     android:layout_weight="1"
                     android:padding="10dp"
@@ -164,6 +165,7 @@
                     android:inputType="textMultiLine"
                     android:text="@string/TextInfoCal"
                     android:textSize="10sp" />
+
             </LinearLayout>
 
         </LinearLayout>
