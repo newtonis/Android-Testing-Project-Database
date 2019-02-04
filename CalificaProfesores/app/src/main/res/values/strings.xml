@@ -66,4 +66,8 @@
     <string name="AddFacultad">¿No está tu facultad?</string>
     <string name="NoCourseText">¿No está tu clase?</string>
     <string name="clase">clase</string>
+    <string name="OpinarTitle">OPINAR SOBRE</string>
+    <string name="TextPuntaje">VALORACIÓN</string>
+    <string name="OpinionText">OPINIÓN</string>
+    <string name="CambiarOpinion">CAMBIAR OPINIÓN</string>
 </resources>

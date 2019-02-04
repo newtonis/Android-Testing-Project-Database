@@ -79,8 +79,9 @@ public class ActivitySelectUni extends AppCompatActivity {
                                     details += (String)postSnapshot.getValue();
                                     details += "   ";
                                 }
-
-                                return new BasicListItem((String)snapshot.child("Name").getValue(), (String)snapshot.child("CompleteName").getValue() ,Long.parseLong(snapshot.getKey()));
+                                return new BasicListItem((String)snapshot.child("Name").getValue(),
+                                        (String)snapshot.child("CompleteName").getValue() ,
+                                        Long.parseLong(snapshot.getKey()));
                             }
                         })
                         .build();

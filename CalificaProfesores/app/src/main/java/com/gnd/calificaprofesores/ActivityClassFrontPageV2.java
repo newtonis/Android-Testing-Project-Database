@@ -1,11 +1,13 @@
 package com.gnd.calificaprofesores;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
 import org.eazegraph.lib.charts.StackedBarChart;
@@ -30,11 +32,6 @@ import com.gnd.calificaprofesores.R;
 
 public class ActivityClassFrontPageV2 extends AppCompatActivity {
 
-    // Primero obtenemos la información en función del curso seleccionado
-
-
-
-
     Toolbar toolbar;
     PagerSlidingTabStrip tabs;
     ViewPager pager;
@@ -43,20 +40,33 @@ public class ActivityClassFrontPageV2 extends AppCompatActivity {
     private Drawable oldBackground = null;
     private int currentColor;
 
+    private static String CourseName;
+    private static Long CourseId;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_class_front_page_v2);
 
+
+        // CourseName
+        // CourseId
+        Intent intent = getIntent();
+        CourseName = "Física I"; //intent.getStringExtra("CourseName");
+        CourseId = 1L; //intent.getLongExtra("CourseId", 1L);
+
+        TextView title = findViewById(R.id.ClassName);
+        title.setText(CourseName);
+
+
+        /// Tabs and pager managment
+
         tabs = findViewById(R.id.tabs);
         pager = findViewById(R.id.pager);
-
         setSupportActionBar(toolbar);
-
         adapter = new AdapterClassFrontPage(getSupportFragmentManager());
-
         pager.setAdapter(adapter);
-
         pager.setCurrentItem(1);
         tabs.setViewPager(pager);
 
