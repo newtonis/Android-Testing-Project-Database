@@ -2,8 +2,10 @@ package com.gnd.calificaprofesores.AdapterClassFrontPage;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +26,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 
-public class ActivityQual extends Fragment {
+public class ActivityQual extends Fragment{
 
     private static final String ARG_POSITION = "position";
 
@@ -43,20 +45,10 @@ public class ActivityQual extends Fragment {
     AdapterListSubject adapterSubject;
     ClassDataManager manager;
 
-    public static ActivityQual newInstance(int position) {
-
-        ActivityQual f = new ActivityQual();
-        Bundle b = new Bundle();
-        b.putInt(ARG_POSITION, position);
-        f.setArguments(b);
-
-        return f;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        position = getArguments().getInt(ARG_POSITION);
 
     }
 

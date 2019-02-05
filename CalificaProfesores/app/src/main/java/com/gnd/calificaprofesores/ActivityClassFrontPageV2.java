@@ -75,11 +75,11 @@ public class ActivityClassFrontPageV2 extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // esta función es para reaccionar cuando se cambia de tab
 
-        switch (item.getItemId()) {
-            /*case R.id.action_contact:
+        /*switch (item.getItemId()) {
+            case R.id.action_contact:
                 QuickContactFragment.newInstance().show(getSupportFragmentManager(), "QuickContactFragment");
-                return true;*/
-        }
+                return true;
+        }*/
         return super.onOptionsItemSelected(item);
     }
 }

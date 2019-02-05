@@ -19,7 +19,7 @@ public class AdapterClassFrontPage extends FragmentPagerAdapter  {
             "OPINIONES RECIENTES", "OPINIONES IMPORTANTES" , "TU OPINIÓN"};
 
 
-    public AdapterClassFrontPage(FragmentManager fm){
+    public AdapterClassFrontPage(FragmentManager fm) {
         super(fm);
     }
 
@@ -27,13 +27,22 @@ public class AdapterClassFrontPage extends FragmentPagerAdapter  {
     public CharSequence getPageTitle(int position) {
         return TITLES[position];
     }
-    @Override
     public int getCount() {
         return TITLES.length;
     }
     @Override
     public Fragment getItem(int position) {
-        return ActivityQual.newInstance(position);
+        switch (position) {
+            case 0:
+                return new ActivityQual();
+            case 1:
+                return new ActivityOpinionRecent();
+            case 2:
+                return new ActivityYourOpinionBest();
+            case 3:
+                return new ActivityYourOpinionBest();
+        }
+        return new ActivityYourOpinionBest();
     }
 }
 

@@ -10,7 +10,7 @@ import com.gnd.calificaprofesores.R;
 
 /** Aqui administramos la parte gráfica de un comentario **/
 
-public class OpinionItemViewHolder extends RecyclerView.ViewHolder {
+public class OpinionItemViewHolder extends RecyclerView.ViewHolder{
     View mView;
 
     public OpinionItemViewHolder(View _mView){
@@ -18,7 +18,7 @@ public class OpinionItemViewHolder extends RecyclerView.ViewHolder {
         mView = _mView;
     }
 
-    public void setDetails(Context ctx, String author, String text, Long score){
+    public void setDetails(String author, String text, Long score){
         TextView mAuthorText = mView.findViewById(R.id.AuthorText);
         TextView mCommentText = mView.findViewById(R.id.CommentText);
         RatingBar mScore = mView.findViewById(R.id.ScoreData);

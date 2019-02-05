@@ -108,7 +108,7 @@ public class ActivitySearchCourse extends AppCompatActivity {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(ActivitySearchCourse.this, ActivityClassFrontPage.class);
+                        Intent intent = new Intent(ActivitySearchCourse.this, ActivityClassFrontPageV2.class);
                         intent.putExtra("CourseName",courseName);
                         intent.putExtra("CourseId",courseId);
 

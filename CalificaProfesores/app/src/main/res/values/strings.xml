@@ -69,5 +69,6 @@
     <string name="OpinarTitle">OPINAR SOBRE</string>
     <string name="TextPuntaje">VALORACIÓN</string>
     <string name="OpinionText">OPINIÓN</string>
-    <string name="CambiarOpinion">CAMBIAR OPINIÓN</string>
+    <string name="CambiarOpinion">ACTUALIZAR OPINIÓN</string>
+    <string name="tuOpinion">TU OPINIÓN</string>
 </resources>
