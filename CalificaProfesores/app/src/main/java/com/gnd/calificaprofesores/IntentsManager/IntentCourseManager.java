@@ -42,9 +42,9 @@ public class IntentCourseManager {
     public Long GetCourseId() {
         return CourseId;
     }
-    public IntentCourseManager ConvertIntent(Object ctx, Class cls) {
+    public IntentCourseManager ConvertIntent(Context _ctx, Class _cls) {
         return new IntentCourseManager(
-                CourseName, CourseId, this.ctx, this.cls
+                CourseName, CourseId, _ctx, _cls
         );
     }
 }

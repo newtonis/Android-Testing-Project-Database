@@ -44,10 +44,10 @@ public class ActivityYourOpinion extends Fragment {
         mView = inflater.inflate(R.layout.layout_empty, container, false);
         mContainer = container;
         mLayoutInflater = inflater;
-
+        CourseManager = new IntentCourseManager();
         UserDataManager userData = new UserDataManager();
 
-        Long CourseId = 1L;
+        Long CourseId = CourseManager.GetCourseId();
 
         userData.AddGotUserCommentListener(CourseId, new GotUserCommentListener() {
             @Override
@@ -72,7 +72,7 @@ public class ActivityYourOpinion extends Fragment {
         buttonSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(CourseManager.ConvertIntent(this, ActivityOpinarMateria.class ).GetIntent());
+                startActivity(CourseManager.ConvertIntent(mView.getContext(), ActivityOpinarMateria.class ).GetIntent());
             }
         });
     }
