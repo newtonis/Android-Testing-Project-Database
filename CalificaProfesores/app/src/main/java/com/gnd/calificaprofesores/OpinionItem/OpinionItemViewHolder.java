@@ -22,8 +22,11 @@ public class OpinionItemViewHolder extends RecyclerView.ViewHolder{
         TextView mAuthorText = mView.findViewById(R.id.AuthorText);
         TextView mCommentText = mView.findViewById(R.id.CommentText);
         RatingBar mScore = mView.findViewById(R.id.ScoreData);
-
-        mAuthorText.setText(author);
+        if (author != null) {
+            mAuthorText.setText(author);
+        }else{
+            mAuthorText.setText("Anónimo");
+        }
         mCommentText.setText(text);
         mScore.setRating( score.floatValue() / 2f);
     }

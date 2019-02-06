@@ -1,6 +1,7 @@
 package com.gnd.calificaprofesores.AdapterClassFrontPage;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
@@ -12,7 +13,9 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 
+import com.gnd.calificaprofesores.IntentsManager.IntentCourseManager;
 import com.gnd.calificaprofesores.NetworkHandler.CourseCommentsDataManager;
+import com.gnd.calificaprofesores.NetworkHandler.GotCommentListener;
 import com.gnd.calificaprofesores.OpinionItem.AdapterCourseComments;
 import com.gnd.calificaprofesores.OpinionItem.CourseComment;
 import com.gnd.calificaprofesores.R;
@@ -38,6 +41,7 @@ public class ActivityOpinionRecent extends Fragment {
 
     private RecyclerView recyclerView;
     CourseCommentsDataManager mCourseCommentsDataManager;
+    IntentCourseManager CourseManager; // para saber en que curso estamos
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,10 +66,14 @@ public class ActivityOpinionRecent extends Fragment {
         mAdapterCourseComments = new AdapterCourseComments(Comments);
         recyclerView.setAdapter(mAdapterCourseComments);
 
-        CourseName = "Física I"; //intent.getStringExtra("CourseName");
-        CourseId = 1L; //intent.getLongExtra("CourseId", 1L);
+        CourseManager = new IntentCourseManager();
 
-        mCourseCommentsDataManager = new CourseCommentsDataManager(CourseId, CourseName) {
+        mCourseCommentsDataManager = new CourseCommentsDataManager(
+                CourseManager.GetCourseId(),
+                CourseManager.GetCourseName()
+        );
+
+        mCourseCommentsDataManager.AddOnGotCommentListener(new GotCommentListener() {
             @Override
             public void onGotComment(CourseComment comment) {
                 addComment(comment);
@@ -73,14 +81,14 @@ public class ActivityOpinionRecent extends Fragment {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Toast.makeText(getContext(),"Error buscando comentarios",Toast.LENGTH_SHORT).show();
             }
-        };
+        });
 
         return mView;
     }
     public void addComment(CourseComment comment){
-        Toast.makeText(this.getContext(),"Comentario recibido!",Toast.LENGTH_SHORT);
+        //Toast.makeText(this.getContext(),"Comentario recibido!",Toast.LENGTH_SHORT);
         Comments.add(comment);
     }
 }

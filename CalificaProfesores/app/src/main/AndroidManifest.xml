@@ -29,7 +29,9 @@
         <activity android:name=".ActivitySignIn" />
         <activity android:name=".ActivityUser" />
         <activity android:name=".ActivitySignUp" />
-        <activity android:name=".ActivitySelectUni" />
+        <activity android:name=".ActivitySelectUni" >
+
+        </activity>
         <activity android:name=".ActivitySearchProfessor" />
         <activity android:name=".ActivityProfesorFrontPage" />
 

@@ -58,7 +58,8 @@ public class ActivityQual extends Fragment{
 
         ViewCompat.setElevation(mView, 50);
 
-        //Intent intent = getIntent();
+        Intent intent = getActivity().getIntent();
+
         CourseName = "Física I"; //intent.getStringExtra("CourseName");
         CourseId = 1L; //intent.getLongExtra("CourseId", 1L);
 
