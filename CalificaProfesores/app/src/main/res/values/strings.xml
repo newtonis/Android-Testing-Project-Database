@@ -71,4 +71,6 @@
     <string name="OpinionText">OPINIÓN</string>
     <string name="CambiarOpinion">ACTUALIZAR OPINIÓN</string>
     <string name="tuOpinion">TU OPINIÓN</string>
+    <string name="CursadoText">¿Has cursado esta materia? ¡Comparte tu opinión!</string>
+    <string name="TextOpinar">OPINAR</string>
 </resources>

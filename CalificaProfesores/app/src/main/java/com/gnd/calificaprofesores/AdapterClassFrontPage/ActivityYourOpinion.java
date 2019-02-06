@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.gnd.calificaprofesores.R;
 
-public class ActivityYourOpinionBest extends Fragment {
+public class ActivityYourOpinion extends Fragment {
 
     private static final String ARG_POSITION = "position";
     private int position;
@@ -23,9 +23,19 @@ public class ActivityYourOpinionBest extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        /// necesitamos determinar si el usuario ya emitio su opinion del curso seleccionado
+
+
+
         mView = inflater.inflate(R.layout.layout_opinion_recent, container, false);
 
         ViewCompat.setElevation(mView, 50);
+
+
+
+
+
+
 
         return mView;
     }

@@ -38,11 +38,11 @@ public class AdapterClassFrontPage extends FragmentPagerAdapter  {
             case 1:
                 return new ActivityOpinionRecent();
             case 2:
-                return new ActivityYourOpinionBest();
+                return new ActivityYourOpinion();
             case 3:
-                return new ActivityYourOpinionBest();
+                return new ActivityYourOpinion();
         }
-        return new ActivityYourOpinionBest();
+        return new ActivityYourOpinion();
     }
 }
 
