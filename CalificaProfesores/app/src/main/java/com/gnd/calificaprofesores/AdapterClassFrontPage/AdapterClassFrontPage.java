@@ -15,8 +15,11 @@ import com.gnd.calificaprofesores.R;
 
 public class AdapterClassFrontPage extends FragmentPagerAdapter  {
 
-    private final String[] TITLES = {"VISTA GENERAL",
-            "OPINIONES RECIENTES", "OPINIONES IMPORTANTES" , "TU OPINIÓN"};
+    private final String[] TITLES = {
+            "VISTA GENERAL",
+            "OPINIONES RECIENTES",
+            "TU OPINIÓN"}; // Opiniones importantes para futuro
+
 
 
     public AdapterClassFrontPage(FragmentManager fm) {
@@ -38,8 +41,6 @@ public class AdapterClassFrontPage extends FragmentPagerAdapter  {
             case 1:
                 return new ActivityOpinionRecent();
             case 2:
-                return new ActivityYourOpinion();
-            case 3:
                 return new ActivityYourOpinion();
         }
         return new ActivityYourOpinion();

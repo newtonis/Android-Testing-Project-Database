@@ -43,7 +43,7 @@ public class UserDataManager {
                             listener.GotUserComment(true,
                                     new CourseComment(
                                             (String)currentFirebaseUser.getDisplayName(),
-                                            (String)dataSnapshot.child("contenido").getValue(),
+                                            (String)dataSnapshot.child("content").getValue(),
                                             (Long)dataSnapshot.child("likes").getValue(),
                                             (Long)dataSnapshot.child("valoracion").getValue()
                                     ));
@@ -65,7 +65,7 @@ public class UserDataManager {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         listener.gotExtraData(new UserExtraData(
-                                uid, (String)dataSnapshot.child("ShowName").getValue()
+                                uid, (String)dataSnapshot.child("ShownName").getValue()
                         ));
                     }
 

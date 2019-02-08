@@ -40,7 +40,7 @@ public class CourseCommentsDataManager {
                     // fix pendiente
                     final Long valoracion = (Long) postSnapshot.child("valoracion").getValue();
                     final String uid = (String) postSnapshot.getKey();
-                    final String contenido = (String) postSnapshot.child("contenido").getValue();
+                    final String contenido = (String) postSnapshot.child("content").getValue();
                     final Long likes = (Long) postSnapshot.child("likes").getValue();
 
                     UserDataManager userData = new UserDataManager();
@@ -63,13 +63,13 @@ public class CourseCommentsDataManager {
 
     public void SendComment(CourseComment comment, final SentCommentListener listener){
         comment.SetTimestamp(ServerValue.TIMESTAMP);
-        mDatabase.child("OpinionesMaterias/"+Long.toString(CourseId)).setValue(comment, new DatabaseReference.CompletionListener(){
+        mDatabase.child("OpinionesMaterias/"+Long.toString(CourseId)+"/"+FirebaseAuth.getInstance().getUid()).setValue(comment, new DatabaseReference.CompletionListener(){
             @Override
             public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
-                if (databaseError != null) {
+                if (databaseError == null) {
                     listener.onSentComment();
                 }else{
-                    listener.onFailedComment();
+                    listener.onFailedComment(databaseError, databaseReference);
                 }
             }
         });

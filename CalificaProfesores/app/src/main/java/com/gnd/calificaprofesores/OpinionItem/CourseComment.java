@@ -6,31 +6,31 @@ import java.util.Map;
 
 public class CourseComment {
     private String author, content;
-    private Long popularidad, score;
-    Map timestamp;
-    public CourseComment(String author, String content, Long popularidad, Long score){
-        this.score = score;
+    private Long valoracion, likes;
+    private Map timestamp;
+    public CourseComment(String author, String content, Long valoracion, Long likes){
+        this.likes = likes;
         this.author = author;
         this.content = content;
-        this.popularidad = popularidad;
+        this.valoracion = valoracion;
         this.timestamp = null;
     }
     public void SetTimestamp(Map timestamp){
         this.timestamp = timestamp;
     }
-    public Map GetTimestamp(){
+    public Map getTimestamp(){
         return this.timestamp;
     }
-    public String GetAuthor(){
+    public String getAuthor(){
         return this.author;
     }
-    public String GetContent(){
+    public String getContent(){
         return this.content;
     }
-    public Long GetPopularidad(){
-        return this.popularidad;
+    public Long getLikes(){
+        return this.likes;
     }
-    public Long GetScore(){
-        return this.score;
+    public Long getValoracion(){
+        return this.valoracion;
     }
 }

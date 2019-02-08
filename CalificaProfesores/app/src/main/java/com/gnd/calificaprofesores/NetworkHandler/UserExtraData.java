@@ -8,7 +8,7 @@ public class UserExtraData {
         this.uid = uid;
         this.ShowName = _ShownName;
     }
-    String GetShownName(){
+    public String GetShownName(){
         return this.ShowName;
     }
 

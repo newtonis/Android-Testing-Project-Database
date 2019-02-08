@@ -63,7 +63,9 @@ public class ActivityOpinionRecent extends Fragment {
         recyclerView.setLayoutManager(llm);
         recyclerView.setHasFixedSize(true);
 
+        /// el adapter course comemnts va a necesitar los comentarios para mostrar sobre la materia
         mAdapterCourseComments = new AdapterCourseComments(Comments);
+        /// el recycler view depende del adapter
         recyclerView.setAdapter(mAdapterCourseComments);
 
         CourseManager = new IntentCourseManager();

@@ -31,7 +31,7 @@ public class AdapterCourseComments extends RecyclerView.Adapter<OpinionItemViewH
     @Override
     public void onBindViewHolder(@NonNull OpinionItemViewHolder opinionItemViewHolder, int i) {
         CourseComment dataItem = Comments.get(i);
-        opinionItemViewHolder.setDetails(dataItem.GetAuthor(), dataItem.GetContent(), dataItem.GetScore());
+        opinionItemViewHolder.setDetails(dataItem.getAuthor(), dataItem.getContent(), dataItem.getValoracion());
     }
 
     @Override

@@ -74,4 +74,9 @@
     <string name="CursadoText">¿Has cursado esta materia? ¡Comparte tu opinión!</string>
     <string name="TextOpinar">OPINAR</string>
     <string name="TuOpinion">Escribe tu opinión ...</string>
+    <string name="EditProfileText">EDITAR PERFIL</string>
+    <string name="SearchText">BUSCAR</string>
+    <string name="TextSalir">SALIR</string>
+    <string name="DrawerOpen">OPEN</string>
+    <string name="DrawerClose">CLOSE</string>
 </resources>
