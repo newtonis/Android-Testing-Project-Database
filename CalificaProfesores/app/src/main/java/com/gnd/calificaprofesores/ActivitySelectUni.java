@@ -36,7 +36,8 @@ public class ActivitySelectUni extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_uni);
 
-        mUserDatabase = FirebaseDatabase.getInstance().getReference("Facultades");
+        mUserDatabase = FirebaseDatabase.getInstance().getReference().getRef();
+
 
         mUniInput = findViewById(R.id.courseInput2);
         mResultList = findViewById(R.id.ResultList);
@@ -64,28 +65,46 @@ public class ActivitySelectUni extends AppCompatActivity {
         });
 
     }
-    protected void firebaseUniSearch(String searchText){
-        Query firebaseSearchQuery = mUserDatabase
-                .orderByChild("CompleteName").startAt(searchText).endAt(searchText + "\uf8ff");
 
-        FirebaseRecyclerOptions<BasicListItem> options =
-                new FirebaseRecyclerOptions.Builder<BasicListItem>()
-                        .setQuery(firebaseSearchQuery, new SnapshotParser<BasicListItem>(){
-                            @NonNull
-                            @Override
-                            public BasicListItem parseSnapshot(DataSnapshot snapshot) {
-                                String details = "";
-                                for (final DataSnapshot postSnapshot : snapshot.child("CompleteName").getChildren()) {
-                                    details += (String)postSnapshot.getValue();
-                                    details += "   ";
-                                }
-                                return new BasicListItem((String)snapshot.child("Name").getValue(),
-                                        (String)snapshot.child("CompleteName").getValue() ,
-                                        Long.parseLong(snapshot.getKey()));
-                            }
-                        })
-                        .build();
-        FirebaseRecyclerAdapter adapter = new FirebaseRecyclerAdapter<BasicListItem, ListItemViewHolder>(options) {
+    private FirebaseRecyclerOptions<BasicListItem> SearchAndMakeList(Query firebaseSearchQuery){
+        return new FirebaseRecyclerOptions.Builder<BasicListItem>()
+                .setQuery(firebaseSearchQuery, new SnapshotParser<BasicListItem>(){
+                    @NonNull
+                    @Override
+                    public BasicListItem parseSnapshot(DataSnapshot snapshot) {
+                        String details = "";
+                        for (final DataSnapshot postSnapshot : snapshot.child("CompleteName").getChildren()) {
+                            details += (String)postSnapshot.getValue();
+                            details += "   ";
+                        }
+                        return new BasicListItem((String)snapshot.child("Name").getValue(),
+                                (String)snapshot.child("CompleteName").getValue() ,
+                                Long.parseLong(snapshot.getKey()));
+                    }
+                })
+                .build();
+    }
+    protected void firebaseUniSearch(String searchText){
+        /// hacemos queries por dos criterios y luego unimos
+        Query firebaseSearchQuery1 = mUserDatabase
+                .child("Facultades")
+                .orderByChild("CompleteName")
+                .startAt(searchText)
+                .endAt(searchText + "\uf8ff")
+                .limitToFirst(10);
+
+        Query firebaseSearchQuery2 = mUserDatabase
+                .child("Facultades")
+                .orderByChild("Name")
+                .startAt(searchText)
+                .endAt(searchText + "\uf8ff")
+                .limitToFirst(10);
+
+
+        FirebaseRecyclerOptions<BasicListItem> options1 = SearchAndMakeList(firebaseSearchQuery1);
+        FirebaseRecyclerOptions<BasicListItem> options2 = SearchAndMakeList(firebaseSearchQuery2);
+
+        FirebaseRecyclerAdapter adapter = new FirebaseRecyclerAdapter<BasicListItem, ListItemViewHolder>(options1) {
             @Override
             protected void onBindViewHolder(ListItemViewHolder holder, int position, BasicListItem model) {
                 holder.setDetails(getApplicationContext(), model.getName(),model.getDetail());
@@ -110,6 +129,7 @@ public class ActivitySelectUni extends AppCompatActivity {
                 return new ListItemViewHolder(view);
             }
         };
+
         mResultList.setAdapter(adapter);
         adapter.startListening();
     }

@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="score_color">#b7b097</color>
+    <color name="score_color">#B7B097</color>
     <color name="background_color">#f1f3c3</color>
     <color name="CA_color_a">#6FD93E</color>
     <color name="CA_color_b">#FFFFFF</color>
@@ -13,4 +13,7 @@
     <color name="A_color_a">#FF9940</color>
     <color name="A_color_b">#FFFFFF</color>
     <color name="MenuColor">#D6CEAF</color>
+    <color name="BackgroundCard">#C7C1A2</color>
+    <color name="White">#FFFFFF</color>
+    <color name="BackgroundRecyclerView">#DFD5A7</color>
 </resources>

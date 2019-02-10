@@ -17,11 +17,7 @@
 
         </activity>
         <activity android:name=".ActivityClassFrontPageV2">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".ActivityLogin">
 
@@ -30,7 +26,11 @@
         <activity android:name=".ActivityUser" />
         <activity android:name=".ActivitySignUp" />
         <activity android:name=".ActivitySelectUni" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".ActivitySearchProfessor" />
         <activity android:name=".ActivityProfesorFrontPage" />
@@ -43,7 +43,9 @@
             android:name=".ActivityCalProf"
             android:screenOrientation="portrait" />
         <activity android:name=".ActivityClassFrontPage" />
-        <activity android:name=".ActivitySearchCourse" />
+        <activity android:name=".ActivitySearchCourse" >
+
+        </activity>
     </application>
 
 </manifest>

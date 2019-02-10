@@ -3,22 +3,18 @@ package com.gnd.calificaprofesores;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.gnd.calificaprofesores.NetworkHandler.ClassDataManager;
-import com.gnd.calificaprofesores.NetworkHandler.MatData;
 import com.gnd.calificaprofesores.NetworkHandler.ProfData;
-import com.gnd.calificaprofesores.NetworkHandler.ProfesorDataManager;
 import com.google.firebase.database.DatabaseError;
 
 import org.eazegraph.lib.charts.StackedBarChart;
 import org.eazegraph.lib.models.BarModel;
 import org.eazegraph.lib.models.StackedBarModel;
-import org.w3c.dom.Text;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -53,7 +49,7 @@ public class ActivityClassFrontPage extends AppCompatActivity {
         className = intent.getStringExtra("CourseName");
         classId = intent.getLongExtra("CourseId",1L);
 
-        TextView title = findViewById(R.id.ClassName);
+        TextView title = findViewById(R.id.TextBuscarCurso);
         title.setText(className);
 
         manager = new ClassDataManager(classId){

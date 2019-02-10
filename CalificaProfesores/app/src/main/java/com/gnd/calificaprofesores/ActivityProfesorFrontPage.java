@@ -57,7 +57,7 @@ public class ActivityProfesorFrontPage extends AppCompatActivity {
                     }
                 };
                 subjectView.setAdapter(adapterSubject);
-                TextView titleProf = findViewById(R.id.ClassName);
+                TextView titleProf = findViewById(R.id.TextBuscarCurso);
                 titleProf.setText(name);
                 dataIsHere = true;
                 updateRanking();

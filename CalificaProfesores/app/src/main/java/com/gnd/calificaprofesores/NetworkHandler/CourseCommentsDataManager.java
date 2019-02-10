@@ -13,20 +13,23 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Vector;
 
 public class CourseCommentsDataManager {
-    Vector<CourseComment> comments;
 
     private DatabaseReference mDatabase;
     private long CourseId;
     private String CourseName;
+    private List<GotCourseInfoListener> listenersCourseInfo;
 
     public CourseCommentsDataManager(Long _CourseId, String _CourseName){
         mDatabase = FirebaseDatabase.getInstance().getReference();
         CourseId = _CourseId;
         CourseName = _CourseName;
+        listenersCourseInfo = new ArrayList<>();
     }
     public void AddOnGotCommentListener(final GotCommentListener listener){
 
@@ -75,6 +78,22 @@ public class CourseCommentsDataManager {
         });
     }
 
-    //public abstract void onGotComment(CourseComment comment);
-    //public abstract void onCancelled(DatabaseError databaseError);
+    public void AddOnGotCourseDataListener(final Long CourseId, final GotCourseInfoListener listener){
+
+        mDatabase.child("Materias/"+CourseId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                listener.onGotCourseInfo(new CourseData(
+                        CourseId,
+                        (String)dataSnapshot.child("ShownName").getValue(),
+                        (String)dataSnapshot.child("FacultadName").getValue()
+                ));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                listener.onFailed();
+            }
+        });
+    }
 }

@@ -13,16 +13,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
 import com.gnd.calificaprofesores.ListItems.BasicListItem;
 import com.gnd.calificaprofesores.ListItems.ListItemViewHolder;
+import com.gnd.calificaprofesores.NetworkHandler.CourseCommentsDataManager;
+import com.gnd.calificaprofesores.NetworkHandler.CourseData;
+import com.gnd.calificaprofesores.NetworkHandler.GotCourseInfoListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by newtonis on 29/11/18.
@@ -39,7 +46,8 @@ public class ActivitySearchCourse extends AppCompatActivity {
     private DatabaseReference mUserDatabase;
 
     private Long uniId; // identificacion de la univerisdad de la que se buscaran cursos
-
+    private CourseCommentsDataManager courseDataManager;
+    private List<CourseCommentsDataManager> courseDataList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +57,8 @@ public class ActivitySearchCourse extends AppCompatActivity {
         /* Cargamos la universidad de la que buscaremos cursos */
         Intent intent = getIntent();
         uniId = intent.getLongExtra("Uni",1L);
+
+        courseDataList = new ArrayList<>();
 
         mUserDatabase = FirebaseDatabase.getInstance().getReference("MateriasPorFacultad/"+String.valueOf(uniId));
 
@@ -92,7 +102,8 @@ public class ActivitySearchCourse extends AppCompatActivity {
 
                                 return new BasicListItem((String) snapshot.child("Name").getValue(),
                                         "",
-                                        Long.parseLong(snapshot.getKey()));
+                                        (Long)snapshot.child("id").getValue()
+                                );
 
                             }
                         }).build();
@@ -100,8 +111,24 @@ public class ActivitySearchCourse extends AppCompatActivity {
         /** La colocamos en la lista de cosas **/
         FirebaseRecyclerAdapter adapter = new FirebaseRecyclerAdapter<BasicListItem,ListItemViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(ListItemViewHolder holder, int position, BasicListItem model) {
-                holder.setDetails(getApplicationContext(), model.getName(), model.getDetail());
+            protected void onBindViewHolder(final ListItemViewHolder holder, int position, final BasicListItem model) {
+
+                courseDataManager = new CourseCommentsDataManager(model.getId(),"");
+
+                courseDataManager.AddOnGotCourseDataListener(model.getId(), new GotCourseInfoListener() {
+                    @Override
+                    public void onGotCourseInfo(CourseData course) {
+                        holder.setDetails(getApplicationContext(), course.GetShownName(), course.GetDetail());
+                    }
+
+                    @Override
+                    public void onFailed() {
+                        Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                courseDataList.add(courseDataManager);
+
                 final String courseName = model.getName();
                 final Long courseId = model.getId();
 

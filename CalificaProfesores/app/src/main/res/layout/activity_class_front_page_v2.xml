@@ -37,7 +37,7 @@
                     android:layout_height="wrap_content">
 
                     <com.balysv.materialmenu.MaterialMenuView
-                        android:id="@+id/material_menu_button"
+                        android:id="@+id/MaterialMenuButton"
                         android:layout_width="46dp"
                         android:layout_height="33dp"
                         android:layout_marginStart="8dp"
@@ -52,7 +52,7 @@
                         app:mm_transformDuration="3000" />
 
                     <TextView
-                        android:id="@+id/ClassName"
+                        android:id="@+id/TextBuscarCurso"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:layout_marginStart="8dp"
