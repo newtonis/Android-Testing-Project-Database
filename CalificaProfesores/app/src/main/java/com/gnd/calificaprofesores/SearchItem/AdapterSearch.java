@@ -6,19 +6,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.gnd.calificaprofesores.NetworkSearchQueriesHandler.UniData;
 import com.gnd.calificaprofesores.OpinionItem.CourseComment;
 import com.gnd.calificaprofesores.R;
 
 import java.util.List;
+import java.util.Set;
 
 /** Aqui creamos el adapter para administrar los buscadores de materias, profesores y universidades **/
 
 public class AdapterSearch extends RecyclerView.Adapter<SearchItemViewHolder> {
 
-    private List<CourseComment> Comments;
+    private List<UniData> SearchItems;
 
-    public AdapterSearch( List<CourseComment> _Comments){
-        this.Comments = _Comments;
+    public AdapterSearch( List<UniData> _SearchItems){
+        this.SearchItems = _SearchItems;
     }
 
     @NonNull
@@ -30,13 +32,15 @@ public class AdapterSearch extends RecyclerView.Adapter<SearchItemViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull SearchItemViewHolder opinionItemViewHolder, int i) {
-        CourseComment dataItem = Comments.get(i);
-        opinionItemViewHolder.setDetails(dataItem.getAuthor(), dataItem.getContent(), dataItem.getValoracion());
+        UniData dataItem = SearchItems.get(i);
+
+        opinionItemViewHolder.setDetails(dataItem.GetUniShortName(), dataItem.GetUniShownName(), 0L);
+        opinionItemViewHolder.mView.setOnClickListener(dataItem.GetClickListener());
     }
 
     @Override
     public int getItemCount() {
-        return Comments.size();
+        return SearchItems.size();
     }
 
 }

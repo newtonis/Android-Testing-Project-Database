@@ -11,6 +11,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 /** Aca vamos a armar la estructura que se encarga de hacer queries para obtener universidades **/
 
@@ -21,25 +22,26 @@ public class SearchUniHandler {
     private Set<UniData> uni;
 
     public SearchUniHandler(){
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        uni = new HashSet<>();
+        mDatabase = FirebaseDatabase.getInstance().getReference().getRef();
+        uni = new TreeSet<>();
     }
 
     public void Search(String text){
         text.toLowerCase();
+        uni.clear();
 
         queued = 2;
         mDatabase.child("Facultades")
-                .orderByChild("CompeteName")
+                .orderByChild("CompleteName")
                 .startAt(text)
                 .endAt(text + "\uf8ff")
                 .limitToFirst(10)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        AddPackage(dataSnapshot);
                         OnePackageRecv();
                         if (AllRecv()) AllDataRecv();
-                        AddPackage(dataSnapshot);
                     }
 
                     @Override
@@ -56,9 +58,9 @@ public class SearchUniHandler {
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        AddPackage(dataSnapshot);
                         OnePackageRecv();
                         if (AllRecv()) AllDataRecv();
-                        AddPackage(dataSnapshot);
                     }
 
                     @Override
@@ -72,7 +74,7 @@ public class SearchUniHandler {
         for (final DataSnapshot postSnapshot : dataSnapshot.getChildren()){
             uni.add(new UniData(
                     Long.parseLong(postSnapshot.getKey()),
-                    (String)postSnapshot.child("Name").getValue(),
+                    ((String)postSnapshot.child("Name").getValue()).toUpperCase(),
                     (String)postSnapshot.child("ShownName").getValue()
             ));
         }
@@ -84,12 +86,12 @@ public class SearchUniHandler {
         return queued == 0;
     }
     public void AllDataRecv(){
-        for (UniData data : uni){
-            this.listener.onGotUni(data);
-        }
+        this.listener.onGotUni(uni);
     }
     public void AddOnGetUniListener(GotUniListener listener){
         this.listener = listener;
     }
-
+    public Set<UniData> GetUniList(){
+        return uni;
+    }
 }

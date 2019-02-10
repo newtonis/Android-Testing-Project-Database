@@ -1,5 +1,7 @@
 package com.gnd.calificaprofesores.NetworkSearchQueriesHandler;
 
+import java.util.Set;
+
 public interface GotUniListener {
-    void onGotUni(UniData data);
+    void onGotUni(Set<UniData> data);
 }

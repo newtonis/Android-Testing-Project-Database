@@ -11,62 +11,118 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
+import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
 import com.gnd.calificaprofesores.ListItems.BasicListItem;
 import com.gnd.calificaprofesores.ListItems.ListItemViewHolder;
+import com.gnd.calificaprofesores.NetworkSearchQueriesHandler.GotUniListener;
+import com.gnd.calificaprofesores.NetworkSearchQueriesHandler.SearchUniHandler;
+import com.gnd.calificaprofesores.NetworkSearchQueriesHandler.UniData;
+import com.gnd.calificaprofesores.OpinionItem.AdapterCourseComments;
+import com.gnd.calificaprofesores.SearchItem.AdapterSearch;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.pnikosis.materialishprogress.ProgressWheel;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+
+import static android.support.test.InstrumentationRegistry.getContext;
 
 public class ActivitySelectUni extends AppCompatActivity {
     private TextInputEditText mUniInput;
     private RecyclerView mResultList;
 
-    private DatabaseReference mUserDatabase;
+    private SearchUniHandler searchUniHandler;
+    private AdapterSearch adapterSearch;
+    RecyclerView recyclerView;
+
+    private List<UniData> ShownDataListed;
+    private ProgressWheel progressWheel;
+    private ImageView sadIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_uni);
 
-        mUserDatabase = FirebaseDatabase.getInstance().getReference().getRef();
+        ShownDataListed = new ArrayList<>();
+        searchUniHandler = new SearchUniHandler();
+        adapterSearch = new AdapterSearch(ShownDataListed);
 
 
+        /*** Cargamos widgets **/
         mUniInput = findViewById(R.id.courseInput2);
-        mResultList = findViewById(R.id.ResultList);
+        recyclerView = findViewById(R.id.ResultList);
 
-        mResultList.setLayoutManager(new LinearLayoutManager(this));
+        sadIcon = findViewById(R.id.SadFace);
+        progressWheel = findViewById(R.id.LoadingIcon);
+        sadIcon.bringToFront();
+        progressWheel.bringToFront();
+
+        /** Recycler burocracia **/
+        recyclerView.setAdapter(adapterSearch);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
-        mUniInput.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        /** Eventos **/
+        mUniInput.setOnKeyListener(new View.OnKeyListener(){
+            public boolean onKey(View view,int keyCode, KeyEvent event){
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    SetLoading();
+                    String searchText = mUniInput.getText().toString();
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String searchText = mUniInput.getText().toString();
-
-                firebaseUniSearch(searchText);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
+                    firebaseUniSearch(searchText);
+                    return true;
+                }
+                return false;
             }
         });
 
+        searchUniHandler.AddOnGetUniListener(new GotUniListener() {
+            @Override
+            public void onGotUni(Set<UniData> data) {
+                if (data.isEmpty()){
+                    SetNoResults();
+                }else{
+                    SetLoaded();
+                }
+                /// Convertimos el set a list
+                ShownDataListed.clear();
+                ShownDataListed.addAll(data);
+
+                for (final UniData item : data){
+                    item.SetClickListener(new View.OnClickListener(){
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(ActivitySelectUni.this, ActivitySearchCourse.class);
+                            intent.putExtra("Uni",item.GetId());
+
+                            startActivity(intent);
+                        }
+                    });
+                }
+                adapterSearch.notifyDataSetChanged();
+            }
+        });
+
+
     }
 
-    private FirebaseRecyclerOptions<BasicListItem> SearchAndMakeList(Query firebaseSearchQuery){
+    /*private FirebaseRecyclerOptions<BasicListItem> SearchAndMakeList(Query firebaseSearchQuery){
         return new FirebaseRecyclerOptions.Builder<BasicListItem>()
                 .setQuery(firebaseSearchQuery, new SnapshotParser<BasicListItem>(){
                     @NonNull
@@ -83,10 +139,14 @@ public class ActivitySelectUni extends AppCompatActivity {
                     }
                 })
                 .build();
-    }
+    }*/
+
     protected void firebaseUniSearch(String searchText){
+
+        searchUniHandler.Search(searchText);
+
         /// hacemos queries por dos criterios y luego unimos
-        Query firebaseSearchQuery1 = mUserDatabase
+        /*Query firebaseSearchQuery1 = mUserDatabase
                 .child("Facultades")
                 .orderByChild("CompleteName")
                 .startAt(searchText)
@@ -128,9 +188,34 @@ public class ActivitySelectUni extends AppCompatActivity {
 
                 return new ListItemViewHolder(view);
             }
-        };
+        };*/
 
-        mResultList.setAdapter(adapter);
-        adapter.startListening();
+        /*mResultList.setAdapter(adapter);
+        adapter.startListening();*/
+
+
+    }
+
+
+    private void SetLoading(){
+        progressWheel.setVisibility(View.VISIBLE);
+        sadIcon.setVisibility(View.INVISIBLE);
+        ClearListItems();
+    }
+    private void SetLoaded(){
+        progressWheel.setVisibility(View.INVISIBLE);
+        sadIcon.setVisibility(View.INVISIBLE);
+        ClearListItems();
+    }
+
+    private void SetNoResults(){
+        progressWheel.setVisibility(View.INVISIBLE);
+        sadIcon.setVisibility(View.VISIBLE);
+        ClearListItems();
+    }
+    /** para hacer que se borren las opciones mostradas **/
+    private void ClearListItems(){
+        ShownDataListed.clear();
+        adapterSearch.notifyDataSetChanged();
     }
 }

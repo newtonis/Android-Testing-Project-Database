@@ -16,6 +16,7 @@ public class SearchItemViewHolder extends RecyclerView.ViewHolder{
     public SearchItemViewHolder(View _mView){
         super(_mView);
         mView = _mView;
+
     }
 
     public void setDetails(String name, String details, Long score){
