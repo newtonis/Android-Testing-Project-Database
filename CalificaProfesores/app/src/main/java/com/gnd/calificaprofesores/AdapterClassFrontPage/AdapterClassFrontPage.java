@@ -37,7 +37,7 @@ public class AdapterClassFrontPage extends FragmentPagerAdapter  {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new ActivityQual();
+                return new ActivityClassFrontPageCapital();
             case 1:
                 return new ActivityOpinionRecent();
             case 2:

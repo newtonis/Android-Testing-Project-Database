@@ -11,7 +11,7 @@ import com.gnd.calificaprofesores.R;
 /** Aqui administramos la parte gráfica de un comentario **/
 
 public class OpinionItemViewHolder extends RecyclerView.ViewHolder{
-    View mView;
+    private View mView;
 
     public OpinionItemViewHolder(View _mView){
         super(_mView);

@@ -82,4 +82,8 @@
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="CourseScoreTitle">CALIFICACIÓN GENERAL</string>
     <string name="BestProfessosTitle">MEJORES PROFESORES</string>
+    <string name="TextAmabilidad">Amabilidad</string>
+    <string name="TextConocimiento">CONOCIMIENTO</string>
+    <string name="TextConocimiento2">Conocimiento</string>
+    <string name="TextClases">Clases</string>
 </resources>

@@ -16,6 +16,7 @@ import com.balysv.materialmenu.MaterialMenuView;
 import com.gnd.calificaprofesores.AdapterClassFrontPage.AdapterClassFrontPage;
 
 import com.gnd.calificaprofesores.MenuManager.MenuManager;
+import com.gnd.calificaprofesores.R;
 
 /*** Class front page: aqui adminsitramos la pagina principal de un curso. Tanto las diversas
  * opiniones como el puntaje ***/
