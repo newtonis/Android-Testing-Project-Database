@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,11 +16,13 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.balysv.materialmenu.MaterialMenuView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
 import com.gnd.calificaprofesores.ListItems.BasicListItem;
 import com.gnd.calificaprofesores.ListItems.ListItemViewHolder;
+import com.gnd.calificaprofesores.MenuManager.MenuManager;
 import com.gnd.calificaprofesores.NetworkSearchQueriesHandler.GotUniListener;
 import com.gnd.calificaprofesores.NetworkSearchQueriesHandler.SearchUniHandler;
 import com.gnd.calificaprofesores.NetworkSearchQueriesHandler.UniData;
@@ -51,6 +54,7 @@ public class ActivitySelectUni extends AppCompatActivity {
     private List<UniData> ShownDataListed;
     private ProgressWheel progressWheel;
     private ImageView sadIcon;
+    private MenuManager menuManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +80,11 @@ public class ActivitySelectUni extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        /** Menu manager **/
+        menuManager = new MenuManager(
+                this,
+                (MaterialMenuView)findViewById(R.id.MaterialMenuButton),
+                (DrawerLayout)findViewById(R.id.DrawerLayout));
 
         /** Eventos **/
         mUniInput.setOnKeyListener(new View.OnKeyListener(){

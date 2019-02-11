@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,11 +18,13 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.balysv.materialmenu.MaterialMenuView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
 import com.gnd.calificaprofesores.ListItems.BasicListItem;
 import com.gnd.calificaprofesores.ListItems.ListItemViewHolder;
+import com.gnd.calificaprofesores.MenuManager.MenuManager;
 import com.gnd.calificaprofesores.NetworkHandler.CourseCommentsDataManager;
 import com.gnd.calificaprofesores.NetworkHandler.CourseData;
 import com.gnd.calificaprofesores.NetworkHandler.GotCourseInfoListener;
@@ -65,6 +68,8 @@ public class ActivitySearchCourse extends AppCompatActivity {
     private ImageView sadIcon;
     private FirebaseRecyclerAdapter adapter;
 
+    private MenuManager menuManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,12 +89,18 @@ public class ActivitySearchCourse extends AppCompatActivity {
         recyclerView = findViewById(R.id.ResultList);
         sadIcon = findViewById(R.id.SadFace);
         progressWheel = findViewById(R.id.LoadingIcon);
-
+        sadIcon.bringToFront();
+        progressWheel.bringToFront();
 
         /** Eventos **/
         recyclerView.setAdapter(adapterSearch);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        /** Menu manager **/
+        menuManager = new MenuManager(
+                this,
+                (MaterialMenuView)findViewById(R.id.MaterialMenuButton),
+                (DrawerLayout)findViewById(R.id.DrawerLayout));
 
         mCourseInput.setOnKeyListener(new View.OnKeyListener(){
             public boolean onKey(View view,int keyCode, KeyEvent event){
@@ -127,11 +138,13 @@ public class ActivitySearchCourse extends AppCompatActivity {
                         }
                     });
 
-                    ShownDataListed.add(new UniData(
+                    UniData nuevo = new UniData(
                             course.GetId(),
                             course.GetShownName(),
                             course.GetDetail()
-                    ));
+                    );
+                    nuevo.SetClickListener(course.GetClickListener());
+                    ShownDataListed.add(nuevo);
                 }
                 adapterSearch.notifyDataSetChanged();
             }
@@ -139,75 +152,6 @@ public class ActivitySearchCourse extends AppCompatActivity {
     }
     public void firebaseClassSearch(String searchTextOriginal){
         searchCourseHandler.Search(searchTextOriginal);
-
-        /*String searchText = searchTextOriginal.toLowerCase();
-
-        Query firebaseSearchQuery = mUserDatabase.orderByChild("Name").startAt(searchText).endAt(searchText + "\uf8ff");
-
-        /** Conseguimos la informacion de la query de seachText **/
-        /*FirebaseRecyclerOptions<BasicListItem> options =
-                new FirebaseRecyclerOptions.Builder<BasicListItem>()
-                        .setQuery(firebaseSearchQuery, new SnapshotParser<BasicListItem>() {
-                            @NonNull
-                            @Override
-                            public BasicListItem parseSnapshot(@NonNull DataSnapshot snapshot) {
-
-                                return new BasicListItem((String) snapshot.child("Name").getValue(),
-                                        "",
-                                        (Long)snapshot.child("id").getValue()
-                                );
-
-                            }
-                        }).build();*/
-
-        /** La colocamos en la lista de cosas **/
-        /*adapter = new FirebaseRecyclerAdapter<BasicListItem,ListItemViewHolder>(options) {
-            @Override
-            protected void onBindViewHolder(final ListItemViewHolder holder, int position, final BasicListItem model) {
-
-                courseDataManager = new CourseCommentsDataManager(model.getId(),"");
-
-                courseDataManager.AddOnGotCourseDataListener(model.getId(), new GotCourseInfoListener() {
-                    @Override
-                    public void onGotCourseInfo(CourseData course) {
-                        holder.setDetails(getApplicationContext(), course.GetShownName(), course.GetDetail());
-                    }
-
-                    @Override
-                    public void onFailed() {
-                        Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                courseDataList.add(courseDataManager);
-
-                final String courseName = model.getName();
-                final Long courseId = model.getId();
-
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(ActivitySearchCourse.this, ActivityClassFrontPageV2.class);
-                        intent.putExtra("CourseName",courseName);
-                        intent.putExtra("CourseId",courseId);
-
-                        startActivity(intent);
-                    }
-                });
-
-            }
-            @Override
-            public ListItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.search_list_element, parent, false);
-
-                return new ListItemViewHolder(view);
-            }
-        };
-
-        mResultList.setAdapter(adapter);
-        adapter.startListening();*/
-
     }
     private void SetLoading(){
         progressWheel.setVisibility(View.VISIBLE);

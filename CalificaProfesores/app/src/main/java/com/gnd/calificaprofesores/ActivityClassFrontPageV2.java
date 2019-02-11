@@ -76,7 +76,5 @@ public class ActivityClassFrontPageV2 extends AppCompatActivity {
                 (MaterialMenuView)findViewById(R.id.MaterialMenuButton),
                 (DrawerLayout)findViewById(R.id.DrawerLayout));
 
-
-
     }
 }

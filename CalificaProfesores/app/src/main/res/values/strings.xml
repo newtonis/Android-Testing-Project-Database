@@ -80,4 +80,6 @@
     <string name="DrawerClose">CLOSE</string>
     <string name="AddMat">AGREGAR MATERIA</string>
     <string name="error_invalid_email">This email address is invalid</string>
+    <string name="CourseScoreTitle">CALIFICACIÓN GENERAL</string>
+    <string name="BestProfessosTitle">MEJORES PROFESORES</string>
 </resources>
