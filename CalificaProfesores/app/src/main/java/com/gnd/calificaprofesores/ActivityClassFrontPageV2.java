@@ -28,6 +28,7 @@ import com.gnd.calificaprofesores.R;
 
 /* Se mostrara siempre el puntaje en estrellas del curso */
 
+/** Activity asociado: activity_class_front_page_v2.xml **/
 
 public class ActivityClassFrontPageV2 extends AppCompatActivity {
 
@@ -35,8 +36,6 @@ public class ActivityClassFrontPageV2 extends AppCompatActivity {
     ViewPager pager;
 
     private AdapterClassFrontPage adapter;
-    private Drawable oldBackground = null;
-    private int currentColor;
 
     private static String CourseName;
     private static Long CourseId;

@@ -5,7 +5,7 @@
 
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
-    android:layout_height="150dp">
+    android:layout_height="160dp">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -59,7 +59,7 @@
         <LinearLayout
             android:id="@+id/linearLayout5"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="90dp"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -94,12 +94,12 @@
                     android:indeterminate="false"
                     android:max="100"
                     android:progress="20"
-                    android:progressDrawable="@drawable/custom_progress"
+                    android:progressDrawable="@drawable/custom_progress_blue"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView9"
-                    app:layout_constraintVertical_bias="0.0" />
+                    app:layout_constraintVertical_bias="0.2" />
             </android.support.constraint.ConstraintLayout>
 
             <android.support.constraint.ConstraintLayout
@@ -132,7 +132,7 @@
                     android:indeterminate="false"
                     android:max="100"
                     android:progress="20"
-                    android:progressDrawable="@drawable/custom_progress"
+                    android:progressDrawable="@drawable/custom_progress_green"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -171,7 +171,7 @@
                     android:indeterminate="false"
                     android:max="100"
                     android:progress="20"
-                    android:progressDrawable="@drawable/custom_progress"
+                    android:progressDrawable="@drawable/custom_progress_orange"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

@@ -49,14 +49,7 @@ public class ActivitySearchProfessor extends AppCompatActivity {
 
         mResultList.setLayoutManager(new LinearLayoutManager(this));
 
-        /*mSearchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String searchText = mProfInput.getText().toString();
 
-                firebaseProfSearch(searchText);
-            }
-        });*/
         mProfInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

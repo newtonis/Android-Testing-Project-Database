@@ -9,11 +9,11 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ActivityClassFrontPageV2">
+        tools:context=".ActivityProfFrontPageV2">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="731dp"
             android:background="@color/background_color"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -24,13 +24,13 @@
             app:layout_constraintVertical_bias="0.0">
 
             <android.support.v7.widget.Toolbar
-                app:contentInsetStart="0dp"
-                app:contentInsetLeft="0dp"
                 android:id="@+id/Toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_margin="0dp"
-                android:padding="0dp">
+                android:padding="0dp"
+                app:contentInsetLeft="0dp"
+                app:contentInsetStart="0dp">
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
@@ -52,17 +52,23 @@
                         app:mm_transformDuration="3000" />
 
                     <TextView
-                        android:id="@+id/TextBuscarCurso"
+                        android:id="@+id/TextProfName"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
                         android:fontFamily="@font/alfa_slab_one"
                         android:gravity="center"
-                        android:text="@string/ClassText"
+                        android:text="Prof Name"
                         android:textAlignment="center"
                         android:textColor="@color/browser_actions_title_color"
                         android:textSize="16sp"
-                        tools:layout_editor_absoluteX="94dp"
-                        tools:layout_editor_absoluteY="8dp" />
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
                         android:id="@+id/imageView"
@@ -79,61 +85,23 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.555"
-                        app:srcCompat="@drawable/blackboard" />
+                        app:srcCompat="@drawable/professor" />
                 </android.support.constraint.ConstraintLayout>
 
             </android.support.v7.widget.Toolbar>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:background="@color/score_color"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:baselineAligned="false"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/UniversityText"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0"
-                        android:fontFamily="@font/alfa_slab_one"
-                        android:text="@string/TextSchool"
-                        android:textAlignment="center"
-                        android:textSize="12sp"
-                        android:textStyle="bold|italic" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal" />
-
-            </LinearLayout>
-
             <com.astuetz.PagerSlidingTabStrip
                 android:id="@+id/tabs"
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
                 android:layout_weight="0.0001"
                 android:background="@color/browser_actions_bg_grey" />
-
             <android.support.v4.view.ViewPager
                 android:id="@+id/pager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 tools:context=".MainActivity" />
-
         </LinearLayout>
-
     </android.support.constraint.ConstraintLayout>
     <include layout="@layout/layout_lateral_menu"/>
 </android.support.v4.widget.DrawerLayout>
