@@ -47,7 +47,7 @@ public class ActivityProfFrontPageV2 extends AppCompatActivity{
 
         adapter = new AdapterProfFrontPage(getSupportFragmentManager());
         pager.setAdapter(adapter);
-        pager.setCurrentItem(0);
+        pager.setCurrentItem(1);
         tabs.setViewPager(pager);
 
         menuManager = new MenuManager(

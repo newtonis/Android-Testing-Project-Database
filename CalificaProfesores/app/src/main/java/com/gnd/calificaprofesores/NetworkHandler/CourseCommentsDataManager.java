@@ -23,13 +23,11 @@ public class CourseCommentsDataManager {
     private DatabaseReference mDatabase;
     private long CourseId;
     private String CourseName;
-    private List<GotCourseInfoListener> listenersCourseInfo;
 
     public CourseCommentsDataManager(Long _CourseId, String _CourseName){
         mDatabase = FirebaseDatabase.getInstance().getReference();
         CourseId = _CourseId;
         CourseName = _CourseName;
-        listenersCourseInfo = new ArrayList<>();
     }
     public void AddOnGotCommentListener(final GotCommentListener listener){
 

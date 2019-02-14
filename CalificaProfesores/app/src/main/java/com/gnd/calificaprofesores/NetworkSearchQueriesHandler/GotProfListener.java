@@ -1,5 +1,7 @@
 package com.gnd.calificaprofesores.NetworkSearchQueriesHandler;
 
+import java.util.Set;
+
 public interface GotProfListener {
-    void onGotProf(ProfData prof);
+    void onGotProf(Set<ProfData> prof);
 }

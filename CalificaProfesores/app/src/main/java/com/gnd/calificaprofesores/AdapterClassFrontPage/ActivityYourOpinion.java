@@ -3,6 +3,7 @@ package com.gnd.calificaprofesores.AdapterClassFrontPage;
 import android.content.Intent;
 import android.os.Bundle;
 import android.service.autofill.UserData;
+import android.support.constraint.Placeholder;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -33,14 +34,13 @@ import java.util.Vector;
 public class ActivityYourOpinion extends Fragment {
 
     private static final String ARG_POSITION = "position";
-    private int position;
     private View mView;
     private ViewGroup mContainer;
     private ViewGroup placeholder;
     private LayoutInflater mLayoutInflater;
     IntentCourseManager CourseManager; // para saber en que curso estamos
     private AdapterCourseComments mAdapterCourseComments;
-    CourseCommentsDataManager mCourseCommentsDataManager;
+
     private List<CourseComment> Comments;
     private RecyclerView recyclerView; // para mostrar el comentario que ya hizo el usuario
 
@@ -55,9 +55,10 @@ public class ActivityYourOpinion extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         /// necesitamos determinar si el usuario ya emitio su opinion del curso seleccionado
-        mView = inflater.inflate(R.layout.layout_empty, container, false);
+        mView = inflater.inflate(R.layout.layout_loading_icon, container, false);
         mContainer = container;
         mLayoutInflater = inflater;
+        //placeholder = new Placeholder();
         CourseManager = new IntentCourseManager();
         UserDataManager userData = new UserDataManager();
 

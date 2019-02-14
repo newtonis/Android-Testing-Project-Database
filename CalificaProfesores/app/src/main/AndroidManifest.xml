@@ -13,28 +13,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ActivityOpinarMateria">
-
-        </activity>
+        <activity android:name=".ActivitySendCommentProf"></activity>
+        <activity android:name=".ActivityOpinarMateria"></activity>
         <activity android:name=".ActivityClassFrontPageV2">
 
         </activity>
-        <activity android:name=".ActivityLogin">
-
-        </activity>
+        <activity android:name=".ActivityLogin"></activity>
         <activity android:name=".ActivitySignIn" />
         <activity android:name=".ActivityUser" />
         <activity android:name=".ActivitySignUp" />
-        <activity android:name=".ActivitySelectUni" >
-
-        </activity>
-        <activity android:name=".ActivitySearchProfessor" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".ActivitySelectUni"></activity>
+        <activity android:name=".ActivitySearchProfessor"></activity>
         <activity android:name=".ActivityProfesorFrontPage" />
 
         <meta-data
@@ -45,11 +34,13 @@
             android:name=".ActivityCalProf"
             android:screenOrientation="portrait" />
         <activity android:name=".ActivityClassFrontPage" />
-        <activity android:name=".ActivitySearchCourse" >
-
-        </activity>
+        <activity android:name=".ActivitySearchCourse"></activity>
         <activity android:name=".ActivityProfFrontPageV2">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

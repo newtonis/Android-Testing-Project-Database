@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.gnd.calificaprofesores.R;
 
-/** Aqui administramos la parte gráfica de un comentario **/
+/** Aqui administramos la parte gráfica de un element de busqueda **/
 
 public class SearchItemViewHolder extends RecyclerView.ViewHolder{
     View mView;
@@ -22,7 +22,7 @@ public class SearchItemViewHolder extends RecyclerView.ViewHolder{
     public void setDetails(String name, String details, Long score){
         TextView mAuthorText = mView.findViewById(R.id.Title);
         TextView mCommentText = mView.findViewById(R.id.Detail);
-        RatingBar mScore = mView.findViewById(R.id.ratingBar);
+        RatingBar mScore = mView.findViewById(R.id.ratingBar); // no se usa por el momento
 
         mAuthorText.setText(name);
 

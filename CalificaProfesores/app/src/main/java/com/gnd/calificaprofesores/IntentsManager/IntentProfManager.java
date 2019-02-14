@@ -15,10 +15,8 @@ public class IntentProfManager {
         ProfId = intent.getLongExtra("ProfId", 1L);
     }
 
-    public IntentProfManager(Intent intent,String _ProfName, Long _ProfId, Context _ctx, Class _cls){
+    public IntentProfManager(Intent intent, String _ProfName, Long _ProfId){
         myIntent = intent;
-        this.ctx = _ctx;
-        this.cls = _cls;
         this.ProfName = _ProfName;
         this.ProfId = _ProfId;
         myIntent.putExtra("ProfName",_ProfName);
@@ -39,7 +37,7 @@ public class IntentProfManager {
     }
     public IntentProfManager ConvertIntent(Context _ctx, Class _cls){
         return new IntentProfManager(
-                new Intent(), ProfName, ProfId, _ctx, _cls
+                new Intent(_ctx, _cls), ProfName, ProfId
         );
     }
 }

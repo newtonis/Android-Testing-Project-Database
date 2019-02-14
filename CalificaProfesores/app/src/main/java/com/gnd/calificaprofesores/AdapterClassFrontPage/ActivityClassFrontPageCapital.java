@@ -47,10 +47,10 @@ public class ActivityClassFrontPageCapital extends Fragment {
 
         myAdapter.AddElement(new TitleData("PROFESORES"));
         myAdapter.AddElement(new ProfessorData("James Watt",1.0f,0.5f,0.25f));
-        myAdapter.AddElement(new ProfessorData("Albert Einstein",1.0f,0.5f,0.25f));
-        myAdapter.AddElement(new ProfessorData("Tiger Wood",0.5f,0.5f,0.67f));
+        //myAdapter.AddElement(new ProfessorData("Albert Einstein",1.0f,0.5f,0.25f));
+        //myAdapter.AddElement(new ProfessorData("Tiger Wood",0.5f,0.5f,0.67f));
 
-        myAdapter.AddElement(new ProfessorData("Albert Einstein",1.0f,0.5f,0.25f));
+        //myAdapter.AddElement(new ProfessorData("Albert Einstein",1.0f,0.5f,0.25f));
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         //recyclerView.setHasFixedSize(true);

@@ -1,2 +1,7 @@
 Cuidado, este tipo contrató el plan a pagar por uso y por un error en la cuenta pasó de gastar 25 U$D al mes a 2000 U$D al mes
 https://startupsventurecapital.com/firebase-costs-increased-by-7-000-81dc0a27271d
+
+Interesante explicacion de como usar cloud firestore
+https://stackoverflow.com/questions/46549766/whats-the-difference-between-cloud-firestore-and-the-firebase-realtime-database
+
+En algun momento habrá que migrar y utilizar cloud firestore

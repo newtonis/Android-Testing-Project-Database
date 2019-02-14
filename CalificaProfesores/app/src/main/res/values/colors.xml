@@ -16,4 +16,6 @@
     <color name="BackgroundCard">#C7C1A2</color>
     <color name="White">#FFFFFF</color>
     <color name="BackgroundRecyclerView">#DFD5A7</color>
+    <color name="normal_item_bg_color">#FFFFFF</color>
+    <color name="focused_item_bg_color">#E0E0E0</color>
 </resources>

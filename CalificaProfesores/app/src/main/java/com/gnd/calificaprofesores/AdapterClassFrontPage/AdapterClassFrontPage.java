@@ -1,6 +1,7 @@
 package com.gnd.calificaprofesores.AdapterClassFrontPage;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -25,7 +26,7 @@ public class AdapterClassFrontPage extends FragmentPagerAdapter  {
     public AdapterClassFrontPage(FragmentManager fm) {
         super(fm);
     }
-
+    @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
         return TITLES[position];

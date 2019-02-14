@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 public class AdapterProfFrontPage extends FragmentPagerAdapter {
     private final String[] TITLES = {
             "VISTA GENERAL",
+            "OPINIONES RECIENTES",
             "TU OPINIÓN"}; // Opiniones importantes para futuro
 
     public AdapterProfFrontPage(FragmentManager fm) {
@@ -29,6 +30,10 @@ public class AdapterProfFrontPage extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         if (position == 0){
             return new ActivityProfFrontPageCapital();
+        }else if (position == 1){
+            return new ActivityProfFrontPageCapital();
+        }else if(position == 2){
+            return new ActivityYourOpinion();
         }
         return new ActivityProfFrontPageCapital();
     }

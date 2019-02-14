@@ -43,8 +43,8 @@ public class ActivityProfFrontPageCapital extends Fragment {
         myAdapter.AddElement(new ProfessorData("Física I",1.0f,0.5f,0.25f));
         myAdapter.AddElement(new ProfessorData("Física II",1.0f,0.5f,0.25f));
         myAdapter.AddElement(new ProfessorData("Met. Del Aprendizaje",0.5f,0.5f,0.67f));
-
         myAdapter.AddElement(new ProfessorData("Organización Industrial",1.0f,0.5f,0.25f));
+
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         //recyclerView.setHasFixedSize(true);
