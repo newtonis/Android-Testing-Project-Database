@@ -89,4 +89,6 @@
     <string name="CursadoProfText">¿Has cursado con el profesor? ¡Comparte tu opinión!</string>
     <string name="SeleccionarMaterias">SELECCIONAR MATERIAS</string>
     <string name="TextCalificar">CALIFICAR</string>
+    <string name="TextAnonimidad">ANÓNIMO</string>
+    <string name="NoOpinarText">NO OPINAR</string>
 </resources>

@@ -58,3 +58,4 @@ dependencies {
     implementation 'com.github.JesusM:HoloCircleSeekBar:v2.2.2'
 }
 apply plugin: 'com.google.gms.google-services'
+

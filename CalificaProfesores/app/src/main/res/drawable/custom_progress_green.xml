@@ -22,7 +22,7 @@
                 android:angle="0"
                 android:type="sweep"
                 android:thicknessRatio="5.0">
-                <solid android:color="#8BDD61"/>
+                <solid android:color="@color/color_bar_green"/>
             </shape>
         </rotate>
     </item>

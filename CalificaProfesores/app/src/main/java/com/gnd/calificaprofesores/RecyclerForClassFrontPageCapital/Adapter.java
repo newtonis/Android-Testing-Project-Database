@@ -44,6 +44,18 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             case 2:
                 itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_item_rating_bar, viewGroup, false);
                 return new StarsViewHolder(itemView);
+            case 3:
+                itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.search_list_element, viewGroup, false);
+                return new SelectableItemViewHolder(itemView);
+            case 4:
+                itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_expandable_text_view, viewGroup, false);
+                return new EditTextViewHolder(itemView);
+            case 5:
+                itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_score_selector, viewGroup, false);
+                return new ScoreSelectorViewHolder(itemView);
+            case 6:
+                itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_button, viewGroup, false);
+                return new ButtonItemViewHolder(itemView);
         }
         return null;
     }
@@ -61,10 +73,32 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             ProfessorData element = (ProfessorData) dataItem;
             ProfessorItemViewHolder holder = (ProfessorItemViewHolder) viewHolder;
             holder.SetDetails(element.GetName(),element.GetConocimiento(),element.GetClases(),element.GetAmabilidad());
+
         }else if(dataItem.GetType() == 2){
             StarsData element = (StarsData) dataItem;
             StarsViewHolder holder = (StarsViewHolder) viewHolder;
             holder.SetDetails(element.GetRating());
+
+        }else if(dataItem.GetType() == 3){
+            SelectableItem element = (SelectableItem) dataItem;
+            SelectableItemViewHolder holder = (SelectableItemViewHolder) viewHolder;
+            holder.SetDetails(element, element.getTitle(),element.getDetail());
+
+        }else if(dataItem.GetType() == 4){
+            EditTextData element = (EditTextData) dataItem;
+            EditTextViewHolder holder = (EditTextViewHolder) viewHolder;
+            holder.SetDetails(element, element.getShowText());
+
+        }else if(dataItem.GetType() == 5){
+            ScoreSelectorData element = (ScoreSelectorData) dataItem;
+            ScoreSelectorViewHolder holder = (ScoreSelectorViewHolder) viewHolder;
+            holder.SetDetails(element.GetValue(0), element.GetValue(1), element.GetValue(2));
+
+        }else if(dataItem.GetType() == 6){
+            ButtonData element = (ButtonData) dataItem;
+            ButtonItemViewHolder holder = (ButtonItemViewHolder) viewHolder;
+            holder.SetDetails(element.getButtonText());
+
         }
 
         /*opinionItemViewHolder.setDetails(dataItem.GetUniShortName(), dataItem.GetUniShownName(), 0L);

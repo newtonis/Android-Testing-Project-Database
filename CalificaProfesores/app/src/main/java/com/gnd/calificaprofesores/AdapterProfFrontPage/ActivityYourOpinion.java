@@ -74,7 +74,7 @@ public class ActivityYourOpinion extends Fragment {
         placeholder.removeAllViews();
         placeholder.addView(mView);
 
-        buttonSend = mView.findViewById(R.id.buttonOpinar);
+        buttonSend = mView.findViewById(R.id.ButtonOpinar);
 
         buttonSend.setOnClickListener(new View.OnClickListener() {
             @Override

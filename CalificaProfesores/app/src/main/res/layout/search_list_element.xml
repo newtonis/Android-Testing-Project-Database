@@ -5,10 +5,12 @@
     android:layout_height="wrap_content">
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/Content"
         android:layout_width="0dp"
         android:layout_height="80dp"
         android:background="@drawable/item_color"
-        android:focusable="auto"
+        android:clickable="true"
+        android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
