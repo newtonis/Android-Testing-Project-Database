@@ -6,9 +6,11 @@ package com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital;
 
 public class SelectableItem extends AdapterElement  {
     String title, detail;
+    Long id;
     boolean clicked;
-    public SelectableItem(String _title, String _detail){
+    public SelectableItem(Long id, String _title, String _detail){
         super(3);
+        this.id = id;
         title = _title;
         detail = _detail;
         clicked = false;
@@ -39,5 +41,21 @@ public class SelectableItem extends AdapterElement  {
     }
     public boolean getClicked(){
         return clicked;
+    }
+
+    public boolean isClicked() {
+        return clicked;
+    }
+
+    public void setClicked(boolean clicked) {
+        this.clicked = clicked;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

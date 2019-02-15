@@ -1,21 +1,22 @@
 package com.gnd.calificaprofesores.NetworkProfOpinion;
 
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class UserProfComment {
     String author, content;
-    String timestamp;
+    Map timestamp;
     Long amabilidad, conocimiento, clases, likes;
-    Map<Long, String> materias;
+    Map<String, String> materias;
     public UserProfComment(){
         materias = new TreeMap<>();
     }
     public UserProfComment(
             String _author,
             String _content,
-            Map<Long,String> _materias,
-            String _timestamp,
+            Map<String, String> _materias,
+            Map _timestamp,
             Long _amabilidad,
             Long _conocimiento,
             Long _clases){
@@ -46,11 +47,11 @@ public class UserProfComment {
         this.content = content;
     }
 
-    public String getTimestamp() {
+    public Map getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(String timestamp) {
+    public void setTimestamp(Map timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -86,11 +87,11 @@ public class UserProfComment {
         this.clases = clases;
     }
 
-    public Map<Long, String> getMaterias() {
+    public Map<String, String> getMaterias() {
         return materias;
     }
 
-    public void setMaterias(Map<Long, String> materias) {
+    public void setMaterias(Map<String, String> materias) {
         this.materias = materias;
     }
 }

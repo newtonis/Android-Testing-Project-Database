@@ -9,6 +9,7 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/layout_bg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,13 +25,12 @@
             android:layout_marginEnd="8dp"
             android:ems="10"
             android:inputType="textWebEditText|textMultiLine"
-            android:text="Name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <CheckBox
-            android:id="@+id/CheckBox"
+            android:id="@+id/CheckBoxAnonimo"
             style="@android:style/Widget.DeviceDefault.Light.CompoundButton.CheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
             app:layout_constraintTop_toBottomOf="@+id/InputComment" />
 
         <CheckBox
-            android:id="@+id/checkBox2"
+            android:id="@+id/CheckBoxNoOpinar"
             style="@android:style/Widget.DeviceDefault.Light.CompoundButton.CheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

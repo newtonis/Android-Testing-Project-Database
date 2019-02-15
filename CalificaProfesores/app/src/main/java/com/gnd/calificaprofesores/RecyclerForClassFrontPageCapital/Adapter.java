@@ -97,7 +97,7 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }else if(dataItem.GetType() == 6){
             ButtonData element = (ButtonData) dataItem;
             ButtonItemViewHolder holder = (ButtonItemViewHolder) viewHolder;
-            holder.SetDetails(element.getButtonText());
+            holder.SetDetails(element, element.getButtonText());
 
         }
 

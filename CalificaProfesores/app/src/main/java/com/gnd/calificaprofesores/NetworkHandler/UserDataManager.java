@@ -74,17 +74,17 @@ public class UserDataManager {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                         if (dataSnapshot.exists()){
-                            Map<Long,String> materias = new TreeMap<>();
+                            Map<String ,String> materias = new TreeMap<>();
 
                             for (DataSnapshot child : dataSnapshot.child("materias").getChildren()){
-                                materias.put(Long.parseLong(child.getKey()), (String)child.getValue());
+                                materias.put(child.getKey(), (String)child.getValue());
                             }
                             mGotUserProfCommentListener.onGotUserProfComments(true,
                                     new UserProfComment(
                                             (String)dataSnapshot.child("author").getValue(),
                                             (String)dataSnapshot.child("content").getValue(),
                                             materias,
-                                            (String)dataSnapshot.child("timestamp").getValue(),
+                                            (Map)dataSnapshot.child("timestamp").getValue(),
                                             (Long)dataSnapshot.child("amabilidad").getValue(),
                                             (Long)dataSnapshot.child("conocimiento").getValue(),
                                             (Long)dataSnapshot.child("clases").getValue()

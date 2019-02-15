@@ -2,6 +2,8 @@ package com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital;
 
 import android.text.Editable;
 
+/**layout_expandable_text_view.xml **/
+
 public class EditTextData extends AdapterElement{
     String showText;
     Editable editable;

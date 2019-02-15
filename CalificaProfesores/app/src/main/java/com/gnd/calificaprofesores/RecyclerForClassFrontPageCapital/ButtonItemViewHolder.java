@@ -12,15 +12,11 @@ public class ButtonItemViewHolder extends RecyclerView.ViewHolder {
         super(view);
         mView = view;
     }
-    public void SetDetails(String buttonText){
+    public void SetDetails(ButtonData model, String buttonText){
         Button button = mView.findViewById(R.id.Button);
         button.setText(buttonText);
-        button.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
+        button.setOnClickListener(model.getOnClickListener());
     }
 
 }
