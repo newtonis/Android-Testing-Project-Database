@@ -3,6 +3,8 @@ package com.gnd.calificaprofesores.IntentsManager;
 import android.content.Context;
 import android.content.Intent;
 
+import com.gnd.calificaprofesores.NetworkProfOpinion.UserProfComment;
+
 public class IntentProfManager {
     String ProfName;
     Long ProfId;
@@ -11,6 +13,7 @@ public class IntentProfManager {
     Class cls;
 
     public IntentProfManager(Intent intent){
+        myIntent = intent;
         ProfName = intent.getStringExtra("ProfName");
         ProfId = intent.getLongExtra("ProfId", 1L);
     }
@@ -40,4 +43,7 @@ public class IntentProfManager {
                 new Intent(_ctx, _cls), ProfName, ProfId
         );
     }
+
+
+
 }

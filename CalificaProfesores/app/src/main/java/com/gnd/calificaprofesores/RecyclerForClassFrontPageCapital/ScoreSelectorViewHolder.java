@@ -18,7 +18,7 @@ public class ScoreSelectorViewHolder extends RecyclerView.ViewHolder {
         super(view);
         mView = view;
     }
-    public void SetDetails(long score1, long score2, long score3){
+    public void SetDetails(final ScoreSelectorData model, long score1, long score2, long score3){
         picker1 = mView.findViewById(R.id.picker1);
         picker2 = mView.findViewById(R.id.picker2);
         picker3 = mView.findViewById(R.id.picker3);
@@ -37,7 +37,7 @@ public class ScoreSelectorViewHolder extends RecyclerView.ViewHolder {
                 new HoloCircleSeekBar.OnCircleSeekBarChangeListener(){
                     @Override
                     public void onProgressChanged(HoloCircleSeekBar holoCircleSeekBar, int i, boolean b) {
-                        PickersChanged();
+                        UpdateInputs(model);
                     }
 
                     @Override
@@ -54,10 +54,15 @@ public class ScoreSelectorViewHolder extends RecyclerView.ViewHolder {
         picker1.setOnSeekBarChangeListener(listener);
         picker2.setOnSeekBarChangeListener(listener);
         picker3.setOnSeekBarChangeListener(listener);
-        PickersChanged();
+        UpdateInputs(model);
     }
-    public void PickersChanged(){
+    public void UpdateInputs(ScoreSelectorData model){
         Float value = (picker1.getValue() + picker2.getValue() + picker3.getValue() ) / 3f;
         ratingBar.setRating( (float) Math.ceil(value*2f) / 2f );
+
+        model.SetValue(0, picker1.getValue());
+        model.SetValue(1, picker2.getValue());
+        model.SetValue(2, picker3.getValue());
+
     }
 }

@@ -15,4 +15,7 @@ public class ScoreSelectorData extends AdapterElement {
     public Integer GetValue(Integer item){
         return itemsValue[item];
     }
+    public void SetValue(Integer item, Integer value){
+        itemsValue[item] = value;
+    }
 }

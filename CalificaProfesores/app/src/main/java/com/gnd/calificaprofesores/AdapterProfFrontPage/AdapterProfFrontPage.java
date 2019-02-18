@@ -31,7 +31,7 @@ public class AdapterProfFrontPage extends FragmentPagerAdapter {
         if (position == 0){
             return new ActivityProfFrontPageCapital();
         }else if (position == 1){
-            return new ActivityProfFrontPageCapital();
+            return new ActivityOpinion();
         }else if(position == 2){
             return new ActivityYourOpinion();
         }

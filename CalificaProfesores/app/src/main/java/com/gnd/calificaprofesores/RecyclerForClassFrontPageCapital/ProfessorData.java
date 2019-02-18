@@ -1,5 +1,7 @@
 package com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital;
 
+/** layout asociado: layout_item_professor.xml **/
+
 public class ProfessorData extends AdapterElement {
     private String name;
     private float conocimiento;

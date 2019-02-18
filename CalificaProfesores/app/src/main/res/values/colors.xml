@@ -23,4 +23,5 @@
     <color name="color_bar_orange">#F8B24E</color>
     <color name="color_null_bar">#E0E0E0</color>
     <color name="color_black">#635B5B</color>
+    <color name="grey_light">#D6DEFA</color>
 </resources>

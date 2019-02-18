@@ -25,6 +25,7 @@ public class ProfCommentsDataManager {
     private GotProfCommentListener gotProfCommentListener;
     private SentProfCommentListener sentCommentListener;
     private GotProfMatListener gotProfMatListener;
+    private GotProfQualListener gotProfQualListener;
 
     public ProfCommentsDataManager(Long _ProfId){
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -35,6 +36,7 @@ public class ProfCommentsDataManager {
 
         mDatabase
                 .child("OpinionesProf")
+                .child(Long.toString(ProfId))
                 .orderByChild("timestamp")
                 .limitToFirst(10)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -54,11 +56,15 @@ public class ProfCommentsDataManager {
                                     (String)postSnapshot.child("author").getValue(),
                                     (String)postSnapshot.child("content").getValue(),
                                     materias,
-                                    (Map)postSnapshot.child("timestamp").getValue(),
+                                    new TreeMap<String, String>(),
                                     (Long)postSnapshot.child("amabilidad").getValue(),
                                     (Long)postSnapshot.child("conocimiento").getValue(),
-                                    (Long)postSnapshot.child("clases").getValue()
+                                    (Long)postSnapshot.child("clases").getValue(),
+                                    (boolean)postSnapshot.child("anonimo").getValue(),
+                                    (boolean)postSnapshot.child("conTexto").getValue()
                             ));
+
+
                         }
                         gotProfCommentListener.onGotProfCommentsListener(comments);
                     }
@@ -115,6 +121,28 @@ public class ProfCommentsDataManager {
                 );
 
     }
+    public void RequestProfQual(){
+        mDatabase
+                .child("Prof")
+                .child(Long.toString(ProfId))
+                .addListenerForSingleValueEvent(
+                        new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                gotProfQualListener.onGotProfQualListener(
+                                        (long)dataSnapshot.child("conocimiento").getValue(),
+                                        (long)dataSnapshot.child("clases").getValue(),
+                                        (long)dataSnapshot.child("amabilidad").getValue()
+                                );
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        }
+                );
+    }
     public void AddOnGotCommentListener(GotProfCommentListener listener){
         this.gotProfCommentListener = listener;
     }
@@ -124,5 +152,9 @@ public class ProfCommentsDataManager {
 
     public void AddOnSentCommentListener(SentProfCommentListener listener){
         this.sentCommentListener = listener;
+    }
+
+    public void AddOnGotQualListener(GotProfQualListener listener){
+        this.gotProfQualListener = listener;
     }
 }

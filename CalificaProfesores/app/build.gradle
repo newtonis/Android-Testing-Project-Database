@@ -56,6 +56,7 @@ dependencies {
 
     implementation 'com.pnikosis:materialish-progress:1.7'
     implementation 'com.github.JesusM:HoloCircleSeekBar:v2.2.2'
+    implementation 'com.akexorcist:RoundCornerProgressBar:2.0.3'
 }
 apply plugin: 'com.google.gms.google-services'
 

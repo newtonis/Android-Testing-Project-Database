@@ -56,6 +56,12 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             case 6:
                 itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_button, viewGroup, false);
                 return new ButtonItemViewHolder(itemView);
+            case 7:
+                itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_item_opinion_prof, viewGroup, false);
+                return new OpinionProfViewHolder(itemView);
+            case 8:
+                itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_scores, viewGroup, false);
+                return new ShownQualViewHolder(itemView);
         }
         return null;
     }
@@ -92,13 +98,35 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }else if(dataItem.GetType() == 5){
             ScoreSelectorData element = (ScoreSelectorData) dataItem;
             ScoreSelectorViewHolder holder = (ScoreSelectorViewHolder) viewHolder;
-            holder.SetDetails(element.GetValue(0), element.GetValue(1), element.GetValue(2));
+            holder.SetDetails(element,   element.GetValue(0), element.GetValue(1), element.GetValue(2));
 
         }else if(dataItem.GetType() == 6){
             ButtonData element = (ButtonData) dataItem;
             ButtonItemViewHolder holder = (ButtonItemViewHolder) viewHolder;
             holder.SetDetails(element, element.getButtonText());
 
+        }else if(dataItem.GetType() == 7){
+            OpinionProfData element = (OpinionProfData) dataItem;
+            OpinionProfViewHolder holder = (OpinionProfViewHolder) viewHolder;
+            holder.setDetails(
+                    element.getTitle(),
+                    element.getDetails(),
+                    element.getTextContent(),
+                    element.getConocimiento(),
+                    element.getClases(),
+                    element.getAmabilidad(),
+                    element.getTimestamp(),
+                    element.getStars()
+            );
+
+        }else if(dataItem.GetType() == 8){
+            ShownQualData element = (ShownQualData) dataItem;
+            ShownQualViewHolder holder = (ShownQualViewHolder) viewHolder;
+            holder.setDetails(
+                    element.getConocimiento(),
+                    element.getAmabilidad(),
+                    element.getClases()
+            );
         }
 
         /*opinionItemViewHolder.setDetails(dataItem.GetUniShortName(), dataItem.GetUniShownName(), 0L);

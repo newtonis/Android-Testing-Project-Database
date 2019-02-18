@@ -22,14 +22,10 @@ public class ProfessorItemViewHolder extends RecyclerView.ViewHolder {
         mView = _mView;
     }
     public void SetDetails(String ProfessorName, Float Conocimiento, Float Clases, Float Amabilidad){
-        ProgressBar conocimiento = (ProgressBar)mView.findViewById(R.id.ProgressConocimiento);
-        ProgressBar clases = (ProgressBar)mView.findViewById(R.id.ProgressClases);
-        ProgressBar amabilidad = (ProgressBar)mView.findViewById(R.id.ProgressAmabilidad);
+        ProgressBar conocimiento = mView.findViewById(R.id.ProgressConocimiento);
+        ProgressBar clases = mView.findViewById(R.id.ProgressClases);
+        ProgressBar amabilidad = mView.findViewById(R.id.ProgressAmabilidad);
 
-        //conocimiento.setMax(100);
-        //conocimiento.setProgress(  );
-        //clases.setProgress(Clases);
-        //amabilidad.setProgress(Amabilidad);
 
         conocimiento.setMax(100);
         conocimiento.setProgress(Math.round(Conocimiento*100f));

@@ -70,7 +70,12 @@ public class ActivityOpinarMateria extends AppCompatActivity {
                             public void onSentComment() {
                                 toast = Toast.makeText(getApplicationContext(), "Opinión enviada", Toast.LENGTH_SHORT);
                                 toast.show();
-                                startActivity(intentCourseManager.ConvertIntent(ActivityOpinarMateria.this, ActivityClassFrontPageV2.class ).GetIntent());
+                                startActivity(
+                                        intentCourseManager.ConvertIntent(
+                                        ActivityOpinarMateria.this,
+                                        ActivityClassFrontPageV2.class )
+                                        .GetIntent()
+                                );
                             }
 
                             @Override

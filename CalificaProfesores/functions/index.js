@@ -1,8 +1,8 @@
 const functions = require('firebase-functions');
 
-const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 
+const admin = require('firebase-admin');
 exports.SendVote = functions.https.onRequest((request, response) => {
   console.log("Peticion de voto \n");
 
@@ -54,3 +54,51 @@ exports.SendVote = functions.https.onRequest((request, response) => {
   });
   return 1;
 });
+
+function getDelta(event, child_name){
+    if (event.before.exist()) {
+        var prev = parseInt(event.before.ref.child(child_name).val());
+    }else{
+        var prev = 0;
+    }
+    actual = parseInt(event.after.ref.child(child_name).val());
+    var delta = actual - prev;
+    return delta;
+}
+
+experts.UpdateProfQual = functions.database.ref("/OpinionesProf/{profId}/{uid}")
+    .onWrite((event , context) => {
+        var deltaConocimiento = getDelta(event, "conocimiento");
+        var deltaAmabilidad = getDelta(event, "amabilidad");
+        var deltaClases = getDelta(event, "clases");
+        var increment;
+        if (event.before.exist()){
+            increment = 1;
+        }else{
+            increment = 0;
+        }
+        const profScore = admin.database().ref('Prof/'+context.params.profId);
+
+        profScore.once('value',snapshot => {
+                var conocimiento = parseInt(snapshot.child("conocimiento").getValue());
+                var amabilidad = parseInt(snapshot.child("amabilidad").getValue());
+                var clases = parseInt(snapshot.child("clases").getValue());
+
+                profScore.update({
+                    conocimiento: conocimiento + deltaConocimiento,
+                    amabilidad : amabilidad + deltaAmabilidad,
+                    clases : clases + deltaClases,
+                    count : count + increment;
+                }).then(() => {
+                    console.log('Successfully updated database');
+                    return 0;
+                }).catch(() => {
+                    console.log('Error updating database');
+                    return 0;
+                });
+            });
+
+
+
+
+    });

@@ -1,5 +1,6 @@
 package com.gnd.calificaprofesores;
 
+import android.content.Intent;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -35,7 +36,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import static android.support.test.InstrumentationRegistry.getContext;
 
@@ -67,7 +70,7 @@ public class ActivitySendCommentProf extends AppCompatActivity {
         adapter = new Adapter();
 
         recyclerView.setAdapter(adapter);
-        intentManager = new IntentProfManager();
+        intentManager = new IntentProfManager(getIntent());
 
         dataManager = new ProfCommentsDataManager(intentManager.GetProfId());
 
@@ -94,15 +97,34 @@ public class ActivitySendCommentProf extends AppCompatActivity {
 
     }
     public void onLoaded(){
+        Intent intent = intentManager.GetIntent();
+
         SetLoaded();
         adapter.AddElement(new TitleData("MATERIAS"));
 
+        Set<String> selected_materias = new TreeSet<>();
+
+        if (intent.getBooleanExtra("PrevComment",false)){
+            Integer materiasCount = intent.getIntExtra("MateriasCount",0);
+            String []materiasSelected = intent.getStringArrayExtra("Materias");
+            for (Integer index = 0;index < materiasCount;index++){
+                selected_materias.add(materiasSelected[index]);
+            }
+        }
         for (SelectableItem materia : materias){
+            if (selected_materias.contains(Long.toString(materia.getId()))){
+                materia.setClicked(true);
+            }
             adapter.AddElement(materia);
         }
 
         adapter.AddElement(new TitleData("CALIFICACIÓN"));
-        scoreSelector = new ScoreSelectorData(3, 3, 3);
+
+        scoreSelector = new ScoreSelectorData(
+                (int)intent.getLongExtra("Conocimiento",3L),
+                (int)intent.getLongExtra("Clases", 3L),
+                (int)intent.getLongExtra("Amabilidad",3L)
+        );
 
         adapter.AddElement(scoreSelector);
 
@@ -119,6 +141,17 @@ public class ActivitySendCommentProf extends AppCompatActivity {
         });
 
         adapter.AddElement(sendButton);
+
+        editText.setHasText(intent.getBooleanExtra(
+                "HasText",true
+        ));
+        editText.setAnonimo(intent.getBooleanExtra(
+                "IsAnonimo", false
+        ));
+        if (intent.getBooleanExtra("PrevComment",false)) {
+            String text = intent.getStringExtra("TextContent");
+            editText.setText(text);
+        }
 
         adapter.notifyDataSetChanged();
     }
@@ -153,7 +186,9 @@ public class ActivitySendCommentProf extends AppCompatActivity {
                 ServerValue.TIMESTAMP,
                 (long)scoreSelector.GetValue(0),
                 (long)scoreSelector.GetValue(1),
-                (long)scoreSelector.GetValue(2)
+                (long)scoreSelector.GetValue(2),
+                editText.isAnonimo(),
+                editText.isHasText()
         )).AddOnSentCommentListener(new SentProfCommentListener() {
             @Override
             public void onSentProfComment() {
@@ -163,6 +198,13 @@ public class ActivitySendCommentProf extends AppCompatActivity {
     }
     public void commentSent(){
         Toast.makeText(this, "Comentario enviado!", Toast.LENGTH_SHORT).show();
+        startActivity(
+                intentManager.ConvertIntent(
+                        ActivitySendCommentProf.this,
+                        ActivityProfFrontPageV2.class
+                ).GetIntent()
+        );
+
     }
     private boolean validate(){
         boolean good = false;

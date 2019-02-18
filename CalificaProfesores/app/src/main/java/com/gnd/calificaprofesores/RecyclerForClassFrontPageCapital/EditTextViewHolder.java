@@ -20,6 +20,7 @@ public class EditTextViewHolder extends RecyclerView.ViewHolder {
     public void SetDetails(final EditTextData model, String showText){
         final EditText text =  mView.findViewById(R.id.InputComment);
         text.setHint(showText);
+        text.setText(model.getText());
 
         CheckBox NoOpina = mView.findViewById(R.id.CheckBoxNoOpinar);
         CheckBox EsAnonimo = mView.findViewById(R.id.CheckBoxAnonimo);
@@ -37,8 +38,20 @@ public class EditTextViewHolder extends RecyclerView.ViewHolder {
                     text.setCursorVisible(true);
                     text.setFocusableInTouchMode(true);
                 }
+                model.setHasText(!isChecked);
             }
         });
+        EsAnonimo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                model.setAnonimo(isChecked);
+            }
+        });
+        //model.setHasText(true);
+        //model.setAnonimo(false);
         model.setEditable(text.getText());
+        NoOpina.setChecked(!model.isHasText());
+        EsAnonimo.setChecked(model.isAnonimo());
+
     }
 }

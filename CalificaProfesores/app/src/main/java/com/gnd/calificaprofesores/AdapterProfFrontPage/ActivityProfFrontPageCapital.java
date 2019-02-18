@@ -10,9 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.gnd.calificaprofesores.IntentsManager.IntentProfManager;
+import com.gnd.calificaprofesores.NetworkHandler.UserDataManager;
+import com.gnd.calificaprofesores.NetworkProfOpinion.GotProfQualListener;
+import com.gnd.calificaprofesores.NetworkProfOpinion.ProfCommentsDataManager;
 import com.gnd.calificaprofesores.R;
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.Adapter;
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.ProfessorData;
+import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.ShownQualData;
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.StarsData;
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.TitleData;
 
@@ -20,8 +25,15 @@ import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.TitleData;
 
 public class ActivityProfFrontPageCapital extends Fragment {
     private View mView;
-    RecyclerView recyclerView;
-    Adapter myAdapter;
+    private RecyclerView recyclerView;
+    private Adapter myAdapter;
+    private IntentProfManager intentProfManager;
+    private ViewGroup placeholder;
+    private ViewGroup mContainer;
+    private UserDataManager userData;
+    private LayoutInflater mLayoutInflater;
+
+    ProfCommentsDataManager profCommentsDataManager;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,29 +41,53 @@ public class ActivityProfFrontPageCapital extends Fragment {
     }
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.layout_recycler_view,container,false);
+    public View onCreateView(
+            @NonNull LayoutInflater inflater,
+            @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
+
+        mView = inflater.inflate(R.layout.layout_loading_icon,container,false);
+        placeholder = (ViewGroup)mView;
+        mContainer = container;
+        mLayoutInflater = inflater;
+
+        intentProfManager = new IntentProfManager();
+
+        profCommentsDataManager = new ProfCommentsDataManager(intentProfManager.GetProfId());
+
+        profCommentsDataManager.AddOnGotQualListener(new GotProfQualListener() {
+            @Override
+            public void onGotProfQualListener(long conocimiento, long clases, long amabilidad) {
+                SetLoaded(
+                        (int)conocimiento,
+                        (int)amabilidad,
+                        (int)clases
+                );
+            }
+        });
+
+        profCommentsDataManager.RequestProfQual();
+
+        return mView;
+
+    }
+    public void SetLoaded(int conocimiento, int amabilidad, int clases){
+
+        mView = mLayoutInflater.inflate(R.layout.layout_recycler_view, mContainer, false);
+        placeholder.removeAllViews();
+        placeholder.addView(mView);
+
         recyclerView = mView.findViewById(R.id.RecyclerView);
 
         myAdapter = new Adapter();
         recyclerView.setAdapter(myAdapter);
 
         myAdapter.AddElement(new TitleData("CALIFICACIÓN GENERAL"));
-        myAdapter.AddElement(new StarsData(3f));
-
-        myAdapter.AddElement(new TitleData("PERCEPCIÓN POR MATERIA"));
-        myAdapter.AddElement(new ProfessorData("Física I",1.0f,0.5f,0.25f));
-        myAdapter.AddElement(new ProfessorData("Física II",1.0f,0.5f,0.25f));
-        myAdapter.AddElement(new ProfessorData("Met. Del Aprendizaje",0.5f,0.5f,0.67f));
-        myAdapter.AddElement(new ProfessorData("Organización Industrial",1.0f,0.5f,0.25f));
-
-
+        myAdapter.AddElement(new StarsData((conocimiento+amabilidad+clases)/3f));
+        myAdapter.AddElement(new ShownQualData(conocimiento,amabilidad,clases));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        //recyclerView.setHasFixedSize(true);
+
 
         myAdapter.notifyDataSetChanged();
-
-        return mView;
-
     }
 }

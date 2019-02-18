@@ -67,7 +67,10 @@ public class UserDataManager {
 
     public void ListenForUserProfComment(Long ProfId){
         String uid = FirebaseAuth.getInstance().getUid();
-        mDatabase.child("OpinoinesProf/"+ProfId).child(uid).addListenerForSingleValueEvent(
+        mDatabase.child("OpinionesProf")
+                .child(Long.toString(ProfId))
+                .child(uid)
+                .addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     List<UserProfComment> comments = new ArrayList<>();
                     @Override
@@ -79,16 +82,21 @@ public class UserDataManager {
                             for (DataSnapshot child : dataSnapshot.child("materias").getChildren()){
                                 materias.put(child.getKey(), (String)child.getValue());
                             }
-                            mGotUserProfCommentListener.onGotUserProfComments(true,
-                                    new UserProfComment(
-                                            (String)dataSnapshot.child("author").getValue(),
-                                            (String)dataSnapshot.child("content").getValue(),
-                                            materias,
-                                            (Map)dataSnapshot.child("timestamp").getValue(),
-                                            (Long)dataSnapshot.child("amabilidad").getValue(),
-                                            (Long)dataSnapshot.child("conocimiento").getValue(),
-                                            (Long)dataSnapshot.child("clases").getValue()
-                                    ));
+                            UserProfComment comment = new UserProfComment(
+                                    (String) dataSnapshot.child("author").getValue(),
+                                    (String) dataSnapshot.child("content").getValue(),
+                                    materias,
+                                    new TreeMap<String, String>(),
+                                    (Long) dataSnapshot.child("amabilidad").getValue(),
+                                    (Long) dataSnapshot.child("conocimiento").getValue(),
+                                    (Long) dataSnapshot.child("clases").getValue(),
+                                    (boolean) dataSnapshot.child("anonimo").getValue(),
+                                    (boolean) dataSnapshot.child("conTexto").getValue()
+                            );
+                            comment.setTimestamp_long((long)dataSnapshot.child("timestamp").getValue());
+                            mGotUserProfCommentListener.onGotUserProfComments(
+                                    true,
+                                    comment);
                         }else{
                             mGotUserProfCommentListener.onGotUserProfComments(false, null);
                         }
