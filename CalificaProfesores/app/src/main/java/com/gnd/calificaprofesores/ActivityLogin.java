@@ -115,6 +115,11 @@ public class ActivityLogin extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
+        if (mAuth.getCurrentUser() != null){
+            Intent intent = new Intent(ActivityLogin.this, ActivityUser.class);
+            startActivity(intent);
+        }
+
         googleSignInButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
