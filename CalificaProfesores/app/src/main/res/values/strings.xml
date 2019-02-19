@@ -91,4 +91,10 @@
     <string name="TextCalificar">CALIFICAR</string>
     <string name="TextAnonimidad">ANÓNIMO</string>
     <string name="NoOpinarText">NO OPINAR</string>
+    <string name="SearchTextMateria">BUSCAR MATERIA</string>
+    <string name="SearchTextProfesor">BUSCAR PROFESOR</string>
+    <string name="TextNovedades">NOVEDADES</string>
+    <string name="facebook_app_id">376783766453849</string>
+    <string name="fb_login_protocol_scheme">fb376783766453849</string>
+
 </resources>

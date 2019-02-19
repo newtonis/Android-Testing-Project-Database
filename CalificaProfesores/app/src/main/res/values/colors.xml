@@ -6,6 +6,7 @@
 
     <color name="score_color">#B7B097</color>
     <color name="background_color">#f1f3c3</color>
+    <color name="light_background_color">#E6ECE2</color>
     <color name="CA_color_a">#6FD93E</color>
     <color name="CA_color_b">#FFFFFF</color>
     <color name="CE_color_a">#4060FF</color>

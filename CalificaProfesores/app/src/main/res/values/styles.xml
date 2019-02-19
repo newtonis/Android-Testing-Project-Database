@@ -23,4 +23,11 @@
         <item name="android:textAlignment">center</item>
         <item name="android:textColor">@color/browser_actions_title_color</item>
     </style>
+
+    <style name="FacebookLoginButton">
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+    </style>
 </resources>

@@ -8,6 +8,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 
+import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.gnd.calificaprofesores.R;
 import com.pnikosis.materialishprogress.ProgressWheel;
 import com.rey.material.widget.ProgressView;
@@ -22,10 +23,9 @@ public class ProfessorItemViewHolder extends RecyclerView.ViewHolder {
         mView = _mView;
     }
     public void SetDetails(String ProfessorName, Float Conocimiento, Float Clases, Float Amabilidad){
-        ProgressBar conocimiento = mView.findViewById(R.id.ProgressConocimiento);
-        ProgressBar clases = mView.findViewById(R.id.ProgressClases);
-        ProgressBar amabilidad = mView.findViewById(R.id.ProgressAmabilidad);
-
+        RoundCornerProgressBar conocimiento = mView.findViewById(R.id.progress_2);
+        RoundCornerProgressBar clases = mView.findViewById(R.id.progress_1);
+        RoundCornerProgressBar amabilidad = mView.findViewById(R.id.progress_3);
 
         conocimiento.setMax(100);
         conocimiento.setProgress(Math.round(Conocimiento*100f));
@@ -38,10 +38,10 @@ public class ProfessorItemViewHolder extends RecyclerView.ViewHolder {
 
         float average = (Conocimiento+Clases+Amabilidad)/3;
 
-        RatingBar score = (RatingBar)mView.findViewById(R.id.RatingBar);
+        RatingBar score = mView.findViewById(R.id.RatingBar);
         score.setRating(average * 5f);
 
-        TextView titulo = (TextView)mView.findViewById(R.id.ProfessorName);
+        TextView titulo = mView.findViewById(R.id.ProfessorName);
         titulo.setText(ProfessorName);
     }
 

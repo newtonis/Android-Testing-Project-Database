@@ -62,6 +62,9 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             case 8:
                 itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_scores, viewGroup, false);
                 return new ShownQualViewHolder(itemView);
+            case 9:
+                itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_news_item, viewGroup, false);
+                return new NewsItemViewHolder(itemView);
         }
         return null;
     }
@@ -126,6 +129,15 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     element.getConocimiento(),
                     element.getAmabilidad(),
                     element.getClases()
+            );
+        }else if(dataItem.GetType() == 9){
+            NewsItemData element = (NewsItemData) dataItem;
+            NewsItemViewHolder holder = (NewsItemViewHolder) viewHolder;
+            holder.setDetails(
+                    element.getTitle(),
+                    element.getContent(),
+                    element.getAuthor(),
+                    element.getTimestamp()
             );
         }
 

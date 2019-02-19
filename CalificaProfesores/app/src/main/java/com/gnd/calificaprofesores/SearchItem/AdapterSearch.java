@@ -34,8 +34,8 @@ public class AdapterSearch extends RecyclerView.Adapter<SearchItemViewHolder> {
     public void onBindViewHolder(@NonNull SearchItemViewHolder opinionItemViewHolder, int i) {
         UniData dataItem = SearchItems.get(i);
 
-        opinionItemViewHolder.setDetails(dataItem.GetUniShortName(), dataItem.GetUniShownName(), 0L);
-        opinionItemViewHolder.mView.setOnClickListener(dataItem.GetClickListener());
+        opinionItemViewHolder.setDetails(dataItem.GetClickListener(),dataItem.GetUniShortName(), dataItem.GetUniShownName(), 0L);
+
     }
 
     @Override

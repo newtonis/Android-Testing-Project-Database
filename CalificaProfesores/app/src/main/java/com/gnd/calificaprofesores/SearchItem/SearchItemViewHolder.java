@@ -19,7 +19,7 @@ public class SearchItemViewHolder extends RecyclerView.ViewHolder{
 
     }
 
-    public void setDetails(String name, String details, Long score){
+    public void setDetails(View.OnClickListener listener,String name, String details, Long score){
         TextView mAuthorText = mView.findViewById(R.id.Title);
         TextView mCommentText = mView.findViewById(R.id.Detail);
         RatingBar mScore = mView.findViewById(R.id.ratingBar); // no se usa por el momento
@@ -28,6 +28,8 @@ public class SearchItemViewHolder extends RecyclerView.ViewHolder{
 
         mCommentText.setText(details);
         mScore.setRating( score.floatValue() / 2f);
+
+        mView.findViewById(R.id.Content).setOnClickListener(listener);
     }
 
 }

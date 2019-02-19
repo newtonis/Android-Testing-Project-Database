@@ -2,12 +2,22 @@ package com.gnd.calificaprofesores;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.balysv.materialmenu.MaterialMenuView;
+import com.gnd.calificaprofesores.MenuManager.MenuManager;
+import com.gnd.calificaprofesores.NetworkNewsHandler.GotNewsListener;
+import com.gnd.calificaprofesores.NetworkNewsHandler.NetworkNewsHandler;
+import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.Adapter;
+import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.NewsItemData;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -18,93 +28,61 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.pnikosis.materialishprogress.ProgressWheel;
 
+import java.util.List;
+
+/** activity_user.xml **/
 
 public class ActivityUser extends AppCompatActivity {
-    private FirebaseAuth mAuth;
-    private static GoogleApiClient mGoogleApiClient;
-    private static GoogleSignInClient mGoogleSignInClient;
+    private MenuManager menuManager;
+    private Adapter adapter;
+    private RecyclerView recyclerView;
+    private ProgressWheel progressWheel;
+
+    private NetworkNewsHandler networkNewsHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
 
+        recyclerView = findViewById(R.id.RecyclerView);
+        progressWheel = findViewById(R.id.LoadingIcon);
+        progressWheel.bringToFront();
 
 
-        mAuth = FirebaseAuth.getInstance();
+        adapter = new Adapter();
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        networkNewsHandler = new NetworkNewsHandler();
 
-
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
-                    @Override
-                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-                    }
-                })
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
-
-
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
-
-        TextView welcomeText = findViewById(R.id.welcomeText);
-
-        String username;
-        if (!user.isAnonymous()){
-            username = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-        }else{
-            username = "invitado";
-        }
-
-        welcomeText.setText("Bienvenido, "+username);
-
-        Button searchProfesorButton = findViewById(R.id.SerachProfessor);
-
-        searchProfesorButton.setOnClickListener(new View.OnClickListener() {
+        networkNewsHandler.setGotNewsListener(new GotNewsListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ActivityUser.this, ActivitySearchProfessor.class);
-                startActivity(intent);
+            public void onGotNews(List<NewsItemData> news) {
+                SetLoaded();
+
+                for (NewsItemData newsItem : news){
+                    adapter.AddElement(newsItem);
+                }
+                adapter.notifyDataSetChanged();
+                SetLoaded();
             }
         });
+        networkNewsHandler.ListenForNews();
 
-        Button searchClassButton = findViewById(R.id.SearchClass);
+        menuManager = new MenuManager(
+                this,
+                (MaterialMenuView)findViewById(R.id.MaterialMenuButton),
+                (DrawerLayout)findViewById(R.id.DrawerLayout));
 
-        searchClassButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                Intent intent = new Intent(ActivityUser.this, ActivitySelectUni.class);
-                startActivity(intent);
-            }
-        });
-
-        /*** Logout function ***/
-        Button exitButton = findViewById(R.id.ButtonExit);
-
-        exitButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                mAuth.signOut();
-
-                mGoogleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Intent intent = new Intent(ActivityUser.this, ActivityLogin.class);
-                        startActivity(intent);
-                    }
-                });
-
-            }
-        });
-        /*** end logout function ***/
-
+        SetLoading();
+    }
+    private void SetLoading(){
+        progressWheel.setVisibility(View.VISIBLE);
+    }
+    private void SetLoaded(){
+        progressWheel.setVisibility(View.INVISIBLE);
     }
 }

@@ -23,27 +23,27 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/ButtonBuscar"
+        android:id="@+id/buttonBuscarProfesor"
         android:layout_width="200dp"
         android:layout_height="48dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/alfa_slab_one"
-        android:text="@string/SearchText"
+        android:text="@string/SearchTextProfesor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ButtonEditarPerfil" />
+        app:layout_constraintTop_toBottomOf="@+id/ButtonBuscarMateria" />
 
     <Button
-        android:id="@+id/ButtonEditarPerfil"
+        android:id="@+id/ButtonBuscarMateria"
         android:layout_width="200dp"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="232dp"
+        android:layout_marginTop="256dp"
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/alfa_slab_one"
-        android:text="@string/EditProfileText"
+        android:text="@string/SearchTextMateria"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -58,18 +58,6 @@
         android:text="@string/TextSalir"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ButtonAgregar" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonBuscarProfesor" />
 
-    <Button
-        android:id="@+id/ButtonAgregar"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="8dp"
-        android:fontFamily="@font/alfa_slab_one"
-        android:text="@string/AddMat"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ButtonBuscar" />
 </android.support.constraint.ConstraintLayout>

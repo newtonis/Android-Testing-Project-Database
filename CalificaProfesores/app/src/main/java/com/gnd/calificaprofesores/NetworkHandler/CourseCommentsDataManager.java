@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.gnd.calificaprofesores.NetworkProfOpinion.ProfExtendedData;
 import com.gnd.calificaprofesores.OpinionItem.CourseComment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -16,6 +17,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.Vector;
 
 public class CourseCommentsDataManager {
@@ -23,6 +26,8 @@ public class CourseCommentsDataManager {
     private DatabaseReference mDatabase;
     private long CourseId;
     private String CourseName;
+    private GotCourseInfoListener gotCourseDataListener;
+    private Integer count;
 
     public CourseCommentsDataManager(Long _CourseId, String _CourseName){
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -76,22 +81,90 @@ public class CourseCommentsDataManager {
         });
     }
 
-    public void AddOnGotCourseDataListener(final Long CourseId, final GotCourseInfoListener listener){
+    public void ListenForCourseDetailedData(){
 
         mDatabase.child("Materias/"+CourseId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                listener.onGotCourseInfo(new CourseData(
+                CourseData courseData = new CourseData(
                         CourseId,
                         (String)dataSnapshot.child("ShownName").getValue(),
                         (String)dataSnapshot.child("FacultadName").getValue()
-                ));
+                );
+
+                List<ProfExtendedData> profData = new ArrayList<>();
+
+                for (DataSnapshot child : dataSnapshot.child("Prof").getChildren()){
+                    profData.add(new ProfExtendedData(
+                            Long.parseLong(child.getKey()),
+                            (String)child.getValue()
+                    ));
+                }
+                courseData.setProfessors(profData);
+
+                long totalScore = (long)dataSnapshot.child("totalScore").getValue();
+                long count = (long)dataSnapshot.child("count").getValue();
+
+                if (count != 0) {
+                    courseData.setScore((float) totalScore / count);
+                }else{
+                    courseData.setScore(-1f);
+                }
+
+                CallForProfessorsScores(courseData);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                listener.onFailed();
+                gotCourseDataListener.onFailed();
             }
         });
+    }
+    public void CallForProfessorsScores(final CourseData courseData){
+        count = 0;
+
+        for (final ProfExtendedData prof : courseData.getProfessors()){
+            mDatabase
+                    .child("Prof")
+                    .child(Long.toString(prof.getId()))
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            long sumAmabilidad = (long)dataSnapshot.child("amabilidad").getValue();
+                            long sumClases = (long)dataSnapshot.child("clases").getValue();
+                            long sumConocimiento = (long)dataSnapshot.child("conocimiento").getValue();
+                            long count = (long)dataSnapshot.child("count").getValue();
+
+                            if (count != 0) {
+                                prof.setAmabildiad( (float)sumAmabilidad / count);
+                                prof.setClases((float)sumClases / count);
+                                prof.setConocimiento((float)sumConocimiento / count);
+                            }else{
+                                prof.setAmabildiad(-1f);
+                                prof.setClases(-1f);
+                                prof.setConocimiento(-1f);
+                            }
+                            count ++;
+
+                            if (count == courseData.getProfessors().size()){
+                                gotCourseDataListener.onGotCourseInfo(courseData);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+        }
+
+    }
+
+    public GotCourseInfoListener getGotCourseDataListener() {
+        return gotCourseDataListener;
+    }
+
+    public void setGotCourseDataListener(GotCourseInfoListener gotCourseDataListener) {
+        this.gotCourseDataListener = gotCourseDataListener;
     }
 }
