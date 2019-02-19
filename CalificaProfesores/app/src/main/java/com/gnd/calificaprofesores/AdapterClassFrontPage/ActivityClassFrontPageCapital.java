@@ -1,16 +1,23 @@
 package com.gnd.calificaprofesores.AdapterClassFrontPage;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.content.Intent;
 
+import com.gnd.calificaprofesores.ActivityOpinarMateria;
+import com.gnd.calificaprofesores.ActivityProfFrontPageV2;
+import com.gnd.calificaprofesores.AdapterProfFrontPage.ActivityOpinion;
 import com.gnd.calificaprofesores.IntentsManager.IntentCourseManager;
+import com.gnd.calificaprofesores.IntentsManager.IntentProfManager;
 import com.gnd.calificaprofesores.NetworkHandler.ClassDataManager;
 import com.gnd.calificaprofesores.NetworkHandler.CourseCommentsDataManager;
 import com.gnd.calificaprofesores.NetworkHandler.CourseData;
@@ -21,6 +28,8 @@ import com.gnd.calificaprofesores.OpinionItem.CourseComment;
 import com.gnd.calificaprofesores.R;
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.Adapter;
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.AdapterElement;
+import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.NoInfoData;
+import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.OpinionProfData;
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.ProfessorData;
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.StarsData;
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.TitleData;
@@ -53,7 +62,7 @@ public class ActivityClassFrontPageCapital extends Fragment {
         mContainer = container;
         placeholder = (ViewGroup)mView;
         mLayoutInflater = inflater;
-        CourseManager = new IntentCourseManager();
+        CourseManager = new IntentCourseManager(getActivity().getIntent());
 
         dataManager = new CourseCommentsDataManager(
                 CourseManager.GetCourseId(),CourseManager.GetCourseName()
@@ -84,37 +93,67 @@ public class ActivityClassFrontPageCapital extends Fragment {
 
         myAdapter = new Adapter();
         recyclerView.setAdapter(myAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setHasFixedSize(true);
 
-
-        //myAdapter.AddElement(new StarsData(3f));myAdapter.AddElement(new TitleData("CALIFICACIÓN GENERAL"));
+        myAdapter.AddElement(new TitleData("CALIFICACIÓN GENERAL"));
         if (course.getScore() != -1f) {
             myAdapter.AddElement(new StarsData(course.getScore()));
         }else{
-            myAdapter.AddElement(new TitleData("No hay información de la calificación"));
+            //myAdapter.AddElement(new TitleData("No hay información de la calificación"));
+            myAdapter.AddElement(new NoInfoData(
+                    "No hay opiniones",
+                    "¡SÉ EL PRIMERO!",
+                    new View.OnClickListener(){
+                        @Override
+                        public void onClick(View v) {
+                            startActivity(
+                                    CourseManager.ConvertIntent(
+                                            getContext(),
+                                            ActivityOpinarMateria.class
+                                    ).GetIntent()
+                            );
+                        }
+                    }
+            ));
         }
 
         myAdapter.AddElement(new TitleData("PROFESORES"));
 
         if (course.getProfessors().size() == 0) {
-            myAdapter.AddElement(new TitleData("No hay información de profesores registrada"));
+            myAdapter.AddElement(new NoInfoData(
+                    "No hay información de profesores",
+                    "AGREGAR PROFESOR",
+                    new View.OnClickListener(){
+                        @Override
+                        public void onClick(View v) {
+
+                        }
+                    }
+            ));
         }else{
-            for (ProfExtendedData prof : course.getProfessors()){
-                myAdapter.AddElement(new ProfessorData(
+            for (final ProfExtendedData prof : course.getProfessors()){
+                ProfessorData profData = new ProfessorData(
                         prof.getName(),
                         prof.getConocimiento(),
                         prof.getClases(),
                         prof.getAmabildiad()
-                ));
+                );
+                profData.setClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        IntentProfManager profManager = new IntentProfManager(
+                                new Intent(getContext(), ActivityProfFrontPageV2.class),
+                                prof.getName(),
+                                prof.getId()
+                        );
+                        startActivity(profManager.GetIntent());
+                    }
+                });
+                myAdapter.AddElement(profData);
+
             }
         }
-        //myAdapter.AddElement(new ProfessorData("James Watt",1.0f,0.5f,0.25f));
-        //myAdapter.AddElement(new ProfessorData("Albert Einstein",1.0f,0.5f,0.25f));
-        //myAdapter.AddElement(new ProfessorData("Tiger Wood",0.5f,0.5f,0.67f));
-
-        //myAdapter.AddElement(new ProfessorData("Albert Einstein",1.0f,0.5f,0.25f));
-
-        //recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        //recyclerView.setHasFixedSize(true);
 
         myAdapter.notifyDataSetChanged();
     }

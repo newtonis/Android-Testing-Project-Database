@@ -12,6 +12,8 @@ import org.w3c.dom.Text;
 
 import java.io.Console;
 
+/** search_list_element.xml **/
+
 public class SelectableItemViewHolder extends RecyclerView.ViewHolder {
     private View mView;
     public SelectableItemViewHolder(View _mView){

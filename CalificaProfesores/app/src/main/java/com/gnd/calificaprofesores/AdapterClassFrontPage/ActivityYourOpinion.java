@@ -59,7 +59,8 @@ public class ActivityYourOpinion extends Fragment {
         mContainer = container;
         mLayoutInflater = inflater;
         //placeholder = new Placeholder();
-        CourseManager = new IntentCourseManager();
+        CourseManager = new IntentCourseManager(getActivity().getIntent());
+
         UserDataManager userData = new UserDataManager();
 
         Long CourseId = CourseManager.GetCourseId();

@@ -22,7 +22,13 @@ public class ProfessorItemViewHolder extends RecyclerView.ViewHolder {
         super(_mView);
         mView = _mView;
     }
-    public void SetDetails(String ProfessorName, Float Conocimiento, Float Clases, Float Amabilidad){
+    public void SetDetails(
+            String ProfessorName,
+            Float Conocimiento,
+            Float Clases,
+            Float Amabilidad,
+            View.OnClickListener listener){
+
         RoundCornerProgressBar conocimiento = mView.findViewById(R.id.progress_2);
         RoundCornerProgressBar clases = mView.findViewById(R.id.progress_1);
         RoundCornerProgressBar amabilidad = mView.findViewById(R.id.progress_3);
@@ -43,8 +49,9 @@ public class ProfessorItemViewHolder extends RecyclerView.ViewHolder {
 
         TextView titulo = mView.findViewById(R.id.ProfessorName);
         titulo.setText(ProfessorName);
+
+        mView.findViewById(R.id.Content)
+                .setOnClickListener(listener);
     }
-
-
 
 }

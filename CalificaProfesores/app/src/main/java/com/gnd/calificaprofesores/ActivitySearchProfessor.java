@@ -145,60 +145,6 @@ public class ActivitySearchProfessor extends AppCompatActivity {
 
     protected void firebaseProfSearch(String searchText){
         searchProfHandler.Search(searchText);
-
-        //Toast.makeText(ActivityProfessorList.this, "Started Search", Toast.LENGTH_LONG).show();
-
-        /*Query firebaseSearchQuery = mUserDatabase
-                .orderByChild("Name").startAt(searchText).endAt(searchText + "\uf8ff");
-
-        FirebaseRecyclerOptions<BasicListItem> options =
-                new FirebaseRecyclerOptions.Builder<BasicListItem>()
-                        .setQuery(firebaseSearchQuery, new SnapshotParser<BasicListItem>(){
-                            @NonNull
-                            @Override
-                            public BasicListItem parseSnapshot(DataSnapshot snapshot) {
-                                String details = "";
-                                for (final DataSnapshot postSnapshot : snapshot.child("Facultades").getChildren()) {
-                                    details += (String)postSnapshot.getValue();
-                                    details += "   ";
-                                }
-
-                                return new BasicListItem((String)snapshot.child("Name").getValue(), details,Long.parseLong(snapshot.getKey()));
-                            }
-                        })
-                        .build();
-
-        FirebaseRecyclerAdapter adapter = new FirebaseRecyclerAdapter<BasicListItem,ListItemViewHolder>(options) {
-            @Override
-            protected void onBindViewHolder(final ListItemViewHolder holder, int position, BasicListItem model) {
-                holder.setDetails(getApplicationContext(), model.getName(),model.getDetail());
-                final String professorName = model.getName();
-                final Long professorId = model.getId();
-
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(ActivitySearchProfessor.this, ActivityProfesorFrontPage.class);
-                        intent.putExtra("ProfessorName",professorName);
-                        intent.putExtra("ProfessorId",professorId);
-
-                        startActivity(intent);
-                    }
-                });
-
-
-            }
-
-            @Override
-            public ListItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.search_list_element, parent, false);
-
-                return new ListItemViewHolder(view);
-            }
-        };
-        mResultList.setAdapter(adapter);
-        adapter.startListening();*/
     }
     private void SetLoading(){
         progressWheel.setVisibility(View.VISIBLE);

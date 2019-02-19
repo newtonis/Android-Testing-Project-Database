@@ -96,5 +96,7 @@
     <string name="TextNovedades">NOVEDADES</string>
     <string name="facebook_app_id">376783766453849</string>
     <string name="fb_login_protocol_scheme">fb376783766453849</string>
+    <string name="NoHayInfoText">No hay información</string>
+    <string name="SeElPrimeroText">¡SE EL PRIMERO!</string>
 
 </resources>

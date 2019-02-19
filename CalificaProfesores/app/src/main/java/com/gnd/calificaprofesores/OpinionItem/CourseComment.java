@@ -8,6 +8,7 @@ public class CourseComment {
     private String author, content;
     private Long valoracion, likes;
     private Map timestamp;
+    private Long timestampLong;
     public CourseComment(String author, String content, Long valoracion, Long likes){
         this.likes = likes;
         this.author = author;
@@ -15,6 +16,15 @@ public class CourseComment {
         this.valoracion = valoracion;
         this.timestamp = null;
     }
+
+    public Long getTimestampLong() {
+        return timestampLong;
+    }
+
+    public void setTimestampLong(Long timestampLong) {
+        this.timestampLong = timestampLong;
+    }
+
     public void SetTimestamp(Map timestamp){
         this.timestamp = timestamp;
     }

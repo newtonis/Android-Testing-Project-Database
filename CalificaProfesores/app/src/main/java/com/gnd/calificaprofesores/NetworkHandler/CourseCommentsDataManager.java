@@ -27,6 +27,8 @@ public class CourseCommentsDataManager {
     private long CourseId;
     private String CourseName;
     private GotCourseInfoListener gotCourseDataListener;
+    private GotCommentListener gotCommentListener;
+
     private Integer count;
 
     public CourseCommentsDataManager(Long _CourseId, String _CourseName){
@@ -34,34 +36,42 @@ public class CourseCommentsDataManager {
         CourseId = _CourseId;
         CourseName = _CourseName;
     }
-    public void AddOnGotCommentListener(final GotCommentListener listener){
+    public void listenForComments(){
 
-        mDatabase.child("OpinionesMaterias/"+Long.toString(CourseId))
+        mDatabase.child("OpinionesMaterias")
+                .child(Long.toString(CourseId))
                 .orderByChild("timestamp")
                 .limitToFirst(20)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<CourseComment> comments = new ArrayList<>();
                 for (final DataSnapshot postSnapshot : dataSnapshot.getChildren()){
                     // fix pendiente
                     final Long valoracion = (Long) postSnapshot.child("valoracion").getValue();
-                    final String uid = (String) postSnapshot.getKey();
+                    final String author = (String) postSnapshot.child("author").getValue();
                     final String contenido = (String) postSnapshot.child("content").getValue();
-                    final Long likes = (Long) postSnapshot.child("likes").getValue();
+                    final Long timestamp = (Long) postSnapshot.child("timestamp").getValue();
 
-                    UserDataManager userData = new UserDataManager();
-                    userData.AddGotUserProfileData(uid, new GotUserExtraDataListener() {
-                        @Override
-                        public void gotExtraData(UserExtraData extraData) {
-                            listener.onGotComment(new CourseComment(extraData.GetShownName(), contenido, valoracion, likes));
-                        }
-                    });
+                    CourseComment comment = new CourseComment(
+                            author,
+                            contenido,
+                            valoracion,
+                            0L
+                    );
+                    comment.setTimestampLong(
+                            timestamp
+                    );
+
+                    comments.add(comment);
                 }
+
+                gotCommentListener.onGotComment(comments);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                listener.onCancelled(databaseError);
+                gotCommentListener.onCancelled(databaseError);
             }
         });
 
@@ -83,7 +93,10 @@ public class CourseCommentsDataManager {
 
     public void ListenForCourseDetailedData(){
 
-        mDatabase.child("Materias/"+CourseId).addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.
+                child("Materias").
+                child(Long.toString(CourseId))
+                .addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 CourseData courseData = new CourseData(
@@ -123,30 +136,30 @@ public class CourseCommentsDataManager {
     public void CallForProfessorsScores(final CourseData courseData){
         count = 0;
 
-        for (final ProfExtendedData prof : courseData.getProfessors()){
+        for (final ProfExtendedData prof : courseData.getProfessors()) {
             mDatabase
                     .child("Prof")
                     .child(Long.toString(prof.getId()))
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            long sumAmabilidad = (long)dataSnapshot.child("amabilidad").getValue();
-                            long sumClases = (long)dataSnapshot.child("clases").getValue();
-                            long sumConocimiento = (long)dataSnapshot.child("conocimiento").getValue();
-                            long count = (long)dataSnapshot.child("count").getValue();
+                            long sumAmabilidad = (long) dataSnapshot.child("amabilidad").getValue();
+                            long sumClases = (long) dataSnapshot.child("clases").getValue();
+                            long sumConocimiento = (long) dataSnapshot.child("conocimiento").getValue();
+                            long count_value = (long) dataSnapshot.child("count").getValue();
 
                             if (count != 0) {
-                                prof.setAmabildiad( (float)sumAmabilidad / count);
-                                prof.setClases((float)sumClases / count);
-                                prof.setConocimiento((float)sumConocimiento / count);
-                            }else{
+                                prof.setAmabildiad((float) sumAmabilidad / count_value);
+                                prof.setClases((float) sumClases / count_value);
+                                prof.setConocimiento((float) sumConocimiento / count_value);
+                            } else {
                                 prof.setAmabildiad(-1f);
                                 prof.setClases(-1f);
                                 prof.setConocimiento(-1f);
                             }
-                            count ++;
+                            count++;
 
-                            if (count == courseData.getProfessors().size()){
+                            if (count == courseData.getProfessors().size()) {
                                 gotCourseDataListener.onGotCourseInfo(courseData);
                             }
                         }
@@ -166,5 +179,13 @@ public class CourseCommentsDataManager {
 
     public void setGotCourseDataListener(GotCourseInfoListener gotCourseDataListener) {
         this.gotCourseDataListener = gotCourseDataListener;
+    }
+
+    public GotCommentListener getGotCommentListener() {
+        return gotCommentListener;
+    }
+
+    public void setGotCommentListener(GotCommentListener gotCommentListener) {
+        this.gotCommentListener = gotCommentListener;
     }
 }

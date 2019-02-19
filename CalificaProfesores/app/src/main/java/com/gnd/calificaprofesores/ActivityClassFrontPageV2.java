@@ -1,7 +1,6 @@
 package com.gnd.calificaprofesores;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +14,7 @@ import com.astuetz.PagerSlidingTabStrip;
 import com.balysv.materialmenu.MaterialMenuView;
 import com.gnd.calificaprofesores.AdapterClassFrontPage.AdapterClassFrontPage;
 
+import com.gnd.calificaprofesores.IntentsManager.IntentCourseManager;
 import com.gnd.calificaprofesores.MenuManager.MenuManager;
 import com.gnd.calificaprofesores.R;
 
@@ -41,6 +41,7 @@ public class ActivityClassFrontPageV2 extends AppCompatActivity {
     private static Long CourseId;
 
     private Toolbar toolbar;
+    private IntentCourseManager intent;
 
     private MenuManager menuManager;
 
@@ -52,13 +53,17 @@ public class ActivityClassFrontPageV2 extends AppCompatActivity {
         toolbar = findViewById(R.id.Toolbar);
         // CourseName
         // CourseId
-        Intent intent = getIntent();
-        CourseName = "Física I"; //intent.getStringExtra("CourseName");
-        CourseId = 1L; //intent.getLongExtra("CourseId", 1L);
+        intent = new IntentCourseManager(getIntent());
+
+        CourseName = intent.GetCourseName();
+        CourseId = intent.GetCourseId();
 
 
         TextView title = findViewById(R.id.TextBuscarCurso);
         title.setText(CourseName);
+
+        TextView uniDetail = findViewById(R.id.UniversityText);
+        uniDetail.setText(intent.getUniName());
 
         /// Tabs and pager managment
 

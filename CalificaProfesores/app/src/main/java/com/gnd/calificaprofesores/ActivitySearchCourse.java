@@ -133,7 +133,7 @@ public class ActivitySearchCourse extends AppCompatActivity {
                             Intent intent = new Intent(ActivitySearchCourse.this, ActivityClassFrontPageV2.class);
                             intent.putExtra("CourseName",course.GetShownName());
                             intent.putExtra("CourseId",course.GetId());
-
+                            intent.putExtra("UniName",course.GetDetail());
                             startActivity(intent);
                         }
                     });

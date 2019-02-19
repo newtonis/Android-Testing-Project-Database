@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.gnd.calificaprofesores.NetworkSearchQueriesHandler.UniData;
+import com.gnd.calificaprofesores.OpinionItem.OpinionItemViewHolder;
 import com.gnd.calificaprofesores.R;
 import com.gnd.calificaprofesores.SearchItem.SearchItemViewHolder;
 
@@ -65,6 +66,12 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             case 9:
                 itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_news_item, viewGroup, false);
                 return new NewsItemViewHolder(itemView);
+            case 10:
+                itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_be_the_first, viewGroup, false);
+                return new NoInfoViewHolder(itemView);
+            case 11:
+                itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_opinion, viewGroup, false);
+                return new OpinionCourseViewHolder(itemView);
         }
         return null;
     }
@@ -81,7 +88,13 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }else if (dataItem.GetType() == 1) {
             ProfessorData element = (ProfessorData) dataItem;
             ProfessorItemViewHolder holder = (ProfessorItemViewHolder) viewHolder;
-            holder.SetDetails(element.GetName(),element.GetConocimiento(),element.GetClases(),element.GetAmabilidad());
+            holder.SetDetails(
+                    element.GetName(),
+                    element.GetConocimiento(),
+                    element.GetClases(),
+                    element.GetAmabilidad(),
+                    element.getClickListener()
+            );
 
         }else if(dataItem.GetType() == 2){
             StarsData element = (StarsData) dataItem;
@@ -101,7 +114,12 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }else if(dataItem.GetType() == 5){
             ScoreSelectorData element = (ScoreSelectorData) dataItem;
             ScoreSelectorViewHolder holder = (ScoreSelectorViewHolder) viewHolder;
-            holder.SetDetails(element,   element.GetValue(0), element.GetValue(1), element.GetValue(2));
+            holder.SetDetails(
+                    element,
+                    element.GetValue(0),
+                    element.GetValue(1),
+                    element.GetValue(2)
+            );
 
         }else if(dataItem.GetType() == 6){
             ButtonData element = (ButtonData) dataItem;
@@ -139,8 +157,24 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     element.getAuthor(),
                     element.getTimestamp()
             );
+        }else if(dataItem.GetType() == 10){
+            NoInfoData element = (NoInfoData) dataItem;
+            NoInfoViewHolder holder = (NoInfoViewHolder) viewHolder;
+            holder.setDetails(
+                    element.getTitle(),
+                    element.getButtonText(),
+                    element.getClickListener()
+            );
+        }else if(dataItem.GetType() == 11){
+            OpinionCourseData element = (OpinionCourseData) dataItem;
+            OpinionCourseViewHolder holder = (OpinionCourseViewHolder) viewHolder;
+            holder.setDetails(
+                    element.getAuthor(),
+                    element.getContent(),
+                    element.getScore(),
+                    element.getTimestamp()
+            );
         }
-
         /*opinionItemViewHolder.setDetails(dataItem.GetUniShortName(), dataItem.GetUniShownName(), 0L);
         opinionItemViewHolder.mView.setOnClickListener(dataItem.GetClickListener());*/
     }
