@@ -44,13 +44,17 @@ public class UserDataManager {
                         if (!dataSnapshot.exists()){
                             listener.GotUserComment(false, null);
                         }else{
-                            listener.GotUserComment(true,
-                                    new CourseComment(
-                                            (String)currentFirebaseUser.getDisplayName(),
-                                            (String)dataSnapshot.child("content").getValue(),
-                                            (Long)dataSnapshot.child("likes").getValue(),
-                                            (Long)dataSnapshot.child("valoracion").getValue()
-                                    ));
+                            CourseComment comment = new CourseComment(
+                                    currentFirebaseUser.getDisplayName(),
+                                    (String)dataSnapshot.child("content").getValue(),
+                                    (Long)dataSnapshot.child("valoracion").getValue(),
+                                    (Long)dataSnapshot.child("likes").getValue()
+                            );
+                            comment.setConTexto((boolean)dataSnapshot.child("conTexto").getValue());
+                            comment.setAnonimo((boolean)dataSnapshot.child("anonimo").getValue());
+
+                            listener.GotUserComment(true, comment);
+
                         }
                     }
                     @Override

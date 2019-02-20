@@ -72,6 +72,9 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             case 11:
                 itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_opinion, viewGroup, false);
                 return new OpinionCourseViewHolder(itemView);
+            case 12:
+                itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_stars_selector, viewGroup, false);
+                return new SimpleScoreSelectorViewHolder(itemView);
         }
         return null;
     }
@@ -174,6 +177,10 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     element.getScore(),
                     element.getTimestamp()
             );
+        }else if(dataItem.GetType() == 12){
+            SimpleScoreSelectorData element = (SimpleScoreSelectorData) dataItem;
+            SimpleScoreSelectorViewHolder holder = (SimpleScoreSelectorViewHolder) viewHolder;
+            holder.setDetails(element); // nothing to do, lol!
         }
         /*opinionItemViewHolder.setDetails(dataItem.GetUniShortName(), dataItem.GetUniShownName(), 0L);
         opinionItemViewHolder.mView.setOnClickListener(dataItem.GetClickListener());*/

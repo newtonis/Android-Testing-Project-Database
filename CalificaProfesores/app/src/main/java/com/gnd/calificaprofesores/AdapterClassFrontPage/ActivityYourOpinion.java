@@ -88,12 +88,14 @@ public class ActivityYourOpinion extends Fragment {
         buttonSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(CourseManager.ConvertIntent(mView.getContext(), ActivityOpinarMateria.class ).GetIntent());
+                Intent intent = CourseManager.ConvertIntent(mView.getContext(), ActivityOpinarMateria.class ).GetIntent();
+                intent.putExtra("PrevComment", false);
+                startActivity(intent);
             }
         });
     }
 
-    public void UpdateComment(CourseComment comment) {
+    public void UpdateComment(final CourseComment comment) {
         // suponiendo el usuario ya escribió un cometario de la materia
         mView = mLayoutInflater.inflate(R.layout.layout_your_opinion, mContainer, false);
         placeholder.removeAllViews();
@@ -102,12 +104,7 @@ public class ActivityYourOpinion extends Fragment {
         buttonSend = mView.findViewById(R.id.ButtonOpinar);
         recyclerView = mView.findViewById(R.id.RecyclerView);
 
-        buttonSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(CourseManager.ConvertIntent(mView.getContext(), ActivityOpinarMateria.class).GetIntent());
-            }
-        });
+
         Comments = new ArrayList<>();
         Comments.add(comment);
         // le decimos al adapter los comentarios a mostrar
@@ -119,6 +116,19 @@ public class ActivityYourOpinion extends Fragment {
         recyclerView.setLayoutManager(llm);
         recyclerView.setHasFixedSize(true);
 
+
+        buttonSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = CourseManager.ConvertIntent(mView.getContext(), ActivityOpinarMateria.class).GetIntent();
+                intent.putExtra("PrevComment", true);
+                intent.putExtra("TextContent", comment.getContent());
+                intent.putExtra("IsAnonimo", comment.isAnonimo());
+                intent.putExtra("HasText", comment.isConTexto());
+                intent.putExtra("Score", comment.getValoracion());
+                startActivity(intent);
+            }
+        });
     }
 
 }

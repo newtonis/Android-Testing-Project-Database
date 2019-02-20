@@ -19,6 +19,7 @@ public class IntentCourseManager {
         CourseName = intent.getStringExtra("CourseName");
         CourseId = intent.getLongExtra("CourseId", 1L);
         UniName = intent.getStringExtra("UniName");
+        this.myIntent = intent;
     }
 
     public String getUniName() {
