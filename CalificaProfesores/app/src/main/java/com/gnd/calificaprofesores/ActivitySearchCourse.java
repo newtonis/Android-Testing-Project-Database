@@ -151,7 +151,8 @@ public class ActivitySearchCourse extends AppCompatActivity {
         });
     }
     public void firebaseClassSearch(String searchTextOriginal){
-        searchCourseHandler.Search(searchTextOriginal);
+
+        searchCourseHandler.Search(searchTextOriginal.toLowerCase());
     }
     private void SetLoading(){
         progressWheel.setVisibility(View.VISIBLE);

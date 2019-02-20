@@ -98,7 +98,7 @@ public class ActivityClassFrontPageCapital extends Fragment {
 
         myAdapter.AddElement(new TitleData("CALIFICACIÓN GENERAL"));
         if (course.getScore() != -1f) {
-            myAdapter.AddElement(new StarsData(course.getScore()));
+            myAdapter.AddElement(new StarsData(course.getScore()/2f));
         }else{
             //myAdapter.AddElement(new TitleData("No hay información de la calificación"));
             myAdapter.AddElement(new NoInfoData(

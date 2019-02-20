@@ -4,19 +4,19 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="score_color">#B7B097</color>
-    <color name="background_color">#f1f3c3</color>
-    <color name="light_background_color">#E6ECE2</color>
+    <color name="score_color">#cacaca</color>
+    <color name="background_color">#dcdcdc</color>
+    <color name="light_background_color">#ececec</color>
     <color name="CA_color_a">#6FD93E</color>
-    <color name="CA_color_b">#FFFFFF</color>
+    <color name="CA_color_b">#FFFFFF</color>i
     <color name="CE_color_a">#4060FF</color>
     <color name="CE_color_b">#FFFFFF</color>
     <color name="A_color_a">#FF9940</color>
     <color name="A_color_b">#FFFFFF</color>
-    <color name="MenuColor">#D6CEAF</color>
+    <color name="MenuColor">#b3b3b3</color>
     <color name="BackgroundCard">#C7C1A2</color>
     <color name="White">#FFFFFF</color>
-    <color name="BackgroundRecyclerView">#DFD5A7</color>
+    <color name="BackgroundRecyclerView">#e9e9e9</color>
     <color name="normal_item_bg_color">#FFFFFF</color>
     <color name="focused_item_bg_color">#E0E0E0</color>
     <color name="color_bar_blue">#0099FF</color>

@@ -56,7 +56,7 @@ admin.initializeApp(functions.config().firebase);
 });*/
 
 function getDelta(event, child_name){
-    if (event.before.exist) {
+    if (event.before.exists()) {
         var prev = parseInt(event.before.child(child_name).val());
     }else{
         var prev = 0;
@@ -73,7 +73,10 @@ exports.UpdateProfQual = functions.database.ref("/OpinionesProf/{profId}/{uid}")
         var deltaAmabilidad = getDelta(event, "amabilidad");
         var deltaClases = getDelta(event, "clases");
         var increment;
-        if (event.before.exist){
+
+
+
+        if (event.before.exists()){
             increment = 1;
         }else{
             increment = 0;
@@ -100,6 +103,49 @@ exports.UpdateProfQual = functions.database.ref("/OpinionesProf/{profId}/{uid}")
                     return 0;
                 });
             });
+        return 1;
+    }
+);
+
+
+
+exports.UpdateMatQual = functions.database.ref("/OpinionesMaterias/{matid}/{uid}")
+	.onWrite((event , context) => {
+		var deltaRank = getDelta(event, "valoracion");
+		
+        console.log("before = ",event.before);
+
+		var increment;
+        if (event.before.exists()){
+            increment = 0;
+        }else{
+            increment = 1;
+        }
+        console.log("matid = ", context.params.matid);
+
+        const matDatabase = admin.database().ref('Materias/'+context.params.matid);
+        
+
+        matDatabase.once("value", snapshot => {
+        	console.log("deltaRank = ", deltaRank);
+
+        	console.log("deltaIncrement = ", increment);
+
+        	var totalScore = parseInt(snapshot.child("totalScore").val());
+            var count = parseInt(snapshot.child("count").val());
+
+        	matDatabase.update({
+        		count : count + increment,
+        		totalScore : totalScore + deltaRank
+        	}).then(() => {
+                console.log('Successfully updated database');
+                return 0;
+            }).catch(() => {
+                console.log('Error updating database');
+                return 0;
+            });
+
+        });
         return 1;
     }
 );

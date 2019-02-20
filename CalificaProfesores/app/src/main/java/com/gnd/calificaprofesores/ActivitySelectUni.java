@@ -154,7 +154,7 @@ public class ActivitySelectUni extends AppCompatActivity {
 
     protected void firebaseUniSearch(String searchText){
 
-        searchUniHandler.Search(searchText);
+        searchUniHandler.Search(searchText.toLowerCase());
 
         /// hacemos queries por dos criterios y luego unimos
         /*Query firebaseSearchQuery1 = mUserDatabase
