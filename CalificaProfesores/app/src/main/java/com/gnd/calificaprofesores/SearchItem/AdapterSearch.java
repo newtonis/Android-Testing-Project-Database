@@ -42,5 +42,11 @@ public class AdapterSearch extends RecyclerView.Adapter<SearchItemViewHolder> {
     public int getItemCount() {
         return SearchItems.size();
     }
+    public void clear(){
+        SearchItems.clear();
+    }
+    public void addElement(UniData element){
+        SearchItems.add(element);
+    }
 
 }
