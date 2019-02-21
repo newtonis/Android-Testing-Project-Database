@@ -5,3 +5,5 @@ Interesante explicacion de como usar cloud firestore
 https://stackoverflow.com/questions/46549766/whats-the-difference-between-cloud-firestore-and-the-firebase-realtime-database
 
 En algun momento habrá que migrar y utilizar cloud firestore
+
+https://stackoverflow.com/questions/6369062/how-do-i-add-elements-dynamically-to-a-view-created-with-xml

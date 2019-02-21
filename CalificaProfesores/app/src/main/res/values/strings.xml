@@ -98,5 +98,8 @@
     <string name="fb_login_protocol_scheme">fb376783766453849</string>
     <string name="NoHayInfoText">No hay información</string>
     <string name="SeElPrimeroText">¡SE EL PRIMERO!</string>
+    <string name="TextAddUni">AGREGAR INSTITUCIÓN</string>
+    <string name="TextAddClass">AGREGAR MATERIA</string>
+    <string name="TextAddProf">AGREGAR PROFESOR</string>
 
 </resources>
