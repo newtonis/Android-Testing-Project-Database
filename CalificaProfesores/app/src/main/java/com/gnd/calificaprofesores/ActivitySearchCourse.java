@@ -138,12 +138,7 @@ public class ActivitySearchCourse extends AppCompatActivity {
                         }
                     });
 
-                    UniData nuevo = new UniData(
-                            course.GetId(),
-                            course.GetShownName(),
-                            course.GetDetail()
-                    );
-                    nuevo.SetClickListener(course.GetClickListener());
+                    UniData nuevo = new UniData(course);
                     ShownDataListed.add(nuevo);
                 }
                 adapterSearch.notifyDataSetChanged();

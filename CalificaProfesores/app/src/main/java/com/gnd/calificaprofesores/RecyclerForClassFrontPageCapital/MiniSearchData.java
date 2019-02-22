@@ -1,10 +1,13 @@
 package com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital;
 
 
+import android.view.View;
+
 import com.gnd.calificaprofesores.NetworkSearchQueriesHandler.UniData;
 import com.gnd.calificaprofesores.SearchItem.AdapterSearch;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -13,24 +16,29 @@ import java.util.TreeSet;
 public class MiniSearchData extends AdapterElement{
     private String shownText, switchText;
     private Set<UniData> elementSet;
+
     private boolean enabled;
     private boolean allowSwitch;
-    private AdapterSearch adapter;
+    private Adapter adapter;
+    private Adapter adapter2;
+
     private SearchCalledListener searchCalledListener;
-    private UniData SelectedItem;
 
     public MiniSearchData(
             String shownText,
             String switchText,
             boolean allowSwitch,
             SearchCalledListener listener) {
-        super(12);
+        super(14);
         this.shownText = shownText;
         this.switchText = switchText;
         this.allowSwitch = allowSwitch;
         elementSet = new TreeSet<>();
         searchCalledListener = listener;
         enabled = true;
+
+        adapter = new Adapter();
+        adapter2 = new Adapter();
     }
 
     public String getShownText() {
@@ -85,23 +93,44 @@ public class MiniSearchData extends AdapterElement{
         this.searchCalledListener = searchCalledListener;
     }
 
-    public AdapterSearch getAdapter() {
+    public Adapter getAdapter() {
         return adapter;
     }
 
-    public void setAdapter(AdapterSearch adapter) {
+    public void setAdapter(Adapter adapter) {
         this.adapter = adapter;
     }
 
-    public void SearchResults(ArrayList<UniData> data){
-        for (UniData element : data) {
-            adapter.addElement(element);
+    public Adapter getAdapter2() {
+        return adapter2;
+    }
+
+    public void setAdapter2(Adapter adapter2) {
+        this.adapter2 = adapter2;
+    }
+
+    public void SearchResults(List<UniData> data){
+       adapter.clear();
+        for (final UniData element : data) {
+            MiniSearchListItemData miniSearchListItemData = new MiniSearchListItemData(
+                    element.GetUniShortName(),
+                    element.GetUniShownName()
+            );
+            miniSearchListItemData.setListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    element.SetType(13); // deletable item type
+                    if (!elementSet.contains(element)){
+                        adapter2.AddElement(element);
+                        adapter2.notifyDataSetChanged();
+                    }
+                    elementSet.add(element);
+                }
+            });
+
+            adapter.AddElement(miniSearchListItemData);
         }
         adapter.notifyDataSetChanged();
     }
 
-    public UniData clickedAddButton(){
-        elementSet.add(SelectedItem);
-        return SelectedItem;
-    }
 }

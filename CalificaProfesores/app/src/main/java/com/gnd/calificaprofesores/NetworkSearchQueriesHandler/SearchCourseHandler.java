@@ -29,53 +29,91 @@ public class SearchCourseHandler {
         courses = new TreeSet<>();
         uniId = _uniId;
 
-        mDatabase.child("Facultades").child(Long.toString(uniId))
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        uniName = (String)dataSnapshot.child("Name").getValue();
-                        uniName.toUpperCase();
-                    }
+        if (uniId != -1L) {
+            mDatabase.child("Facultades").child(Long.toString(uniId))
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            uniName = (String) dataSnapshot.child("Name").getValue();
+                            uniName.toUpperCase();
+                        }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                    }
-                });
+                        }
+                    });
+        }else{
+            uniName = "NOUNI";
+        }
     }
 
     public void Search(String text) {
         text.toLowerCase();
         courses.clear();
 
-        mDatabase
-                .child("MateriasPorFacultad")
-                .child(Long.toString(uniId))
-                .orderByChild("Name")
-                .startAt(text)
-                .endAt(text + "\uf8ff")
-                .limitToFirst(10)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        AddPackage(dataSnapshot);
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
+        if (uniId != -1L) {
+            mDatabase
+                    .child("MateriasPorFacultad")
+                    .child(Long.toString(uniId))
+                    .orderByChild("Name")
+                    .startAt(text)
+                    .endAt(text + "\uf8ff")
+                    .limitToFirst(10)
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            AddPackage(
+                                    dataSnapshot,
+                                    true
+                            );
+                        }
 
-                    }
-                });
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
 
+                        }
+                    });
+        }else{
+            mDatabase
+                    .child("Materias")
+                    .orderByChild("Name")
+                    .startAt(text)
+                    .endAt(text + "\uf8ff")
+                    .limitToFirst(10)
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            AddPackage(
+                                    dataSnapshot,
+                                    false
+                            );
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+        }
     }
-    public void AddPackage(@NonNull DataSnapshot dataSnapshot){
+    public void AddPackage(@NonNull DataSnapshot dataSnapshot, boolean mode){
         courses.clear();
         for (final DataSnapshot postSnapshot : dataSnapshot.getChildren()){
-            courses.add(new CourseData(
-                    (Long)postSnapshot.child("id").getValue(),
-                    (String)postSnapshot.child("ShownName").getValue(),
-                    uniName.toUpperCase()
-            ));
+            if (mode) {
+                courses.add(new CourseData(
+                        (Long) postSnapshot.child("id").getValue(),
+                        (String) postSnapshot.child("ShownName").getValue(),
+                        uniName.toUpperCase()
+                ));
+            }else{
+                courses.add(new CourseData(
+                        Long.parseLong(postSnapshot.getKey()),
+                        (String) postSnapshot.child("ShownName").getValue(),
+                        (String) postSnapshot.child("FacultadName").getValue()
+                ));
+            }
         }
 
         listener.onGotCourse(courses);

@@ -78,6 +78,12 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             case 13:
                 itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_item_deletable, viewGroup, false);
                 return new DeletableSearchItemViewHolder(itemView);
+            case 14:
+                itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_item_mini_search, viewGroup, false);
+                return new MiniSearchViewHolder(itemView);
+            case 15:
+                itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.search_list_element_mini, viewGroup, false);
+                return new MiniSearchListItemViewHolder(itemView);
         }
         return null;
     }
@@ -185,14 +191,36 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             SimpleScoreSelectorViewHolder holder = (SimpleScoreSelectorViewHolder) viewHolder;
             holder.setDetails(element); // nothing to do, lol!
         }else if(dataItem.GetType() == 13){
-            DeletableItemData element = (DeletableItemData) dataItem;
+            UniData element = (UniData) dataItem;
             DeletableSearchItemViewHolder holder = (DeletableSearchItemViewHolder) viewHolder;
-            holder.setDetails(element.getTitle(),element.getDetail()); // nothing to do, lol!
+            holder.setDetails(
+                    element.GetUniShortName(),
+                    element.GetUniShownName()
+            );
+        }else if(dataItem.GetType() == 14){
+            MiniSearchData element = (MiniSearchData) dataItem;
+            MiniSearchViewHolder holder = (MiniSearchViewHolder) viewHolder;
+            holder.setDetails(
+                    element,
+                    element.getShownText(),
+                    element.getSwitchText()
+            );
+        }else if(dataItem.GetType() == 15){
+            MiniSearchListItemData element = (MiniSearchListItemData) dataItem;
+            MiniSearchListItemViewHolder holder = (MiniSearchListItemViewHolder) viewHolder;
+            holder.setDetails(
+                    element.getTitle(),
+                    element.getDetail(),
+                    element.getListener()
+            );
         }
         /*opinionItemViewHolder.setDetails(dataItem.GetUniShortName(), dataItem.GetUniShownName(), 0L);
         opinionItemViewHolder.mView.setOnClickListener(dataItem.GetClickListener());*/
     }
     public void AddElement(AdapterElement element){
         Items.add(element);
+    }
+    public void clear(){
+        Items.clear();
     }
 }

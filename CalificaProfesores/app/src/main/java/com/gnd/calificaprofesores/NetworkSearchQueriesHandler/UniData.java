@@ -2,17 +2,29 @@ package com.gnd.calificaprofesores.NetworkSearchQueriesHandler;
 
 import android.view.View;
 
+import com.gnd.calificaprofesores.NetworkHandler.CourseData;
+import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.AdapterElement;
+
 import java.util.Comparator;
 
-public class UniData implements Comparable<UniData> {
+public class UniData extends AdapterElement implements Comparable<UniData> {
     private Long id;
     private String UniShortName;
     private String UniShownName;
     private View.OnClickListener clickListener;
     public UniData(Long _id, String _UniShortName, String _UniShownName){
+        super(0);
         id = _id;
         UniShortName = _UniShortName;
         UniShownName = _UniShownName;
+        clickListener = null;
+    }
+    public UniData(CourseData data){
+        super(0);
+        id = data.GetId();
+        UniShortName = data.GetShownName();
+        UniShownName = data.GetDetail();
+        SetClickListener(data.GetClickListener());
     }
     public void SetClickListener(View.OnClickListener listener){
         this.clickListener = listener;
