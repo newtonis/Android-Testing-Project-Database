@@ -23,7 +23,7 @@ public class MiniSearchListItemViewHolder extends RecyclerView.ViewHolder {
         detailView.setText(details);
 
         ConstraintLayout content = view.findViewById(R.id.Content);
-        content.setOnClickListener(listener);
+        //content.setOnClickListener(listener);
 
     }
 }
