@@ -26,6 +26,13 @@ public class UniData extends AdapterElement implements Comparable<UniData> {
         UniShownName = data.GetDetail();
         SetClickListener(data.GetClickListener());
     }
+    public UniData(ProfData data){
+        super(0);
+        id = data.GetId();
+        UniShortName = data.GetName();
+        UniShownName = data.GetDetails();
+        SetClickListener(data.GetClickListener());
+    }
     public void SetClickListener(View.OnClickListener listener){
         this.clickListener = listener;
     }

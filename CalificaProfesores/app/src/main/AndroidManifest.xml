@@ -39,12 +39,17 @@
             android:screenOrientation="portrait" />
         <activity android:name=".ActivityClassFrontPage" />
         <activity android:name=".ActivitySearchCourse"></activity>
-        <activity android:name=".ActivityAddProf">
+
+        <activity android:name=".ActivityAddClass">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity android:name=".ActivityAddProf">
+
         </activity>
         <activity android:name=".ActivityProfFrontPageV2">
 

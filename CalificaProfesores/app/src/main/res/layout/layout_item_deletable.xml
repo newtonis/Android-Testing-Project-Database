@@ -5,7 +5,7 @@
     android:layout_height="wrap_content">
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/Content2"
+        android:id="@+id/Content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/item_color_deleteable"
@@ -25,7 +25,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <android.support.constraint.ConstraintLayout
-            android:id="@+id/Content"
+            android:id="@+id/Content2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"

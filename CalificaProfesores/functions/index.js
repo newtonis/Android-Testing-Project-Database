@@ -152,29 +152,33 @@ exports.UpdateMatQual = functions.database.ref("/OpinionesMaterias/{matid}/{uid}
 
 exports.UpdateAddProfRequest = functions.database.ref("/ProfAddRequests/{uid}/{rid}")
     .onWrite((event , context) => {
-        materias = [];
-        facultades = [];
+        materias = {};
+        facultades = {};
         
-        for (var child in event.after.child("materias")){
+        const arrMaterias = event.after.child("materias").val();
+        const arrFacultades = event.after.child("facultades").val();
+        
+        console.log("materias = ",arrMaterias);
+        console.log("facultades = ",arrFacultades);
 
-            console.log("child = " , event.after.child("materias")[child]);
+        for (var child in arrMaterias){
 
-            materias.push({
-                key: child,
-                value: event.after.child("materias")[child]
-            });
+            //console.log("child = " , event.after.child("materias").val()[child]);
+
+            materias[child] = arrMaterias[child];
+
         }
         
-        for (var child in event.after.child("facultades")){
-            facultades.push({
-                key: child,
-                value: event.after.child("facultades")[child]
-            })
+        for (var child in arrFacultades){
+            facultades[child] = arrFacultades[child];
         }
+
+        const name = event.after.child("profName");
+        const searchName = name.toLowerCase();
 
         admin.database().ref("Prof").push().set({
-            Name : event.after.child("profName").val(),
-            SearchName : event.after.child("profName").val().toLowerCase(),
+            Name : name,
+            SearchName : searchName,
             amabilidad : 0,
             clases : 0,
             conocimiento : 0,
@@ -187,7 +191,28 @@ exports.UpdateAddProfRequest = functions.database.ref("/ProfAddRequests/{uid}/{r
         }).catch(() => {
             console.log('Error updating database');
             return 0;
-        });;
+        });
         return 1;
+    }
+);
+
+exports.UpdateAddClassRequest = funcitons.database.ref("/ClassAddRequests/{uid}/{rid}")
+    .onWrite((event, context) => {
+        const name = event.after.child("name");
+        const facultadName = event.after.child("facultadName");
+        const facultadId = event.after.child("facultadId");
+        
+        profesores = {};
+
+        admin.database.ref("Materias").push().set({
+            Name : name.toLowerCase(),
+            ShownName : name,
+            facultad, facultadId,
+            FacultadName : facultadName,
+            count: 0,
+            totalScore: 0,
+            prof: profesores
+        })
+
     }
 );

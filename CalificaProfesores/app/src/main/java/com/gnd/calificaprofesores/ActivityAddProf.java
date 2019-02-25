@@ -67,7 +67,9 @@ public class ActivityAddProf extends AppCompatActivity {
         final MiniSearchData miniSearchData = new MiniSearchData(
                 "Materia ...",
                 "LAS MATERIAS NO FIGURAN",
-                true, new SearchCalledListener() {
+                true,
+                -1L,
+                new SearchCalledListener() {
             @Override
             public void onSearchCalled(String text) {
                 searchCourseHandler.Search(text.toLowerCase());
@@ -128,7 +130,7 @@ public class ActivityAddProf extends AppCompatActivity {
                 adapter.AddElement(new SmallLoadingData());
             }
         });
-        addProfessorHandler.setListener(new ProfessorAddedListener() {
+        addProfessorHandler.setProfessorAddedListener(new ProfessorAddedListener() {
             @Override
             public void onProfessorAdded() {
                 professorAdded();

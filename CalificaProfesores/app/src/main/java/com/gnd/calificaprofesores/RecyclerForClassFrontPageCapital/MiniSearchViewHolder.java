@@ -76,11 +76,14 @@ public class MiniSearchViewHolder extends RecyclerView.ViewHolder {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
                         recyclerView.setVisibility(View.GONE);
+                        recyclerView2.setVisibility(View.GONE);
                         Constraint1.setVisibility(View.GONE);
                         model.setEnabled(false);
                     } else {
                         recyclerView.setVisibility(View.VISIBLE);
+                        recyclerView2.setVisibility(View.VISIBLE);
                         Constraint1.setVisibility(View.VISIBLE);
+
                         model.setEnabled(true);
                     }
                 }

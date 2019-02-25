@@ -24,11 +24,13 @@ public class MiniSearchData extends AdapterElement{
     private Adapter adapter2;
     private Editable editable;
     private SearchCalledListener searchCalledListener;
+    private Long maxElements;
 
     public MiniSearchData(
             String shownText,
             String switchText,
             boolean allowSwitch,
+            Long maxElements,
             SearchCalledListener listener) {
         super(14);
         this.shownText = shownText;
@@ -37,7 +39,7 @@ public class MiniSearchData extends AdapterElement{
         elementSet = new TreeSet<>();
         searchCalledListener = listener;
         enabled = true;
-
+        this.maxElements = maxElements; // -1 means infinity
         adapter = new Adapter();
         adapter2 = new Adapter();
     }
@@ -110,8 +112,17 @@ public class MiniSearchData extends AdapterElement{
         this.adapter2 = adapter2;
     }
 
-    public void SearchResults(List<UniData> data){
-       adapter.clear();
+    public void SearchResults(List<UniData> originalData){
+        List<UniData> data = new ArrayList<>();
+        /// only first four items
+        int count = 0;
+        for (UniData item : originalData){
+            if (count < 4){
+                data.add(item);
+                count ++;
+            }
+        }
+        adapter.clear();
         for (final UniData element : data) {
             MiniSearchListItemData miniSearchListItemData = new MiniSearchListItemData(
                     element.GetUniShortName(),
@@ -120,22 +131,27 @@ public class MiniSearchData extends AdapterElement{
             miniSearchListItemData.setListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    element.SetType(13); // deletable item type
-                    if (!elementSet.contains(element)){
-                        element.SetClickListener(new View.OnClickListener(){
-                            @Override
-                            public void onClick(View v) {
-                                elementSet.remove(element);
-                                adapter2.removeElement(element);
-                                adapter2.notifyDataSetChanged();
-                            }
-                        });
-                        adapter2.AddElement(element);
-                        adapter2.notifyDataSetChanged();
+
+                        element.SetType(13); // deletable item type
+                        if (
+                                !elementSet.contains(element) &&
+                                (maxElements == -1L || elementSet.size() < maxElements)
+                        ) {
+                            element.SetClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    elementSet.remove(element);
+                                    adapter2.removeElement(element);
+                                    adapter2.notifyDataSetChanged();
+                                }
+                            });
+
+                            adapter2.AddElement(element);
+                            adapter2.notifyDataSetChanged();
+                        }
+                        elementSet.add(element);
+                        eraseText();
                     }
-                    elementSet.add(element);
-                    eraseText();
-                }
             });
 
             adapter.AddElement(miniSearchListItemData);

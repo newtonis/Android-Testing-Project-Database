@@ -7,17 +7,18 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class AddProfessorHandler {
     DatabaseReference db;
-    ProfessorAddedListener listener;
+    ProfessorAddedListener professorAddedListener;
     public AddProfessorHandler(){
         db = FirebaseDatabase.getInstance().getReference();
+        professorAddedListener = null;
     }
 
-    public ProfessorAddedListener getListener() {
-        return listener;
+    public ProfessorAddedListener getProfessorAddedListener() {
+        return professorAddedListener;
     }
 
-    public void setListener(ProfessorAddedListener listener) {
-        this.listener = listener;
+    public void setProfessorAddedListener(ProfessorAddedListener professorAddedListener) {
+        this.professorAddedListener = professorAddedListener;
     }
 
     public void addProfessor(CompleteProfData profData){
@@ -27,7 +28,9 @@ public class AddProfessorHandler {
                 .push().setValue(profData).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                listener.onProfessorAdded();
+                if (professorAddedListener != null) {
+                    professorAddedListener.onProfessorAdded();
+                }
             }
         });
     }
