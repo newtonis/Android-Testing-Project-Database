@@ -19,6 +19,7 @@
     <color name="BackgroundRecyclerView">#e9e9e9</color>
     <color name="normal_item_bg_color">#FFFFFF</color>
     <color name="focused_item_bg_color">#E0E0E0</color>
+    <color name="red_item_bg_color">#FFBEBE</color>
     <color name="color_bar_blue">#0099FF</color>
     <color name="color_bar_green">#8BDD61</color>
     <color name="color_bar_orange">#F8B24E</color>

@@ -10,6 +10,8 @@ import com.gnd.calificaprofesores.NetworkSearchQueriesHandler.UniData;
 import com.gnd.calificaprofesores.OpinionItem.OpinionItemViewHolder;
 import com.gnd.calificaprofesores.R;
 import com.gnd.calificaprofesores.SearchItem.SearchItemViewHolder;
+import com.gnd.calificaprofesores.SmallLoadingViewHolder;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,6 +86,12 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             case 15:
                 itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.search_list_element_mini, viewGroup, false);
                 return new MiniSearchListItemViewHolder(itemView);
+            case 16:
+                itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_input_text_singleline, viewGroup, false);
+                return new InputLineTextViewHolder(itemView);
+            case 17:
+                itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_item_loading, viewGroup, false);
+                return new SmallLoadingViewHolder(itemView);
         }
         return null;
     }
@@ -195,7 +203,8 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             DeletableSearchItemViewHolder holder = (DeletableSearchItemViewHolder) viewHolder;
             holder.setDetails(
                     element.GetUniShortName(),
-                    element.GetUniShownName()
+                    element.GetUniShownName(),
+                    element.GetClickListener()
             );
         }else if(dataItem.GetType() == 14){
             MiniSearchData element = (MiniSearchData) dataItem;
@@ -213,12 +222,26 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     element.getDetail(),
                     element.getListener()
             );
+        }else if(dataItem.GetType() == 16){
+            InputLineTextData element = (InputLineTextData) dataItem;
+            InputLineTextViewHolder holder = (InputLineTextViewHolder) viewHolder;
+
+            holder.setDetails(
+                    element,
+                    element.getHintText(),
+                    element.getShowText()
+            );
+        }else if(dataItem.GetType() == 17){
+            // nothing to do!
         }
         /*opinionItemViewHolder.setDetails(dataItem.GetUniShortName(), dataItem.GetUniShownName(), 0L);
         opinionItemViewHolder.mView.setOnClickListener(dataItem.GetClickListener());*/
     }
     public void AddElement(AdapterElement element){
         Items.add(element);
+    }
+    public void removeElement(AdapterElement element){
+        Items.remove(element);
     }
     public void clear(){
         Items.clear();

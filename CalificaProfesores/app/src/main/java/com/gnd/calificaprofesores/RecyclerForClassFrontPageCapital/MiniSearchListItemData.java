@@ -2,6 +2,9 @@ package com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital;
 
 import android.view.View;
 
+
+/** layout_list_element_mini.xml **/
+
 public class MiniSearchListItemData extends AdapterElement{
     String title, detail;
     View.OnClickListener listener;

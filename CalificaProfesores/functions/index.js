@@ -149,3 +149,45 @@ exports.UpdateMatQual = functions.database.ref("/OpinionesMaterias/{matid}/{uid}
         return 1;
     }
 );
+
+exports.UpdateAddProfRequest = functions.database.ref("/ProfAddRequests/{uid}/{rid}")
+    .onWrite((event , context) => {
+        materias = [];
+        facultades = [];
+        
+        for (var child in event.after.child("materias")){
+
+            console.log("child = " , event.after.child("materias")[child]);
+
+            materias.push({
+                key: child,
+                value: event.after.child("materias")[child]
+            });
+        }
+        
+        for (var child in event.after.child("facultades")){
+            facultades.push({
+                key: child,
+                value: event.after.child("facultades")[child]
+            })
+        }
+
+        admin.database().ref("Prof").push().set({
+            Name : event.after.child("profName").val(),
+            SearchName : event.after.child("profName").val().toLowerCase(),
+            amabilidad : 0,
+            clases : 0,
+            conocimiento : 0,
+            count : 0,
+            Materias : materias,
+            Facultades : facultades
+        }).then(() => {
+            console.log('Successfully updated database');
+            return 0;
+        }).catch(() => {
+            console.log('Error updating database');
+            return 0;
+        });;
+        return 1;
+    }
+);

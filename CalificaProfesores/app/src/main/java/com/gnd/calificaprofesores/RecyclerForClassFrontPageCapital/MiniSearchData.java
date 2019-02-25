@@ -1,6 +1,7 @@
 package com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital;
 
 
+import android.text.Editable;
 import android.view.View;
 
 import com.gnd.calificaprofesores.NetworkSearchQueriesHandler.UniData;
@@ -21,7 +22,7 @@ public class MiniSearchData extends AdapterElement{
     private boolean allowSwitch;
     private Adapter adapter;
     private Adapter adapter2;
-
+    private Editable editable;
     private SearchCalledListener searchCalledListener;
 
     public MiniSearchData(
@@ -121,16 +122,36 @@ public class MiniSearchData extends AdapterElement{
                 public void onClick(View v) {
                     element.SetType(13); // deletable item type
                     if (!elementSet.contains(element)){
+                        element.SetClickListener(new View.OnClickListener(){
+                            @Override
+                            public void onClick(View v) {
+                                elementSet.remove(element);
+                                adapter2.removeElement(element);
+                                adapter2.notifyDataSetChanged();
+                            }
+                        });
                         adapter2.AddElement(element);
                         adapter2.notifyDataSetChanged();
                     }
                     elementSet.add(element);
+                    eraseText();
                 }
             });
 
             adapter.AddElement(miniSearchListItemData);
         }
         adapter.notifyDataSetChanged();
+    }
+    public void eraseText(){
+        editable.clear();
+    }
+
+    public Editable getEditable() {
+        return editable;
+    }
+
+    public void setEditable(Editable editable) {
+        this.editable = editable;
     }
 
 }

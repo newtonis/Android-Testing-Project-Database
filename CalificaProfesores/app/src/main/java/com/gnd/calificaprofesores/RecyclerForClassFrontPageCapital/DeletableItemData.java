@@ -2,6 +2,8 @@ package com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital;
 
 import android.widget.TextView;
 
+/** layout_item_deletable.xml **/
+
 public class DeletableItemData extends AdapterElement {
     String title, detail;
     public DeletableItemData(String _title, String _detail){

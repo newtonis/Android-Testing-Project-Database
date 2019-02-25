@@ -19,11 +19,12 @@ import com.gnd.calificaprofesores.NetworkSearchQueriesHandler.UniData;
 import com.gnd.calificaprofesores.R;
 import com.gnd.calificaprofesores.SearchItem.AdapterSearch;
 
+import java.util.ArrayList;
+
 /** layout_item_mini_search.xml **/
 
 public class MiniSearchViewHolder extends RecyclerView.ViewHolder {
     private View view;
-    private AdapterSearch adapter;
 
     public MiniSearchViewHolder(View _view){
         super(_view);
@@ -32,6 +33,7 @@ public class MiniSearchViewHolder extends RecyclerView.ViewHolder {
     public void setDetails(final MiniSearchData model, String showText, String switchText) {
         EditText text = view.findViewById(R.id.TextInput);
         text.setHint(showText);
+        model.setEditable(text.getEditableText());
 
         text.addTextChangedListener(new TextWatcher() {
             @Override
@@ -45,7 +47,11 @@ public class MiniSearchViewHolder extends RecyclerView.ViewHolder {
 
             @Override
             public void afterTextChanged(Editable s) {
-                model.getSearchCalledListener().onSearchCalled(s.toString().toLowerCase());
+                if (s.toString().length() >= 3) {
+                    model.getSearchCalledListener().onSearchCalled(s.toString().toLowerCase());
+                }else{
+                    model.SearchResults(new ArrayList<UniData>());
+                }
             }
         });
 
@@ -82,22 +88,6 @@ public class MiniSearchViewHolder extends RecyclerView.ViewHolder {
         }else{
             sw.setVisibility(View.GONE);
         }
-
-
-        //ImageView addButton = view.findViewById(R.id.AddButton);
-        /*final LinearLayout linear1 = view.findViewById(R.id.Linear1);
-
-        addButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                UniData selected = model.clickedAddButton();
-                if (selected != null){
-
-                }
-            }
-        });*/
-
-
 
     }
 }

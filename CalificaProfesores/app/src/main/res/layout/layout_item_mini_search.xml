@@ -20,41 +20,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/Constraint2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="8dp">
-
-            <Switch
-                android:id="@+id/Swtich"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:fontFamily="@font/alfa_slab_one"
-                android:text="AGREGAR DESPUÉS"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.497"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
-        </android.support.constraint.ConstraintLayout>
-
-        <View
-            android:id="@+id/divider8"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider" />
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/RecyclerView2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <View
+            android:id="@+id/divider12"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider" />
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/Constraint1"
@@ -79,12 +56,19 @@
 
         </android.support.constraint.ConstraintLayout>
 
+        <View
+            android:id="@+id/divider13"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider" />
+
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/RecyclerView"
             android:layout_width="match_parent"
             android:layout_height="120dp"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="0dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="1dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:background="@color/White"
@@ -95,6 +79,37 @@
 
         </android.support.v7.widget.RecyclerView>
 
+        <View
+            android:id="@+id/divider8"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider" />
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/Constraint2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="8dp">
+
+            <Switch
+                android:id="@+id/Swtich"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/alfa_slab_one"
+                android:text="AGREGAR DESPUÉS"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+        </android.support.constraint.ConstraintLayout>
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
