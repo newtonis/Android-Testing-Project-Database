@@ -22,22 +22,17 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.balysv.materialmenu.MaterialMenuView;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.firebase.ui.database.SnapshotParser;
 import com.gnd.calificaprofesores.IntentsManager.IntentProfManager;
-import com.gnd.calificaprofesores.ListItems.BasicListItem;
-import com.gnd.calificaprofesores.ListItems.ListItemViewHolder;
 import com.gnd.calificaprofesores.MenuManager.MenuManager;
 import com.gnd.calificaprofesores.NetworkSearchQueriesHandler.GotProfListener;
 import com.gnd.calificaprofesores.NetworkSearchQueriesHandler.ProfData;
 import com.gnd.calificaprofesores.NetworkSearchQueriesHandler.SearchProfHandler;
 import com.gnd.calificaprofesores.NetworkSearchQueriesHandler.UniData;
-import com.gnd.calificaprofesores.SearchItem.AdapterSearch;
-import com.google.firebase.database.DataSnapshot;
+import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.Adapter;
+
+import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.NoInfoData;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
 import java.util.ArrayList;
@@ -58,8 +53,7 @@ public class ActivitySearchProfessor extends AppCompatActivity {
     private ProgressWheel progressWheel;
     private ImageView sadIcon;
 
-    private AdapterSearch adapterSearch;
-    private FirebaseRecyclerAdapter adapter;
+    private Adapter adapter;
 
     private MenuManager menuManager;
     private SearchProfHandler searchProfHandler;
@@ -73,7 +67,7 @@ public class ActivitySearchProfessor extends AppCompatActivity {
         searchProfHandler = new SearchProfHandler();
 
         ShownDataListed = new ArrayList<>();
-        adapterSearch = new AdapterSearch(ShownDataListed);
+        adapter = new Adapter();
 
 
         /** Cargamos widgets **/
@@ -82,11 +76,13 @@ public class ActivitySearchProfessor extends AppCompatActivity {
         sadIcon = findViewById(R.id.SadFace);
         progressWheel = findViewById(R.id.LoadingIcon);
 
-        mResultList.setAdapter(adapterSearch);
+        mResultList.setAdapter(adapter);
         mResultList.setLayoutManager(new LinearLayoutManager(this));
 
 
-        mProfInput.setOnKeyListener(new View.OnKeyListener(){
+        mProfInput.setOnKeyListener(
+
+                new View.OnKeyListener(){
             public boolean onKey(View view,int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                         (keyCode == KeyEvent.KEYCODE_ENTER)) {
@@ -98,42 +94,55 @@ public class ActivitySearchProfessor extends AppCompatActivity {
                 return false;
             }
         });
-
+        final View.OnClickListener goToAddProfessorListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ActivitySearchProfessor.this, ActivityAddProf.class);
+                startActivity(intent);
+            }
+        };
         searchProfHandler.AddOnGotProfListener(new GotProfListener() {
             @Override
             public void onGotProf(Set<ProfData> data) {
                 if (data.isEmpty()){
-                    SetNoResults();
+                    SetLoaded();
+                    adapter.AddElement(new NoInfoData(
+                            "NO FUE ENCONTRADO EL/LA PROFESOR/A",
+                            "AGREGAR NUEVO PROFESOR/A",
+                            goToAddProfessorListener
+                    ));
                 }else{
                     SetLoaded();
+                    adapter.clear();
+                    for (final ProfData prof : data){
+                        prof.SetClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                IntentProfManager intent = new IntentProfManager(
+                                        new Intent(
+                                                ActivitySearchProfessor.this,
+                                                ActivityProfFrontPageV2.class),
+                                        prof.GetName(),
+                                        prof.GetId()
+                                );
+                                startActivity(intent.GetIntent());
+                            }
+                        });
+
+                        UniData nuevo = new UniData(
+                                prof.GetId(),
+                                prof.GetName(),
+                                prof.GetDetails()
+                        );
+                        nuevo.SetType(18);
+
+                        nuevo.SetClickListener(prof.GetClickListener());
+                        adapter.AddElement(nuevo);
+                    }
                 }
-                ShownDataListed.clear();
 
-                for (final ProfData prof : data){
-                    prof.SetClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            IntentProfManager intent = new IntentProfManager(
-                                    new Intent(
-                                            ActivitySearchProfessor.this,
-                                            ActivityProfFrontPageV2.class),
-                                    prof.GetName(),
-                                    prof.GetId()
-                            );
-                            startActivity(intent.GetIntent());
-                        }
-                    });
 
-                    UniData nuevo = new UniData(
-                            prof.GetId(),
-                            prof.GetName(),
-                            prof.GetDetails()
-                    );
-
-                    nuevo.SetClickListener(prof.GetClickListener());
-                    ShownDataListed.add(nuevo);
-                }
-                adapterSearch.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();
             }
         });
 
@@ -163,6 +172,6 @@ public class ActivitySearchProfessor extends AppCompatActivity {
     }
     private void ClearListItems(){
         ShownDataListed.clear();
-        adapterSearch.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();
     }
 }

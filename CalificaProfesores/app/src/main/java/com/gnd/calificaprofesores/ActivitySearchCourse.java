@@ -32,6 +32,8 @@ import com.gnd.calificaprofesores.NetworkSearchQueriesHandler.GotCourseListener;
 import com.gnd.calificaprofesores.NetworkSearchQueriesHandler.SearchCourseHandler;
 import com.gnd.calificaprofesores.NetworkSearchQueriesHandler.SearchUniHandler;
 import com.gnd.calificaprofesores.NetworkSearchQueriesHandler.UniData;
+import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.Adapter;
+import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.NoInfoData;
 import com.gnd.calificaprofesores.SearchItem.AdapterSearch;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
@@ -58,7 +60,7 @@ public class ActivitySearchCourse extends AppCompatActivity {
     private List<UniData> ShownDataListed;
 
     private DatabaseReference mUserDatabase;
-    private AdapterSearch adapterSearch;
+    private Adapter adapter;
 
     private SearchCourseHandler searchCourseHandler;
     private Long uniId; // identificacion de la univerisdad de la que se buscaran cursos
@@ -66,7 +68,6 @@ public class ActivitySearchCourse extends AppCompatActivity {
 
     private ProgressWheel progressWheel;
     private ImageView sadIcon;
-    private FirebaseRecyclerAdapter adapter;
 
     private MenuManager menuManager;
 
@@ -80,7 +81,7 @@ public class ActivitySearchCourse extends AppCompatActivity {
         uniId = intent.getLongExtra("Uni",1L);
         searchCourseHandler = new SearchCourseHandler(uniId);
         ShownDataListed = new ArrayList<>();
-        adapterSearch = new AdapterSearch(ShownDataListed);
+        adapter = new Adapter();
         mUserDatabase = FirebaseDatabase.getInstance().getReference("MateriasPorFacultad/"+String.valueOf(uniId));
 
 
@@ -93,7 +94,7 @@ public class ActivitySearchCourse extends AppCompatActivity {
         progressWheel.bringToFront();
 
         /** Eventos **/
-        recyclerView.setAdapter(adapterSearch);
+        recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         /** Menu manager **/
@@ -116,32 +117,48 @@ public class ActivitySearchCourse extends AppCompatActivity {
             }
         });
 
+        final View.OnClickListener goToAddClassListener = new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ActivitySearchCourse.this, ActivityAddClass.class);
+                startActivity(intent);
+            }
+        };
+
         searchCourseHandler.AddOnGotCourseListener(new GotCourseListener() {
             @Override
             public void onGotCourse(Set<CourseData> data) {
                 if (data.isEmpty()){
-                    SetNoResults();
+                    //SetNoResults();
+                    //recyclerView
+                    SetLoaded();
+                    adapter.AddElement(new NoInfoData(
+                            "NO FUE ENCONTRADA LA MATERIA",
+                            "AGREGAR NUEVA MATERIA",
+                            goToAddClassListener
+                    ));
                 }else{
                     SetLoaded();
-                }
-                ShownDataListed.clear();
+                    adapter.clear();
 
-                for (final CourseData course : data){
-                    course.SetClickListener(new View.OnClickListener(){
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(ActivitySearchCourse.this, ActivityClassFrontPageV2.class);
-                            intent.putExtra("CourseName",course.GetShownName());
-                            intent.putExtra("CourseId",course.GetId());
-                            intent.putExtra("UniName",course.GetDetail());
-                            startActivity(intent);
-                        }
-                    });
+                    for (final CourseData course : data){
+                        course.SetClickListener(new View.OnClickListener(){
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(ActivitySearchCourse.this, ActivityClassFrontPageV2.class);
+                                intent.putExtra("CourseName",course.GetShownName());
+                                intent.putExtra("CourseId",course.GetId());
+                                intent.putExtra("UniName",course.GetDetail());
+                                startActivity(intent);
+                            }
+                        });
 
-                    UniData nuevo = new UniData(course);
-                    ShownDataListed.add(nuevo);
+                        UniData nuevo = new UniData(course);
+                        nuevo.SetType(18);
+                        adapter.AddElement(nuevo);
+                    }
                 }
-                adapterSearch.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();
             }
         });
     }
@@ -165,7 +182,7 @@ public class ActivitySearchCourse extends AppCompatActivity {
         ClearListItems();
     }
     private void ClearListItems(){
-        ShownDataListed.clear();
-        adapterSearch.notifyDataSetChanged();
+        adapter.clear();
+        adapter.notifyDataSetChanged();
     }
 }

@@ -7,12 +7,31 @@ import android.text.Editable;
 public class InputLineTextData extends AdapterElement{
     String hintText, showText;
     Editable editable;
+    String defaultText;
+    boolean flagInitial;
 
     public InputLineTextData(String hintText, String showText){
         super(16);
         this.hintText = hintText;
         this.showText = showText;
         editable = null;
+        flagInitial = true;
+    }
+
+    public String getDefaultText() {
+        return defaultText;
+    }
+
+    public void setDefaultText(String defaultText) {
+        this.defaultText = defaultText;
+    }
+
+    public boolean isFlagInitial() {
+        return flagInitial;
+    }
+
+    public void setFlagInitial(boolean flagInitial) {
+        this.flagInitial = flagInitial;
     }
 
     public String getHintText() {

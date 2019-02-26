@@ -50,6 +50,7 @@ public class ActivityAddClass extends AppCompatActivity {
     private InputLineTextData courseInput;
     private ButtonData button;
     private AddClassHandler addClassHandler;
+    private TitleData titleData;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,9 +66,13 @@ public class ActivityAddClass extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         courseInput = new InputLineTextData("Materia ...","Nombre de la materia");
-        adapter.AddElement(courseInput);
+        //courseInput.clear();
 
-        adapter.AddElement(new TitleData("SELECCIONAR FACULTAD"));
+        adapter.AddElement(courseInput);
+        titleData = new TitleData("SELECCIONAR FACULTAD");
+
+
+        adapter.AddElement(titleData);
 
         final MiniSearchData miniSearchData = new MiniSearchData(
                 "Facultad ...",
@@ -130,7 +135,7 @@ public class ActivityAddClass extends AppCompatActivity {
                 String facultadName = "";
                 Map<String, String> prof = new TreeMap<>();
 
-                if (!miniSearchData.isAllowSwitch()){
+                if (miniSearchData.isAllowSwitch()){
                     if (miniSearchData.getElementSet().size() < 1){
                         Toast.makeText(ActivityAddClass.this,
                                 "Debes seleccionar al menos una universidad",
@@ -146,7 +151,7 @@ public class ActivityAddClass extends AppCompatActivity {
                 }
 
                 for (UniData item : miniSearchData2.getElementSet()){
-                    prof.put(Long.toString(item.GetId()), item.GetUniShownName());
+                    prof.put(Long.toString(item.GetId()), item.GetUniShortName());
                 }
 
                 addClassHandler.addClass(new CompleteClassData(

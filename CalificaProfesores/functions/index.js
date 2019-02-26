@@ -196,23 +196,43 @@ exports.UpdateAddProfRequest = functions.database.ref("/ProfAddRequests/{uid}/{r
     }
 );
 
-exports.UpdateAddClassRequest = funcitons.database.ref("/ClassAddRequests/{uid}/{rid}")
+exports.UpdateAddClassRequest = functions.database.ref("/ClassAddRequests/{uid}/{rid}")
     .onWrite((event, context) => {
-        const name = event.after.child("name");
-        const facultadName = event.after.child("facultadName");
-        const facultadId = event.after.child("facultadId");
+        const name = event.after.child("name").val();
+        const facultadName = event.after.child("facultadName").val();
+        const facultadId = parseInt(event.after.child("facultadId").val());
         
-        profesores = {};
+        const arrProf = event.after.child("prof").val();
 
-        admin.database.ref("Materias").push().set({
+        profesores = {};
+        
+        for (var child in  arrProf){
+            profesores[child] = arrProf[child];
+        }
+
+        admin.database().ref("Materias").push().set({
             Name : name.toLowerCase(),
             ShownName : name,
-            facultad, facultadId,
+            Facultad: facultadId,
             FacultadName : facultadName,
             count: 0,
             totalScore: 0,
             prof: profesores
         })
 
+    }
+);
+
+exports.UpdateAddUniRequest = functions.database.ref("/UniAddRequests/{uid}/{rid}")
+    .onWrite((event, context) => {
+        const uniCompleteName = event.after.child("uniShortName").val();
+        const uniShortName = event.after.child("uniCompleteName").val();
+
+        admin.database().ref("Facultades").push().set({
+            Name: uniShortName,
+            uniCompleteName : uniCompleteName.toLowerCase(),
+            ShownName : name
+        })
+        
     }
 );

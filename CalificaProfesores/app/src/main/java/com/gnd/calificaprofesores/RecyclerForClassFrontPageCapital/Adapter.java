@@ -92,6 +92,9 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             case 17:
                 itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_item_loading, viewGroup, false);
                 return new SmallLoadingViewHolder(itemView);
+            case 18:
+                itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.search_list_element, viewGroup, false);
+                return new SearchItemViewHolder(itemView);
         }
         return null;
     }
@@ -233,6 +236,16 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             );
         }else if(dataItem.GetType() == 17){
             // nothing to do!
+        }else if(dataItem.GetType() == 18){
+            UniData element = (UniData) dataItem;
+            SearchItemViewHolder holder = (SearchItemViewHolder) viewHolder;
+
+            holder.setDetails(
+                    element.GetClickListener(),
+                    element.GetUniShortName(),
+                    element.GetUniShownName(),
+                    0L
+            );
         }
         /*opinionItemViewHolder.setDetails(dataItem.GetUniShortName(), dataItem.GetUniShownName(), 0L);
         opinionItemViewHolder.mView.setOnClickListener(dataItem.GetClickListener());*/
