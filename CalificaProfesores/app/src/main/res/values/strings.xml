@@ -101,5 +101,6 @@
     <string name="TextAddUni">AGREGAR INSTITUCIÓN</string>
     <string name="TextAddClass">AGREGAR MATERIA</string>
     <string name="TextAddProf">AGREGAR PROFESOR</string>
+    <string name="TextEnlazar">ENLAZAR</string>
 
 </resources>

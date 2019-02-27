@@ -4,16 +4,23 @@ import java.util.Map;
 
 public class CompleteProfData {
     private String ProfName;
-    private Long ProfId; // 0 means new professor
+    private String ProfId; // 0 means new professor
 
     private Map<String, String> Facultades;
-    private Map<String, String> Materias;
+    private Map<String, SmallMateriaData> Materias;
 
     private boolean erase;
     private boolean ConMaterias;
 
 
-    public CompleteProfData(String profName, Long profId, Map<String, String> facultades, Map<String, String> materias, boolean erase, boolean ConMaterias) {
+    public CompleteProfData(
+            String profName,
+            String profId,
+            Map<String, String> facultades,
+            Map<String, SmallMateriaData> materias,
+            boolean erase,
+            boolean ConMaterias
+    ) {
         ProfName = profName;
         ProfId = profId;
         Facultades = facultades;
@@ -26,7 +33,7 @@ public class CompleteProfData {
         return ProfName;
     }
 
-    public Long getProfId() {
+    public String getProfId() {
         return ProfId;
     }
 
@@ -34,7 +41,7 @@ public class CompleteProfData {
         return Facultades;
     }
 
-    public Map<String, String> getMaterias() {
+    public Map<String, SmallMateriaData> getMaterias() {
         return Materias;
     }
 
@@ -50,7 +57,7 @@ public class CompleteProfData {
         ProfName = profName;
     }
 
-    public void setProfId(Long profId) {
+    public void setProfId(String profId) {
         ProfId = profId;
     }
 
@@ -58,7 +65,7 @@ public class CompleteProfData {
         Facultades = facultades;
     }
 
-    public void setMaterias(Map<String, String> materias) {
+    public void setMaterias(Map<String, SmallMateriaData> materias) {
         Materias = materias;
     }
 

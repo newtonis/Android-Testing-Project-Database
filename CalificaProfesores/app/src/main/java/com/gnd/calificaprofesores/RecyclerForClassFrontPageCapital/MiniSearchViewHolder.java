@@ -31,7 +31,7 @@ public class MiniSearchViewHolder extends RecyclerView.ViewHolder {
         view = _view;
     }
     public void setDetails(final MiniSearchData model, String showText, String switchText) {
-        EditText text = view.findViewById(R.id.TextInput);
+        final EditText text = view.findViewById(R.id.TextInput);
         text.setHint(showText);
         model.setEditable(text.getEditableText());
 
@@ -91,6 +91,17 @@ public class MiniSearchViewHolder extends RecyclerView.ViewHolder {
         }else{
             sw.setVisibility(View.GONE);
         }
+
+        model.setButtonSelectedListener(new OnButtonSelectedListener() {
+            @Override
+            public void onButtonSelected(boolean maxElementsLimit) {
+                if (maxElementsLimit){
+                    text.setVisibility(View.GONE);
+                }else{
+                    text.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
     }
 }

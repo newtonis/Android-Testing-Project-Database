@@ -15,6 +15,7 @@ import com.gnd.calificaprofesores.MenuManager.MenuManager;
 import com.gnd.calificaprofesores.NetworkAdd.AddProfessorHandler;
 import com.gnd.calificaprofesores.NetworkAdd.CompleteProfData;
 import com.gnd.calificaprofesores.NetworkAdd.ProfessorAddedListener;
+import com.gnd.calificaprofesores.NetworkAdd.SmallMateriaData;
 import com.gnd.calificaprofesores.NetworkHandler.CourseData;
 import com.gnd.calificaprofesores.NetworkSearchQueriesHandler.GotCourseListener;
 import com.gnd.calificaprofesores.NetworkSearchQueriesHandler.SearchCourseHandler;
@@ -23,6 +24,7 @@ import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.Adapter;
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.ButtonData;
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.InputLineTextData;
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.MiniSearchData;
+import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.NoInfoData;
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.SearchCalledListener;
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.SmallLoadingData;
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.TitleData;
@@ -44,6 +46,7 @@ public class ActivityAddProf extends AppCompatActivity {
     private InputLineTextData profInput;
     private ButtonData button;
     private MenuManager menuManager;
+    private View.OnClickListener goToAddMateriaListener;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +61,17 @@ public class ActivityAddProf extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         addProfessorHandler = new AddProfessorHandler();
+
+        goToAddMateriaListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(
+                        ActivityAddProf.this,
+                        ActivityAddClass.class
+                );
+                startActivity(intent);
+            }
+        };
 
         profInput = new InputLineTextData("Profesor ...","Nombre del profesor");
         adapter.AddElement(profInput);
@@ -88,7 +102,14 @@ public class ActivityAddProf extends AppCompatActivity {
 
                 miniSearchData.SearchResults(convertedData);
 
-
+                if (convertedData.size() == 0){
+                    miniSearchData.AddElement(new NoInfoData(
+                            "NO FUE ENCONTRADA LA MATERIA",
+                            "AGREGAR MATERIA",
+                            goToAddMateriaListener
+                    ));
+                    miniSearchData.notifyDataSetChanged();
+                }
             }
         });
         adapter.AddElement(miniSearchData);
@@ -99,7 +120,7 @@ public class ActivityAddProf extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Map<String, String> facultades = new TreeMap<>();
-                Map<String, String> materias = new TreeMap<>();
+                Map<String, SmallMateriaData> materias = new TreeMap<>();
 
                 Set<UniData> matList = miniSearchData.getElementSet();
 
@@ -108,7 +129,10 @@ public class ActivityAddProf extends AppCompatActivity {
                 for (UniData element : matList){
                     materias.put(
                             element.GetId(),
-                            element.GetUniShortName()
+                            new SmallMateriaData(
+                                    element.GetUniShownName(),
+                                    element.GetUniShortName()
+                            )
                     );
                     uniSet.add(element.GetUniShownName());
                 }
@@ -120,7 +144,7 @@ public class ActivityAddProf extends AppCompatActivity {
 
                 addProfessorHandler.addProfessor(new CompleteProfData(
                         profInput.getText(),
-                        0L,
+                        "0",
                         facultades,
                         materias,
                         false,

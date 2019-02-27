@@ -41,6 +41,7 @@ public class IntentCourseManager {
         myIntent = new Intent(ctx, cls);
         myIntent.putExtra("CourseName",_CourseName);
         myIntent.putExtra("CourseId",_CourseId);
+        myIntent.putExtra("Mode", "Course");
     }
     /** Default builder **/
     public IntentCourseManager(){

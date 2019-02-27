@@ -150,49 +150,57 @@ exports.UpdateMatQual = functions.database.ref("/OpinionesMaterias/{matid}/{uid}
     }
 );
 
+/** agregar un nuevo profesor, o agregarle materias a un profesor **/
+
 exports.UpdateAddProfRequest = functions.database.ref("/ProfAddRequests/{uid}/{rid}")
     .onWrite((event , context) => {
         materias = {};
         facultades = {};
         
         const arrMaterias = event.after.child("materias").val();
-        const arrFacultades = event.after.child("facultades").val();
+        const profId = event.after.child("profId").val();
+
+        if (profId == "0"){
+            const arrFacultades = event.after.child("facultades").val();
         
-        console.log("materias = ",arrMaterias);
-        console.log("facultades = ",arrFacultades);
+            for (var child in arrFacultades){
+                facultades[child] = arrFacultades[child];
+            }
+            const name = event.after.child("profName").val();
+            const searchName = name.toLowerCase();
 
-        for (var child in arrMaterias){
+            console.log("materias = ",arrMaterias);
+            console.log("facultades = ",arrFacultades);
+            console.log("profId = ",profId);
+            console.log("profName = ",profName);
 
-            //console.log("child = " , event.after.child("materias").val()[child]);
-
-            materias[child] = arrMaterias[child];
-
+            admin.database().ref("Prof").push().set({
+                Name : name,
+                SearchName : searchName,
+                amabilidad : 0,
+                clases : 0,
+                conocimiento : 0,
+                count : 0,
+                Materias : arrMaterias,
+                Facultades : facultades
+            }).then(() => {
+                console.log('Successfully updated database');
+                return 0;
+            }).catch(() => {
+                console.log('Error updating database');
+                return 0;
+            });
+            return 1;
+        }else{
+            console.log("Agregandole materias al profesor "+profId);
+            console.log("path = ","Prof/"+profId+"/Materias");
+            for (var child in arrMaterias){
+                admin.database()
+                .ref("Prof/"+profId+"/Materias")
+                .child(child).set(arrMaterias[child]);
+            }
+            return 1;
         }
-        
-        for (var child in arrFacultades){
-            facultades[child] = arrFacultades[child];
-        }
-
-        const name = event.after.child("profName");
-        const searchName = name.toLowerCase();
-
-        admin.database().ref("Prof").push().set({
-            Name : name,
-            SearchName : searchName,
-            amabilidad : 0,
-            clases : 0,
-            conocimiento : 0,
-            count : 0,
-            Materias : materias,
-            Facultades : facultades
-        }).then(() => {
-            console.log('Successfully updated database');
-            return 0;
-        }).catch(() => {
-            console.log('Error updating database');
-            return 0;
-        });
-        return 1;
     }
 );
 

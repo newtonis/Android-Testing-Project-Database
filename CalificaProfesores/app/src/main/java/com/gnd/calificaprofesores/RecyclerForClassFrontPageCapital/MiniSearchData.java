@@ -25,6 +25,7 @@ public class MiniSearchData extends AdapterElement{
     private Editable editable;
     private SearchCalledListener searchCalledListener;
     private Long maxElements;
+    private OnButtonSelectedListener buttonSelectedListener;
 
     public MiniSearchData(
             String shownText,
@@ -42,6 +43,23 @@ public class MiniSearchData extends AdapterElement{
         this.maxElements = maxElements; // -1 means infinity
         adapter = new Adapter();
         adapter2 = new Adapter();
+        buttonSelectedListener = null;
+    }
+
+    public Long getMaxElements() {
+        return maxElements;
+    }
+
+    public void setMaxElements(Long maxElements) {
+        this.maxElements = maxElements;
+    }
+
+    public OnButtonSelectedListener getButtonSelectedListener() {
+        return buttonSelectedListener;
+    }
+
+    public void setButtonSelectedListener(OnButtonSelectedListener buttonSelectedListener) {
+        this.buttonSelectedListener = buttonSelectedListener;
     }
 
     public String getShownText() {
@@ -142,6 +160,9 @@ public class MiniSearchData extends AdapterElement{
                                 public void onClick(View v) {
                                     elementSet.remove(element);
                                     adapter2.removeElement(element);
+                                    if (buttonSelectedListener != null){
+                                        buttonSelectedListener.onButtonSelected(elementSet.size() == maxElements);
+                                    }
                                     adapter2.notifyDataSetChanged();
                                 }
                             });
@@ -150,6 +171,9 @@ public class MiniSearchData extends AdapterElement{
                             adapter2.notifyDataSetChanged();
                         }
                         elementSet.add(element);
+                        if (buttonSelectedListener != null){
+                            buttonSelectedListener.onButtonSelected(elementSet.size() == maxElements);
+                        }
                         eraseText();
                     }
             });
@@ -172,5 +196,8 @@ public class MiniSearchData extends AdapterElement{
 
     public void AddElement(AdapterElement element){
         adapter.AddElement(element);
+    }
+    public void notifyDataSetChanged(){
+        adapter.notifyDataSetChanged();
     }
 }

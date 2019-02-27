@@ -110,6 +110,7 @@ public class ActivityAddClass extends AppCompatActivity {
                                 }
                             }
                     ));
+                    miniSearchData.notifyDataSetChanged();
                 }
             }
         });
@@ -120,7 +121,7 @@ public class ActivityAddClass extends AppCompatActivity {
 
         final MiniSearchData miniSearchData2 = new MiniSearchData(
                 "Profesor ...",
-                "LOS PROFESORES NO FIGURAN",
+                "AGREGAR PROFESORES DESPUÉS",
                 true,
                 -1L,
                 new SearchCalledListener() {
@@ -138,6 +139,24 @@ public class ActivityAddClass extends AppCompatActivity {
                     convertedData.add(new UniData(item));
                 }
                 miniSearchData2.SearchResults(convertedData);
+
+                if (convertedData.size() == 0){
+                    miniSearchData2.AddElement(new NoInfoData(
+                            "NO SE ENCONTRO EL PROFESOR",
+                            "AGREGAR PROFESOR",
+                            new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(
+                                            ActivityAddClass.this,
+                                            ActivityAddProf.class
+                                    );
+                                    startActivity(intent);
+                                }
+                            }
+                    ));
+                    miniSearchData2.notifyDataSetChanged();
+                }
             }
         });
 
