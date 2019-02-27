@@ -58,7 +58,7 @@ public class SearchProfHandler {
             }
             profs.add(new ProfData(
                     (String)postSnapshot.child("Name").getValue(),
-                    Long.parseLong(postSnapshot.getKey()),
+                    postSnapshot.getKey(),
                     facultadesText
             ));
         }

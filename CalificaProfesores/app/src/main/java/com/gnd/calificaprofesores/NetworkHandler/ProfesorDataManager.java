@@ -19,15 +19,15 @@ public abstract class ProfesorDataManager {
     Map<Integer , MatData > auxData; /// tiene informoacion de materias indexada por ID
     String profName;
     int matCount;
-    Long profId;
+    String profId;
 
-    public ProfesorDataManager(Long _profId) {
+    public ProfesorDataManager(String _profId) {
         profId = _profId;
         auxData = new TreeMap<>();
 
         mDatabase = FirebaseDatabase.getInstance().getReference().getRef();
 
-        mDatabase.child("Prof/" + Long.toString(profId)).addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("Prof/" + profId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 profName = (String) dataSnapshot.child("Name").getValue();
@@ -104,7 +104,7 @@ public abstract class ProfesorDataManager {
                 }
                 continue;
             }
-            String code = Long.toString(profId) + "_" + idMat;
+            String code = profId + "_" + idMat;
             mDatabase.child("Puntajes/"+code).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {

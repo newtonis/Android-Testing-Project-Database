@@ -8,11 +8,11 @@ import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.AdapterElemen
 import java.util.Comparator;
 
 public class UniData extends AdapterElement implements Comparable<UniData> {
-    private Long id;
+    private String id;
     private String UniShortName;
     private String UniShownName;
     private View.OnClickListener clickListener;
-    public UniData(Long _id, String _UniShortName, String _UniShownName){
+    public UniData(String _id, String _UniShortName, String _UniShownName){
         super(0);
         id = _id;
         UniShortName = _UniShortName;
@@ -39,7 +39,7 @@ public class UniData extends AdapterElement implements Comparable<UniData> {
     public View.OnClickListener GetClickListener(){
         return this.clickListener;
     }
-    public Long GetId(){
+    public String GetId(){
         return this.id;
     }
     public String GetUniShortName(){
@@ -51,13 +51,7 @@ public class UniData extends AdapterElement implements Comparable<UniData> {
 
     @Override
     public int compareTo(UniData o) {
-        if (this.id > o.id){
-            return 1;
-        }else if (this.id < o.id){
-            return -1;
-        }else{
-            return 0;
-        }
+        return this.id.compareTo(o.id);
     }
     @Override
     public boolean equals(Object o) {

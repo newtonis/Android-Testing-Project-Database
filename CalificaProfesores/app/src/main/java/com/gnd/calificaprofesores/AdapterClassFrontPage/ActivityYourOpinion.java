@@ -63,7 +63,7 @@ public class ActivityYourOpinion extends Fragment {
 
         UserDataManager userData = new UserDataManager();
 
-        Long CourseId = CourseManager.GetCourseId();
+        String CourseId = CourseManager.GetCourseId();
 
         userData.AddGotUserCommentListener(CourseId, new GotUserCommentListener() {
             @Override

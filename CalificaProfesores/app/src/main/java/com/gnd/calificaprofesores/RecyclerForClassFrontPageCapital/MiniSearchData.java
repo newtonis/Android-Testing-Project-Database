@@ -170,4 +170,7 @@ public class MiniSearchData extends AdapterElement{
         this.editable = editable;
     }
 
+    public void AddElement(AdapterElement element){
+        adapter.AddElement(element);
+    }
 }

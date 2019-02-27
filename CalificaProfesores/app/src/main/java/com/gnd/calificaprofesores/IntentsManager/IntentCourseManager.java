@@ -7,7 +7,7 @@ import android.content.Intent;
 
 public class IntentCourseManager {
     String CourseName;
-    Long CourseId;
+    String CourseId;
     String UniName;
 
     Intent myIntent;
@@ -17,7 +17,7 @@ public class IntentCourseManager {
     /** A partir de un Intent generamos la clase **/
     public IntentCourseManager(Intent intent){
         CourseName = intent.getStringExtra("CourseName");
-        CourseId = intent.getLongExtra("CourseId", 1L);
+        CourseId = intent.getStringExtra("CourseId");
         UniName = intent.getStringExtra("UniName");
         this.myIntent = intent;
     }
@@ -32,7 +32,7 @@ public class IntentCourseManager {
     }
 
     /** A partir de course Name y Course Id generamos la clase **/
-    public IntentCourseManager(String _CourseName, Long _CourseId, Context _ctx, Class _cls){
+    public IntentCourseManager(String _CourseName, String _CourseId, Context _ctx, Class _cls){
         this.ctx = _ctx;
         this.cls = _cls;
         this.CourseName = _CourseName;
@@ -45,7 +45,7 @@ public class IntentCourseManager {
     /** Default builder **/
     public IntentCourseManager(){
         CourseName = "Física I";
-        CourseId = 1L;
+        CourseId = "";
         UniName = "ITBA";
     }
     public Intent GetIntent(){
@@ -54,7 +54,7 @@ public class IntentCourseManager {
     public String GetCourseName() {
         return CourseName;
     }
-    public Long GetCourseId() {
+    public String GetCourseId() {
         return CourseId;
     }
     public IntentCourseManager ConvertIntent(Context _ctx, Class _cls) {

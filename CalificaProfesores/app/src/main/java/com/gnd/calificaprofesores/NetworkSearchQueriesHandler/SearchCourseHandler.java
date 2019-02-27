@@ -103,13 +103,13 @@ public class SearchCourseHandler {
         for (final DataSnapshot postSnapshot : dataSnapshot.getChildren()){
             if (mode) {
                 courses.add(new CourseData(
-                        (Long) postSnapshot.child("id").getValue(),
+                        postSnapshot.getKey(),
                         (String) postSnapshot.child("ShownName").getValue(),
                         uniName.toUpperCase()
                 ));
             }else{
                 courses.add(new CourseData(
-                        Long.parseLong(postSnapshot.getKey()),
+                        postSnapshot.getKey(),
                         (String) postSnapshot.child("ShownName").getValue(),
                         (String) postSnapshot.child("FacultadName").getValue()
                 ));

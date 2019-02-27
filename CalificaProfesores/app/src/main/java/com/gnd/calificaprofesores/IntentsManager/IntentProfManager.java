@@ -7,7 +7,7 @@ import com.gnd.calificaprofesores.NetworkProfOpinion.UserProfComment;
 
 public class IntentProfManager {
     String ProfName;
-    Long ProfId;
+    String ProfId;
     Intent myIntent;
     Context ctx;
     Class cls;
@@ -15,10 +15,10 @@ public class IntentProfManager {
     public IntentProfManager(Intent intent){
         myIntent = intent;
         ProfName = intent.getStringExtra("ProfName");
-        ProfId = intent.getLongExtra("ProfId", 1L);
+        ProfId = intent.getStringExtra("ProfId");
     }
 
-    public IntentProfManager(Intent intent, String _ProfName, Long _ProfId){
+    public IntentProfManager(Intent intent, String _ProfName, String _ProfId){
         myIntent = intent;
         this.ProfName = _ProfName;
         this.ProfId = _ProfId;
@@ -27,7 +27,7 @@ public class IntentProfManager {
     }
     public IntentProfManager(){
         ProfName = "Issac Newton";
-        ProfId = 1L;
+        ProfId = "";
     }
     public Intent GetIntent(){
         return myIntent;
@@ -35,7 +35,7 @@ public class IntentProfManager {
     public String GetProfName(){
         return ProfName;
     }
-    public Long GetProfId(){
+    public String GetProfId(){
         return ProfId;
     }
     public IntentProfManager ConvertIntent(Context _ctx, Class _cls){

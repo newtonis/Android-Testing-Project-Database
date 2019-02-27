@@ -107,7 +107,7 @@ public class ActivityAddProf extends AppCompatActivity {
 
                 for (UniData element : matList){
                     materias.put(
-                            Long.toString(element.GetId()),
+                            element.GetId(),
                             element.GetUniShortName()
                     );
                     uniSet.add(element.GetUniShownName());

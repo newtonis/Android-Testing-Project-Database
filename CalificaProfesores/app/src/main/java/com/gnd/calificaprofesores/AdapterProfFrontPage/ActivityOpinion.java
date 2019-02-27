@@ -1,5 +1,6 @@
 package com.gnd.calificaprofesores.AdapterProfFrontPage;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,19 +9,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.gnd.calificaprofesores.IntentsManager.IntentCourseManager;
-import com.gnd.calificaprofesores.NetworkHandler.CourseCommentsDataManager;
-import com.gnd.calificaprofesores.NetworkHandler.GotCommentListener;
+import com.gnd.calificaprofesores.ActivitySendCommentProf;
+import com.gnd.calificaprofesores.IntentsManager.IntentProfManager;
 import com.gnd.calificaprofesores.NetworkProfOpinion.GotProfCommentListener;
 import com.gnd.calificaprofesores.NetworkProfOpinion.ProfCommentsDataManager;
 import com.gnd.calificaprofesores.NetworkProfOpinion.UserProfComment;
-import com.gnd.calificaprofesores.OpinionItem.CourseComment;
 import com.gnd.calificaprofesores.R;
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.Adapter;
-import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.AdapterElement;
+import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.NoInfoData;
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.OpinionProfData;
-import com.google.firebase.database.DatabaseError;
-import com.pnikosis.materialishprogress.ProgressWheel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +33,9 @@ public class ActivityOpinion extends Fragment {
     private static Long ProfId;
 
     private RecyclerView recyclerView;
-    IntentCourseManager CourseManager;
     ProfCommentsDataManager mProfCommentsDataManager;
+    IntentProfManager intentProfManager;
+
     ViewGroup mContainer;
     LayoutInflater mLayoutInflater;
     ViewGroup placeholder;
@@ -59,11 +57,11 @@ public class ActivityOpinion extends Fragment {
         mLayoutInflater = inflater;
         placeholder = (ViewGroup)mView;
 
-        CourseManager = new IntentCourseManager();
+        intentProfManager = new IntentProfManager(getActivity().getIntent());
 
         adapter = new Adapter();
 
-        mProfCommentsDataManager = new ProfCommentsDataManager(CourseManager.GetCourseId());
+        mProfCommentsDataManager = new ProfCommentsDataManager(intentProfManager.GetProfId());
 
         mProfCommentsDataManager.AddOnGotCommentListener(new GotProfCommentListener() {
             @Override
@@ -85,7 +83,25 @@ public class ActivityOpinion extends Fragment {
         for (UserProfComment com : comment){
             addComment(com);
         }
+        View.OnClickListener goToOpinionListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(
+                        intentProfManager.ConvertIntent(
+                                getContext(),
+                                ActivitySendCommentProf.class
+                        ).GetIntent()
+                );
+            }
+        };
 
+        if (comment.size() == 0){
+            adapter.AddElement(new NoInfoData(
+                    "NO HAY OPINIONES",
+                    "OPINAR",
+                    goToOpinionListener
+            ));
+        }
         adapter.notifyDataSetChanged();
     }
     public void addComment(UserProfComment comment){
@@ -113,7 +129,8 @@ public class ActivityOpinion extends Fragment {
                 comment.getAmabilidad(),
                 comment.getTimestamp_long(),
                 stars
-                ));
+                )
+        );
     }
 
 

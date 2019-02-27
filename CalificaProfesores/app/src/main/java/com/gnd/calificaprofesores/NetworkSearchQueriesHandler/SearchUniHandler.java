@@ -73,7 +73,7 @@ public class SearchUniHandler {
     public void AddPackage(@NonNull DataSnapshot dataSnapshot){
         for (final DataSnapshot postSnapshot : dataSnapshot.getChildren()){
             uni.add(new UniData(
-                    Long.parseLong(postSnapshot.getKey()),
+                    postSnapshot.getKey(),
                     ((String)postSnapshot.child("Name").getValue()).toUpperCase(),
                     (String)postSnapshot.child("ShownName").getValue()
             ));

@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.balysv.materialmenu.MaterialMenuView;
@@ -22,7 +23,9 @@ import com.gnd.calificaprofesores.NetworkProfOpinion.UserProfComment;
 import com.gnd.calificaprofesores.R;
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.Adapter;
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.ButtonData;
+import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.ClickableData;
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.EditTextData;
+import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.NoInfoData;
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.ScoreSelectorData;
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.SelectableItem;
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.TitleData;
@@ -55,6 +58,7 @@ public class ActivitySendCommentProf extends AppCompatActivity {
     private List<SelectableItem> materias;
     private EditTextData editText;
     private ScoreSelectorData scoreSelector;
+    private TextView TextBuscarCurso;
 
     private ProfCommentsDataManager dataManager;
 
@@ -66,11 +70,14 @@ public class ActivitySendCommentProf extends AppCompatActivity {
         recyclerView = findViewById(R.id.RecyclerView);
         sadIcon = findViewById(R.id.SadFace);
         progressWheel = findViewById(R.id.LoadingIcon);
+        TextBuscarCurso = findViewById(R.id.TextBuscarCurso);
 
         adapter = new Adapter();
 
         recyclerView.setAdapter(adapter);
         intentManager = new IntentProfManager(getIntent());
+
+        TextBuscarCurso.setText(intentManager.GetProfName());
 
         dataManager = new ProfCommentsDataManager(intentManager.GetProfId());
 
@@ -94,66 +101,92 @@ public class ActivitySendCommentProf extends AppCompatActivity {
 
         dataManager.RequestProfMat();
 
-
     }
     public void onLoaded(){
         Intent intent = intentManager.GetIntent();
 
         SetLoaded();
-        adapter.AddElement(new TitleData("MATERIAS"));
 
-        Set<String> selected_materias = new TreeSet<>();
+        Integer materiasCount = intent.getIntExtra("MateriasCount",0);
 
-        if (intent.getBooleanExtra("PrevComment",false)){
-            Integer materiasCount = intent.getIntExtra("MateriasCount",0);
-            String []materiasSelected = intent.getStringArrayExtra("Materias");
-            for (Integer index = 0;index < materiasCount;index++){
-                selected_materias.add(materiasSelected[index]);
-            }
-        }
-        for (SelectableItem materia : materias){
-            if (selected_materias.contains(Long.toString(materia.getId()))){
-                materia.setClicked(true);
-            }
-            adapter.AddElement(materia);
-        }
-
-        adapter.AddElement(new TitleData("CALIFICACIÓN"));
-
-        scoreSelector = new ScoreSelectorData(
-                (int)intent.getLongExtra("Conocimiento",3L),
-                (int)intent.getLongExtra("Clases", 3L),
-                (int)intent.getLongExtra("Amabilidad",3L)
-        );
-
-        adapter.AddElement(scoreSelector);
-
-        adapter.AddElement(new TitleData("EN PALABRAS"));
-        editText = new EditTextData("Comentario ...");
-        adapter.AddElement(editText);
-
-        ButtonData sendButton = new ButtonData("ENVIAR");
-        sendButton.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener goToAsociarMateriasListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SendProfComment();
+                startActivity(intentManager.ConvertIntent(
+                        getContext(),
+                        ActivityLink.class
+                ).GetIntent()
+                );
             }
-        });
+        };
 
-        adapter.AddElement(sendButton);
+        if (materiasCount == 0){
+            adapter.AddElement(new NoInfoData("El profesor no tiene asociada materias",
+                    "Asociar materias",
+                        goToAsociarMateriasListener
+                    )
+            );
+            adapter.notifyDataSetChanged();
 
-        editText.setHasText(intent.getBooleanExtra(
-                "HasText",true
-        ));
-        editText.setAnonimo(intent.getBooleanExtra(
-                "IsAnonimo", false
-        ));
-        if (intent.getBooleanExtra("PrevComment",false)) {
-            String text = intent.getStringExtra("TextContent");
-            editText.setText(text);
+        }else {
+            adapter.AddElement(new TitleData("MATERIAS"));
+
+            Set<String> selected_materias = new TreeSet<>();
+
+            if (intent.getBooleanExtra("PrevComment", false)) {
+                String[] materiasSelected = intent.getStringArrayExtra("Materias");
+                for (Integer index = 0; index < materiasCount; index++) {
+                    selected_materias.add(materiasSelected[index]);
+                }
+            }
+            for (SelectableItem materia : materias) {
+                if (selected_materias.contains(materia.getId())) {
+                    materia.setClicked(true);
+                }
+                adapter.AddElement(materia);
+            }
+            adapter.AddElement(new ClickableData(
+                    "¿Faltan materias?",
+                    goToAsociarMateriasListener
+            ));
+
+            adapter.AddElement(new TitleData("CALIFICACIÓN"));
+
+            scoreSelector = new ScoreSelectorData(
+                    (int) intent.getLongExtra("Conocimiento", 3L),
+                    (int) intent.getLongExtra("Clases", 3L),
+                    (int) intent.getLongExtra("Amabilidad", 3L)
+            );
+
+            adapter.AddElement(scoreSelector);
+
+            adapter.AddElement(new TitleData("EN PALABRAS"));
+            editText = new EditTextData("Comentario ...");
+            adapter.AddElement(editText);
+
+            ButtonData sendButton = new ButtonData("ENVIAR");
+            sendButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    SendProfComment();
+                }
+            });
+
+            adapter.AddElement(sendButton);
+
+            editText.setHasText(intent.getBooleanExtra(
+                    "HasText", true
+            ));
+            editText.setAnonimo(intent.getBooleanExtra(
+                    "IsAnonimo", false
+            ));
+            if (intent.getBooleanExtra("PrevComment", false)) {
+                String text = intent.getStringExtra("TextContent");
+                editText.setText(text);
+            }
+
+            adapter.notifyDataSetChanged();
         }
-
-        adapter.notifyDataSetChanged();
     }
     private void SetLoading(){
         progressWheel.setVisibility(View.VISIBLE);
@@ -175,7 +208,7 @@ public class ActivitySendCommentProf extends AppCompatActivity {
 
         for (SelectableItem materia : materias){
             if (materia.getClicked()){
-                MatData.put(Long.toString(materia.getId()), materia.getTitle());
+                MatData.put(materia.getId(), materia.getTitle());
             }
         }
 

@@ -56,7 +56,7 @@ public class ActivityYourOpinion extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         userData = new UserDataManager();
-        ProfManager = new IntentProfManager(); // a modificar cuando sea la version final
+        ProfManager = new IntentProfManager(getActivity().getIntent()); // a modificar cuando sea la version final
         // por ahora el profesor selecionado es siempre el mismo
     }
 

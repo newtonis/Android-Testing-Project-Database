@@ -34,7 +34,7 @@ public class UserDataManager {
         mDatabase = FirebaseDatabase.getInstance().getReference( ).getRef();
     }
 
-    public void AddGotUserCommentListener(Long CourseId, final GotUserCommentListener listener){
+    public void AddGotUserCommentListener(String CourseId, final GotUserCommentListener listener){
         this.mGotUserCommentListener = listener;
 
         mDatabase.child("OpinionesMaterias/"+CourseId+"/"+currentFirebaseUser.getUid()).addListenerForSingleValueEvent(
@@ -69,10 +69,10 @@ public class UserDataManager {
         this.mGotUserProfCommentListener = listener;
     }
 
-    public void ListenForUserProfComment(Long ProfId){
+    public void ListenForUserProfComment(String ProfId){
         String uid = FirebaseAuth.getInstance().getUid();
         mDatabase.child("OpinionesProf")
-                .child(Long.toString(ProfId))
+                .child(ProfId)
                 .child(uid)
                 .addListenerForSingleValueEvent(
                 new ValueEventListener() {

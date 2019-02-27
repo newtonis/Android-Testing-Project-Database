@@ -4,20 +4,20 @@ package com.gnd.calificaprofesores.NetworkProfOpinion;
  *  su calificación
  */
 public class ProfExtendedData {
-    Long id;
+    String id;
     String name;
     Float conocimiento , amabildiad, clases;
 
-    public ProfExtendedData(Long id, String name) {
+    public ProfExtendedData(String id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

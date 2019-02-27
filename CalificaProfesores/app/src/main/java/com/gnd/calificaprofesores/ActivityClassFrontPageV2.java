@@ -38,7 +38,7 @@ public class ActivityClassFrontPageV2 extends AppCompatActivity {
     private AdapterClassFrontPage adapter;
 
     private static String CourseName;
-    private static Long CourseId;
+    private static String CourseId;
 
     private Toolbar toolbar;
     private IntentCourseManager intent;

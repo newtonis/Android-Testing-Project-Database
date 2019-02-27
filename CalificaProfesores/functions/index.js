@@ -230,8 +230,13 @@ exports.UpdateAddUniRequest = functions.database.ref("/UniAddRequests/{uid}/{rid
 
         admin.database().ref("Facultades").push().set({
             Name: uniShortName,
-            uniCompleteName : uniCompleteName.toLowerCase(),
-            ShownName : name
+            uniCompleteName : uniCompleteName.toLowerCase()
+            .replace(/á/g, "a")
+            .replace(/é/g, "e")
+            .replace(/í/g, "i")
+            .replace(/ó/g, "o")
+            .replace(/ú/g,"u"),
+            ShownName : uniCompleteName
         })
         
     }

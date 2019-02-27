@@ -36,7 +36,7 @@ public class ActivityProfFrontPageV2 extends AppCompatActivity{
 
         toolbar = findViewById(R.id.toolbar);
 
-        intentManager = new IntentProfManager();
+        intentManager = new IntentProfManager(getIntent());
 
         TextView title = findViewById(R.id.TextProfName);
         title.setText(intentManager.GetProfName());

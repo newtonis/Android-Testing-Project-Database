@@ -6,11 +6,11 @@ import java.util.Map;
 
 public class CompleteClassData {
     String name;
-    Long facultadId;
+    String facultadId;
     String facultadName;
     Map<String, String> prof;
 
-    public CompleteClassData(String name, Long facultadId, String facultadName, Map<String, String> prof) {
+    public CompleteClassData(String name, String facultadId, String facultadName, Map<String, String> prof) {
         this.name = name;
         this.facultadId = facultadId;
         this.facultadName = facultadName;
@@ -25,11 +25,11 @@ public class CompleteClassData {
         this.name = name;
     }
 
-    public Long getFacultadId() {
+    public String getFacultadId() {
         return facultadId;
     }
 
-    public void setFacultadId(Long facultadId) {
+    public void setFacultadId(String facultadId) {
         this.facultadId = facultadId;
     }
 

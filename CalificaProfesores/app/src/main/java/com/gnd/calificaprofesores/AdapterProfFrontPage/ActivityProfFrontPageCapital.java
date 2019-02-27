@@ -51,7 +51,7 @@ public class ActivityProfFrontPageCapital extends Fragment {
         mContainer = container;
         mLayoutInflater = inflater;
 
-        intentProfManager = new IntentProfManager();
+        intentProfManager = new IntentProfManager(getActivity().getIntent());
 
         profCommentsDataManager = new ProfCommentsDataManager(intentProfManager.GetProfId());
 

@@ -48,7 +48,7 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_item_rating_bar, viewGroup, false);
                 return new StarsViewHolder(itemView);
             case 3:
-                itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.search_list_element, viewGroup, false);
+                itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.search_list_element_mini, viewGroup, false);
                 return new SelectableItemViewHolder(itemView);
             case 4:
                 itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_expandable_text_view, viewGroup, false);
@@ -95,6 +95,9 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             case 18:
                 itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.search_list_element, viewGroup, false);
                 return new SearchItemViewHolder(itemView);
+            case 19:
+                itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_item_small_message_and_button, viewGroup, false);
+                return new ClickableViewHolder(itemView);
         }
         return null;
     }
@@ -246,6 +249,15 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     element.GetUniShownName(),
                     0L
             );
+        }else if(dataItem.GetType() == 19){
+            ClickableData element = (ClickableData) dataItem;
+            ClickableViewHolder holder = (ClickableViewHolder) viewHolder;
+
+            holder.setDetails(
+                    element.getText(),
+                    element.getListener()
+            );
+
         }
         /*opinionItemViewHolder.setDetails(dataItem.GetUniShortName(), dataItem.GetUniShownName(), 0L);
         opinionItemViewHolder.mView.setOnClickListener(dataItem.GetClickListener());*/

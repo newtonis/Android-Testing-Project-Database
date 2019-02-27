@@ -7,11 +7,11 @@ import android.view.View;
 
 public class ProfData implements Comparable<ProfData> {
     private String Name;
-    private Long Id;
+    private String Id;
     private String Details;
     private View.OnClickListener clickListener;
 
-    public ProfData(String _Name,Long _Id, String _Details){
+    public ProfData(String _Name,String _Id, String _Details){
         Name = _Name;
         Id = _Id;
         Details = _Details;
@@ -22,7 +22,7 @@ public class ProfData implements Comparable<ProfData> {
     public View.OnClickListener GetClickListener(){
         return this.clickListener;
     }
-    public Long GetId(){
+    public String GetId(){
         return this.Id;
     }
 
@@ -44,13 +44,7 @@ public class ProfData implements Comparable<ProfData> {
 
     @Override
     public int compareTo(ProfData o) {
-        if (this.Id > o.Id){
-            return 1;
-        }else if (this.Id < o.Id){
-            return -1;
-        }else{
-            return 0;
-        }
+        return this.Id.compareTo(o.Id);
     }
     @Override
     public boolean equals(Object o) {

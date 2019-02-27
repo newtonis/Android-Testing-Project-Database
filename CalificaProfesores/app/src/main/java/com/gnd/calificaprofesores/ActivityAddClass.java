@@ -29,6 +29,7 @@ import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.AdapterElemen
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.ButtonData;
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.InputLineTextData;
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.MiniSearchData;
+import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.NoInfoData;
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.SearchCalledListener;
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.SmallLoadingData;
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.TitleData;
@@ -94,6 +95,22 @@ public class ActivityAddClass extends AppCompatActivity {
                     convertedData.add(item);
                 }
                 miniSearchData.SearchResults(convertedData);
+                if (convertedData.size() == 0){
+                    miniSearchData.AddElement(new NoInfoData(
+                            "NO SE ENCONTRO LA INSTITUCION",
+                            "AGREGAR INSTITUCIÓN",
+                            new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(
+                                            ActivityAddClass.this,
+                                            ActivityAddUni.class
+                                    );
+                                    startActivity(intent);
+                                }
+                            }
+                    ));
+                }
             }
         });
 
@@ -131,7 +148,7 @@ public class ActivityAddClass extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Long facultadId = -1L;
+                String facultadId = "";
                 String facultadName = "";
                 Map<String, String> prof = new TreeMap<>();
 
@@ -151,7 +168,7 @@ public class ActivityAddClass extends AppCompatActivity {
                 }
 
                 for (UniData item : miniSearchData2.getElementSet()){
-                    prof.put(Long.toString(item.GetId()), item.GetUniShortName());
+                    prof.put(item.GetId(), item.GetUniShortName());
                 }
 
                 addClassHandler.addClass(new CompleteClassData(

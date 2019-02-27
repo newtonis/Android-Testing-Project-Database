@@ -2,13 +2,13 @@ package com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital;
 
 /** Boton seleccionable con un titulo **/
 
-/** search_list_element.xml **/
+/** search_list_element_mini.xml **/
 
 public class SelectableItem extends AdapterElement  {
     String title, detail;
-    Long id;
+    String id;
     boolean clicked;
-    public SelectableItem(Long id, String _title, String _detail){
+    public SelectableItem(String id, String _title, String _detail){
         super(3);
         this.id = id;
         title = _title;
@@ -51,11 +51,11 @@ public class SelectableItem extends AdapterElement  {
         this.clicked = clicked;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 }

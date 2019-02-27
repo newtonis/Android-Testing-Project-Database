@@ -24,14 +24,14 @@ import java.util.Vector;
 public class CourseCommentsDataManager {
 
     private DatabaseReference mDatabase;
-    private long CourseId;
+    private String CourseId;
     private String CourseName;
     private GotCourseInfoListener gotCourseDataListener;
     private GotCommentListener gotCommentListener;
 
     private Integer count;
 
-    public CourseCommentsDataManager(Long _CourseId, String _CourseName){
+    public CourseCommentsDataManager(String _CourseId, String _CourseName){
         mDatabase = FirebaseDatabase.getInstance().getReference();
         CourseId = _CourseId;
         CourseName = _CourseName;
@@ -39,7 +39,7 @@ public class CourseCommentsDataManager {
     public void listenForComments(){
 
         mDatabase.child("OpinionesMaterias")
-                .child(Long.toString(CourseId))
+                .child(CourseId)
                 .orderByChild("timestamp")
                 .limitToFirst(20)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -79,7 +79,7 @@ public class CourseCommentsDataManager {
 
     public void SendComment(CourseComment comment, final SentCommentListener listener){
         comment.SetTimestamp(ServerValue.TIMESTAMP);
-        mDatabase.child("OpinionesMaterias/"+Long.toString(CourseId)+"/"+FirebaseAuth.getInstance().getUid()).setValue(comment, new DatabaseReference.CompletionListener(){
+        mDatabase.child("OpinionesMaterias/"+CourseId+"/"+FirebaseAuth.getInstance().getUid()).setValue(comment, new DatabaseReference.CompletionListener(){
             @Override
             public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
                 if (databaseError == null) {
@@ -95,7 +95,7 @@ public class CourseCommentsDataManager {
 
         mDatabase.
                 child("Materias").
-                child(Long.toString(CourseId))
+                child(CourseId)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -109,7 +109,7 @@ public class CourseCommentsDataManager {
 
                 for (DataSnapshot child : dataSnapshot.child("Prof").getChildren()){
                     profData.add(new ProfExtendedData(
-                            Long.parseLong(child.getKey()),
+                            child.getKey(),
                             (String)child.getValue()
                     ));
                 }
@@ -139,7 +139,7 @@ public class CourseCommentsDataManager {
         for (final ProfExtendedData prof : courseData.getProfessors()) {
             mDatabase
                     .child("Prof")
-                    .child(Long.toString(prof.getId()))
+                    .child(prof.getId())
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

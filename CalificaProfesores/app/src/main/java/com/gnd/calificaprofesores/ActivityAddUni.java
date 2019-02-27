@@ -54,8 +54,11 @@ public class ActivityAddUni extends AppCompatActivity {
                 adapter.AddElement(new SmallLoadingData());
 
                 sendUni();
+                adapter.notifyDataSetChanged();
             }
         });
+
+        adapter.AddElement(button);
 
         addUniHandler.setUniAddedListener(new UniAddedListener() {
             @Override
@@ -71,7 +74,7 @@ public class ActivityAddUni extends AppCompatActivity {
     }
     protected void sendUni(){
         String uniName = uniInput.getText();
-        String uniSigla = uniInput.getText();
+        String uniSigla = uniShortNameInput.getText();
 
         addUniHandler.AddUni(new CompleteUniData(
             uniName,

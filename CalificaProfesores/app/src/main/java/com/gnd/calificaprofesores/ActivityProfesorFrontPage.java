@@ -27,7 +27,7 @@ public class ActivityProfesorFrontPage extends AppCompatActivity {
     boolean dataIsHere; /// se pone en true cuando ya esta la informacion para mostrar los puntajes del profesor
 
     String professorName;
-    Long professorId;
+    String professorId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,7 @@ public class ActivityProfesorFrontPage extends AppCompatActivity {
         Intent intent = getIntent();
 
         professorName = intent.getStringExtra("ProfessorName");
-        professorId = intent.getLongExtra("ProfessorId",1L);
+        professorId = intent.getStringExtra("ProfessorId");
 
         manager = new ProfesorDataManager(professorId) {
             @Override

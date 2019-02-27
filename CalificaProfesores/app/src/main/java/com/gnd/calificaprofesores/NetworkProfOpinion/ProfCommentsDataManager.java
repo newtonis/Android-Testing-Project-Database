@@ -21,13 +21,13 @@ import java.util.TreeMap;
 
 public class ProfCommentsDataManager {
     private DatabaseReference mDatabase;
-    private Long ProfId;
+    private String ProfId;
     private GotProfCommentListener gotProfCommentListener;
     private SentProfCommentListener sentCommentListener;
     private GotProfMatListener gotProfMatListener;
     private GotProfQualListener gotProfQualListener;
 
-    public ProfCommentsDataManager(Long _ProfId){
+    public ProfCommentsDataManager(String _ProfId){
         mDatabase = FirebaseDatabase.getInstance().getReference();
         ProfId = _ProfId;
     }
@@ -36,14 +36,14 @@ public class ProfCommentsDataManager {
 
         mDatabase
                 .child("OpinionesProf")
-                .child(Long.toString(ProfId))
+                .child(ProfId)
                 .orderByChild("timestamp")
                 .limitToFirst(10)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        List<UserProfComment> comments = new ArrayList<>();
 
+                        List<UserProfComment> comments = new ArrayList<>();
 
                         for (DataSnapshot postSnapshot : dataSnapshot.getChildren()){
                             Map<String,String> materias = new TreeMap<>();
@@ -81,7 +81,7 @@ public class ProfCommentsDataManager {
 
         mDatabase
                 .child("OpinionesProf")
-                .child(Long.toString(ProfId))
+                .child(ProfId)
                 .child(uid)
                 .setValue(comment)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -95,7 +95,7 @@ public class ProfCommentsDataManager {
     public void RequestProfMat(){
         mDatabase
                 .child("Prof")
-                .child(Long.toString(ProfId))
+                .child(ProfId)
                 .child("Mat")
                 .addListenerForSingleValueEvent(
                         new ValueEventListener() {
@@ -105,7 +105,7 @@ public class ProfCommentsDataManager {
 
                                 for (DataSnapshot postsnapshot : dataSnapshot.getChildren()){
                                     materias.add(new SelectableItem(
-                                            Long.parseLong(postsnapshot.getKey()),
+                                            postsnapshot.getKey(),
                                             (String)postsnapshot.child("nombre").getValue(),
                                             (String)postsnapshot.child("facultad").getValue()
                                     ));
@@ -124,7 +124,7 @@ public class ProfCommentsDataManager {
     public void RequestProfQual(){
         mDatabase
                 .child("Prof")
-                .child(Long.toString(ProfId))
+                .child(ProfId)
                 .addListenerForSingleValueEvent(
                         new ValueEventListener() {
                             @Override
