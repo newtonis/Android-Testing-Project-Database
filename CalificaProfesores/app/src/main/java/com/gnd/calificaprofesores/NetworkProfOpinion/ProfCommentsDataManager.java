@@ -129,11 +129,33 @@ public class ProfCommentsDataManager {
                         new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                gotProfQualListener.onGotProfQualListener(
-                                        (long)dataSnapshot.child("conocimiento").getValue(),
-                                        (long)dataSnapshot.child("clases").getValue(),
-                                        (long)dataSnapshot.child("amabilidad").getValue()
-                                );
+                                if (
+                                        dataSnapshot.hasChild("conocimiento") &&
+                                        dataSnapshot.hasChild("clases") &&
+                                        dataSnapshot.hasChild("amabilidad") &&
+                                        dataSnapshot.hasChild("count")){
+
+                                    long count_long = (long)dataSnapshot.child("count").getValue();
+                                    long conocimiento = (long)dataSnapshot.child("conocimiento").getValue();
+                                    long clases = (long)dataSnapshot.child("clases").getValue();
+                                    long amabilidad = (long)dataSnapshot.child("amabilidad").getValue();
+
+                                    float count = (float)count_long;
+
+                                    if (count != 0) {
+                                        gotProfQualListener.onGotProfQualListener(
+                                                conocimiento / count,
+                                                clases/ count,
+                                                amabilidad / count
+                                        );
+                                    }else{
+                                        gotProfQualListener.onGotProfQualListener(
+                                                0f,
+                                                0f,
+                                                0f
+                                        );
+                                    }
+                                }
                             }
 
                             @Override

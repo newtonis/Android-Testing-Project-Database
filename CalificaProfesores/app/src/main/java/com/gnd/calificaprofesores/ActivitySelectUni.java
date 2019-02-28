@@ -23,10 +23,16 @@ import com.firebase.ui.database.SnapshotParser;
 import com.gnd.calificaprofesores.ListItems.BasicListItem;
 import com.gnd.calificaprofesores.ListItems.ListItemViewHolder;
 import com.gnd.calificaprofesores.MenuManager.MenuManager;
+import com.gnd.calificaprofesores.NetworkHandler.GotUserExtraDataListener;
+import com.gnd.calificaprofesores.NetworkHandler.SentUniDataListener;
+import com.gnd.calificaprofesores.NetworkHandler.UserDataManager;
+import com.gnd.calificaprofesores.NetworkHandler.UserExtraData;
 import com.gnd.calificaprofesores.NetworkSearchQueriesHandler.GotUniListener;
 import com.gnd.calificaprofesores.NetworkSearchQueriesHandler.SearchUniHandler;
 import com.gnd.calificaprofesores.NetworkSearchQueriesHandler.UniData;
 import com.gnd.calificaprofesores.OpinionItem.AdapterCourseComments;
+import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.Adapter;
+import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.NoInfoData;
 import com.gnd.calificaprofesores.SearchItem.AdapterSearch;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
@@ -50,12 +56,13 @@ public class ActivitySelectUni extends AppCompatActivity {
     private RecyclerView mResultList;
 
     private SearchUniHandler searchUniHandler;
-    private AdapterSearch adapterSearch;
+    private Adapter adapter;
     RecyclerView recyclerView;
 
     private List<UniData> ShownDataListed;
     private ProgressWheel progressWheel;
     private ImageView sadIcon;
+    private UserDataManager userDataManager;
     private MenuManager menuManager;
 
     @Override
@@ -63,10 +70,11 @@ public class ActivitySelectUni extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_uni);
 
+        Intent intent = getIntent();
         ShownDataListed = new ArrayList<>();
         searchUniHandler = new SearchUniHandler();
-        adapterSearch = new AdapterSearch(ShownDataListed);
-
+        adapter = new Adapter();
+        userDataManager = new UserDataManager();
 
         /*** Cargamos widgets **/
         mUniInput = findViewById(R.id.courseInput2);
@@ -78,7 +86,7 @@ public class ActivitySelectUni extends AppCompatActivity {
         progressWheel.bringToFront();
 
         /** Recycler burocracia **/
-        recyclerView.setAdapter(adapterSearch);
+        recyclerView.setAdapter(adapter);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -107,32 +115,87 @@ public class ActivitySelectUni extends AppCompatActivity {
             @Override
             public void onGotUni(Set<UniData> data) {
                 if (data.isEmpty()){
-                    SetNoResults();
+                    SetLoaded();
+                    adapter.clear();
+                    adapter.AddElement(new NoInfoData(
+                            "INSTITUCIÓN NO ENCONTRADA",
+                            "AGREGAR INSTITUCIÓN",
+                            new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(
+                                            ActivitySelectUni.this,
+                                            ActivityAddUni.class
+                                    );
+                                    startActivity(intent);
+                                }
+                            }
+                    ));
                 }else{
                     SetLoaded();
+                    adapter.clear();
+                    for (final UniData item : data) {
+                        item.SetClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                SetLoading();
+
+                                selectUni(item.GetId(), item.GetUniShortName());
+
+                            }
+                        });
+                        item.SetType(18);
+                        adapter.AddElement(item);
+                    }
                 }
                 /// Convertimos el set a list
-                ShownDataListed.clear();
-                ShownDataListed.addAll(data);
 
-                for (final UniData item : data){
-                    item.SetClickListener(new View.OnClickListener(){
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(ActivitySelectUni.this, ActivitySearchCourse.class);
-                            intent.putExtra("Uni",item.GetId());
 
-                            startActivity(intent);
-                        }
-                    });
-                }
-                adapterSearch.notifyDataSetChanged();
+
+                adapter.notifyDataSetChanged();
             }
         });
 
+        if (!intent.getBooleanExtra("forceSelect",false)) {
+            userDataManager.listenForUserProfileData();
+            userDataManager.setmGotUserExtraDataListener(new GotUserExtraDataListener() {
+                @Override
+                public void gotExtraData(UserExtraData extraData) {
+                    if (extraData.getUniId() != "") {
+                        Intent intent = new Intent(
+                                ActivitySelectUni.this,
+                                ActivitySearchCourse.class
+                        );
+                        intent.putExtra("Uni", extraData.getUniId());
+                        intent.putExtra("UniName", extraData.getUniName());
+
+                        startActivity(intent);
+                    }
+                }
+            });
+        }
+
+        menuManager = new MenuManager(
+                this,
+                (MaterialMenuView)findViewById(R.id.MaterialMenuButton),
+                (DrawerLayout)findViewById(R.id.DrawerLayout));
 
     }
+    protected void selectUni(final String uniId,final String uniShortName){
+        userDataManager.setUni(uniShortName, uniId);
 
+        userDataManager.setSentUniDataListener(new SentUniDataListener() {
+            @Override
+            public void onSentUni() {
+                Intent intent = new Intent(ActivitySelectUni.this, ActivitySearchCourse.class);
+                intent.putExtra("Uni", uniId);
+                intent.putExtra("UniName", uniShortName);
+
+                startActivity(intent);
+            }
+        });
+
+    }
     /*private FirebaseRecyclerOptions<BasicListItem> SearchAndMakeList(Query firebaseSearchQuery){
         return new FirebaseRecyclerOptions.Builder<BasicListItem>()
                 .setQuery(firebaseSearchQuery, new SnapshotParser<BasicListItem>(){
@@ -227,6 +290,6 @@ public class ActivitySelectUni extends AppCompatActivity {
     /** para hacer que se borren las opciones mostradas **/
     private void ClearListItems(){
         ShownDataListed.clear();
-        adapterSearch.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();
     }
 }

@@ -18,7 +18,9 @@ import com.firebase.ui.auth.AuthUI;
 import com.gnd.calificaprofesores.ActivityLogin;
 import com.gnd.calificaprofesores.ActivitySearchCourse;
 import com.gnd.calificaprofesores.ActivitySearchProfessor;
+import com.gnd.calificaprofesores.ActivitySelectUni;
 import com.gnd.calificaprofesores.ActivitySignIn;
+import com.gnd.calificaprofesores.ActivityUser;
 import com.gnd.calificaprofesores.NetworkHandler.GotUserExtraDataListener;
 import com.gnd.calificaprofesores.NetworkHandler.UserDataManager;
 import com.gnd.calificaprofesores.NetworkHandler.UserExtraData;
@@ -39,12 +41,14 @@ public class MenuManager {
     private MaterialMenuView materialMenuView;
     private DrawerLayout mDrawerLayout;
     private UserDataManager userDataManager;
-    private Button ButtonSalir, buttonBuscarMateria, buttonBuscarProfesor;
+    private Button ButtonSalir, buttonBuscarMateria, buttonBuscarProfesor, buttonNovedades;
 
 
     public MenuManager(Context ctx, MaterialMenuView _materialMenuView, DrawerLayout _mDrawerLayout){
         this.materialMenuView = _materialMenuView;
         this.mDrawerLayout = _mDrawerLayout;
+
+        userDataManager = new UserDataManager();
 
         this.materialMenuView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,12 +77,11 @@ public class MenuManager {
                 mDrawerLayout.getContext().startActivity(
                         new Intent(
                                 mDrawerLayout.getContext(),
-                                ActivitySearchCourse.class
+                                ActivitySelectUni.class
                         )
                 );
             }
         });
-
         buttonBuscarProfesor = mDrawerLayout.findViewById(R.id.buttonBuscarProfesor);
         buttonBuscarProfesor.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -87,6 +90,19 @@ public class MenuManager {
                         new Intent(
                                 mDrawerLayout.getContext(),
                                 ActivitySearchProfessor.class
+                        )
+                );
+            }
+        });
+
+        buttonNovedades = mDrawerLayout.findViewById(R.id.ButtonNovedades);
+        buttonNovedades.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawerLayout.getContext().startActivity(
+                        new Intent(
+                                mDrawerLayout.getContext(),
+                                ActivityUser.class
                         )
                 );
             }

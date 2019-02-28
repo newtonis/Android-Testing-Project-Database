@@ -3,6 +3,7 @@ package com.gnd.calificaprofesores;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.balysv.materialmenu.MaterialMenuView;
@@ -63,7 +65,7 @@ public class ActivitySearchCourse extends AppCompatActivity {
     private Adapter adapter;
 
     private SearchCourseHandler searchCourseHandler;
-    private Long uniId; // identificacion de la univerisdad de la que se buscaran cursos
+    private String uniId; // identificacion de la univerisdad de la que se buscaran cursos
     private CourseCommentsDataManager courseDataManager;
 
     private ProgressWheel progressWheel;
@@ -78,7 +80,7 @@ public class ActivitySearchCourse extends AppCompatActivity {
 
         /** Cargamos la universidad de la que buscaremos cursos **/
         Intent intent = getIntent();
-        uniId = intent.getLongExtra("Uni",1L);
+        uniId = intent.getStringExtra("Uni");
         searchCourseHandler = new SearchCourseHandler(uniId);
         ShownDataListed = new ArrayList<>();
         adapter = new Adapter();
@@ -92,6 +94,19 @@ public class ActivitySearchCourse extends AppCompatActivity {
         progressWheel = findViewById(R.id.LoadingIcon);
         sadIcon.bringToFront();
         progressWheel.bringToFront();
+
+        TextView uniText = findViewById(R.id.UniversityText);
+        uniText.setText(intent.getStringExtra("UniName"));
+
+        ConstraintLayout layoutUni = findViewById(R.id.SelectUniLayout);
+        layoutUni.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ActivitySearchCourse.this, ActivitySelectUni.class);
+                intent.putExtra("forceSelect",true);
+                startActivity(intent);
+            }
+        });
 
         /** Eventos **/
         recyclerView.setAdapter(adapter);
@@ -121,6 +136,7 @@ public class ActivitySearchCourse extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ActivitySearchCourse.this, ActivityAddClass.class);
+
                 startActivity(intent);
             }
         };

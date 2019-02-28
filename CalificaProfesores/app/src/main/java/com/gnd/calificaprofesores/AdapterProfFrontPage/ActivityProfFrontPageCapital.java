@@ -57,11 +57,11 @@ public class ActivityProfFrontPageCapital extends Fragment {
 
         profCommentsDataManager.AddOnGotQualListener(new GotProfQualListener() {
             @Override
-            public void onGotProfQualListener(long conocimiento, long clases, long amabilidad) {
+            public void onGotProfQualListener(float conocimiento, float clases, float amabilidad) {
                 SetLoaded(
-                        (int)conocimiento,
-                        (int)amabilidad,
-                        (int)clases
+                        conocimiento,
+                        amabilidad,
+                        clases
                 );
             }
         });
@@ -71,7 +71,7 @@ public class ActivityProfFrontPageCapital extends Fragment {
         return mView;
 
     }
-    public void SetLoaded(int conocimiento, int amabilidad, int clases){
+    public void SetLoaded(float conocimiento, float clases, float amabilidad){
 
         mView = mLayoutInflater.inflate(R.layout.layout_recycler_view, mContainer, false);
         placeholder.removeAllViews();
@@ -84,7 +84,7 @@ public class ActivityProfFrontPageCapital extends Fragment {
 
         myAdapter.AddElement(new TitleData("CALIFICACIÓN GENERAL"));
         myAdapter.AddElement(new StarsData((conocimiento+amabilidad+clases)/3f));
-        myAdapter.AddElement(new ShownQualData(conocimiento,amabilidad,clases));
+        myAdapter.AddElement(new ShownQualData(conocimiento,clases,amabilidad));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
 

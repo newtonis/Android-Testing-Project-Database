@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.gnd.calificaprofesores.NetworkProfOpinion.UserProfComment;
 import com.gnd.calificaprofesores.OpinionItem.CourseComment;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -25,13 +26,52 @@ public class UserDataManager {
     private GotUserCommentListener mGotUserCommentListener;
     private GotUserExtraDataListener mGotUserExtraDataListener;
     private GotUserProfCommentListener mGotUserProfCommentListener;
+    private SentUniDataListener sentUniDataListener;
+
+    private String uid;
 
     FirebaseUser currentFirebaseUser;
     private DatabaseReference mDatabase;
+    private int count;
 
     public UserDataManager(){
         currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference( ).getRef();
+        uid = FirebaseAuth.getInstance().getUid();
+    }
+
+    public void setUni(String uniName, String uniId){
+        count = 0;
+
+        mDatabase
+                .child("UsersExtraData/"+uid+"/UniName")
+                .setValue(uniName).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                count ++;
+                if (count == 2){
+                    sentUniDataListener.onSentUni();
+                }
+            }
+        });
+
+        mDatabase
+                .child("UsersExtraData/"+uid+"/UniId")
+                .setValue(uniId).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                count ++;
+                if (count == 2){
+                    sentUniDataListener.onSentUni();
+                }
+            }
+        });
+    }
+
+    public void setShownName(String shownName){
+        mDatabase
+                .child("UsersExtraData/"+uid+"/ShownName")
+                .setValue(shownName);
     }
 
     public void AddGotUserCommentListener(String CourseId, final GotUserCommentListener listener){
@@ -115,16 +155,27 @@ public class UserDataManager {
 
     }
 
-    public void AddGotUserProfileData(final String uid, final GotUserExtraDataListener listener){
-        this.mGotUserExtraDataListener = listener;
+    public void listenForUserProfileData(){
 
         mDatabase.child("UsersExtraData/"+uid).addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        listener.gotExtraData(new UserExtraData(
-                                uid, (String)dataSnapshot.child("ShownName").getValue()
-                        ));
+                        UserExtraData data = new UserExtraData(
+                                (String)dataSnapshot.child("ShownName").getValue()
+                        );
+
+                        if (dataSnapshot.hasChild("UniId")){
+                            data.setUniId(
+                                    (String)dataSnapshot.child("UniId").getValue()
+                            );
+                        }
+                        if (dataSnapshot.hasChild("UniName")){
+                            data.setUniName(
+                                    (String)dataSnapshot.child("UniName").getValue()
+                            );
+                        }
+                        mGotUserExtraDataListener.gotExtraData(data);
                     }
 
                     @Override
@@ -135,5 +186,19 @@ public class UserDataManager {
         );
     }
 
+    public GotUserExtraDataListener getmGotUserExtraDataListener() {
+        return mGotUserExtraDataListener;
+    }
 
+    public void setmGotUserExtraDataListener(GotUserExtraDataListener mGotUserExtraDataListener) {
+        this.mGotUserExtraDataListener = mGotUserExtraDataListener;
+    }
+
+    public SentUniDataListener getSentUniDataListener() {
+        return sentUniDataListener;
+    }
+
+    public void setSentUniDataListener(SentUniDataListener sentUniDataListener) {
+        this.sentUniDataListener = sentUniDataListener;
+    }
 }

@@ -1,38 +1,38 @@
 package com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital;
 
 public class ShownQualData extends AdapterElement{
-    private int conocimiento;
-    private int amabilidad;
-    private int clases;
+    private float conocimiento;
+    private float amabilidad;
+    private float clases;
 
-    public ShownQualData(int conocimiento, int amabilidad, int clases) {
+    public ShownQualData(float conocimiento, float clases, float amabilidad) {
         super(8);
         this.conocimiento = conocimiento;
         this.amabilidad = amabilidad;
         this.clases = clases;
     }
 
-    public int getConocimiento() {
+    public float getConocimiento() {
         return conocimiento;
     }
 
-    public void setConocimiento(int conocimiento) {
+    public void setConocimiento(float conocimiento) {
         this.conocimiento = conocimiento;
     }
 
-    public int getAmabilidad() {
+    public float getAmabilidad() {
         return amabilidad;
     }
 
-    public void setAmabilidad(int amabilidad) {
+    public void setAmabilidad(float amabilidad) {
         this.amabilidad = amabilidad;
     }
 
-    public int getClases() {
+    public float getClases() {
         return clases;
     }
 
-    public void setClases(int clases) {
+    public void setClases(float clases) {
         this.clases = clases;
     }
 }

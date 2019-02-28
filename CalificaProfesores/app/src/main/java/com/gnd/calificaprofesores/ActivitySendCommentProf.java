@@ -113,14 +113,14 @@ public class ActivitySendCommentProf extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(intentManager.ConvertIntent(
-                        getContext(),
+                        ActivitySendCommentProf.this,
                         ActivityLink.class
                 ).GetIntent()
                 );
             }
         };
 
-        if (materiasCount == 0){
+        if (materias.size() == 0){
             adapter.AddElement(new NoInfoData("El profesor no tiene asociada materias",
                     "Asociar materias",
                         goToAsociarMateriasListener

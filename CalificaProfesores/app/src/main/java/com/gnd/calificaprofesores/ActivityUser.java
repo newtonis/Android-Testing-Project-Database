@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.balysv.materialmenu.MaterialMenuView;
 import com.gnd.calificaprofesores.MenuManager.MenuManager;
+import com.gnd.calificaprofesores.NetworkHandler.UserDataManager;
 import com.gnd.calificaprofesores.NetworkNewsHandler.GotNewsListener;
 import com.gnd.calificaprofesores.NetworkNewsHandler.NetworkNewsHandler;
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.Adapter;
@@ -28,6 +29,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
 import java.util.List;
@@ -39,6 +41,7 @@ public class ActivityUser extends AppCompatActivity {
     private Adapter adapter;
     private RecyclerView recyclerView;
     private ProgressWheel progressWheel;
+    private UserDataManager userDataManager;
 
     private NetworkNewsHandler networkNewsHandler;
 
@@ -57,6 +60,7 @@ public class ActivityUser extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         networkNewsHandler = new NetworkNewsHandler();
+        userDataManager = new UserDataManager();
 
         networkNewsHandler.setGotNewsListener(new GotNewsListener() {
             @Override
@@ -76,6 +80,10 @@ public class ActivityUser extends AppCompatActivity {
                 this,
                 (MaterialMenuView)findViewById(R.id.MaterialMenuButton),
                 (DrawerLayout)findViewById(R.id.DrawerLayout));
+
+        if (FirebaseAuth.getInstance().getUid() != null){
+            userDataManager.setShownName(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+        }
 
         SetLoading();
     }

@@ -1,5 +1,5 @@
 package com.gnd.calificaprofesores.NetworkProfOpinion;
 
 public interface GotProfQualListener {
-    void onGotProfQualListener(long conocimiento, long clases,long amabilidad);
+    void onGotProfQualListener(float conocimiento, float clases,float amabilidad);
 }

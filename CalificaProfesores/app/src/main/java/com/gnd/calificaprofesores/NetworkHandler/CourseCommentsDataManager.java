@@ -37,7 +37,6 @@ public class CourseCommentsDataManager {
         CourseName = _CourseName;
     }
     public void listenForComments(){
-
         mDatabase.child("OpinionesMaterias")
                 .child(CourseId)
                 .orderByChild("timestamp")
@@ -46,24 +45,29 @@ public class CourseCommentsDataManager {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<CourseComment> comments = new ArrayList<>();
-                for (final DataSnapshot postSnapshot : dataSnapshot.getChildren()){
-                    // fix pendiente
-                    final Long valoracion = (Long) postSnapshot.child("valoracion").getValue();
-                    final String author = (String) postSnapshot.child("author").getValue();
-                    final String contenido = (String) postSnapshot.child("content").getValue();
-                    final Long timestamp = (Long) postSnapshot.child("timestamp").getValue();
 
-                    CourseComment comment = new CourseComment(
-                            author,
-                            contenido,
-                            valoracion,
-                            0L
-                    );
-                    comment.setTimestampLong(
-                            timestamp
-                    );
+                if (dataSnapshot.exists()) {
+                    for (final DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                        if (postSnapshot.getKey().equals("sin_contenido")) {
+                            continue;
+                        }
+                        final Long valoracion = (Long) postSnapshot.child("valoracion").getValue();
+                        final String author = (String) postSnapshot.child("author").getValue();
+                        final String contenido = (String) postSnapshot.child("content").getValue();
+                        final Long timestamp = (Long) postSnapshot.child("timestamp").getValue();
 
-                    comments.add(comment);
+                        CourseComment comment = new CourseComment(
+                                author,
+                                contenido,
+                                valoracion,
+                                0L
+                        );
+                        comment.setTimestampLong(
+                                timestamp
+                        );
+
+                        comments.add(comment);
+                    }
                 }
 
                 gotCommentListener.onGotComment(comments);

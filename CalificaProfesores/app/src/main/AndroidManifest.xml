@@ -19,17 +19,19 @@
 
         </activity>
         <activity android:name=".ActivityLogin">
-
-        </activity>
-        <activity android:name=".ActivityLink">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ActivityLink">
+
+        </activity>
         <activity android:name=".ActivitySignIn" />
-        <activity android:name=".ActivityUser" />
+        <activity android:name=".ActivityUser" >
+
+        </activity>
         <activity android:name=".ActivitySignUp" />
         <activity android:name=".ActivitySelectUni">
 

@@ -1,15 +1,40 @@
 package com.gnd.calificaprofesores.NetworkHandler;
 
 public class UserExtraData {
-    private String ShowName;
-    private String uid;
+    private String ShownName;
+    private String UniId;
+    private String UniName;
 
-    UserExtraData(String _uid, String _ShownName){
-        this.uid = uid;
-        this.ShowName = _ShownName;
+    public UserExtraData(String _ShownName){
+        this.ShownName = _ShownName;
+        UniId = "";
+        UniName = "";
     }
     public String GetShownName(){
-        return this.ShowName;
+        return this.ShownName;
     }
 
+    public String getShowName() {
+        return ShownName;
+    }
+
+    public void setShowName(String showName) {
+        ShownName = showName;
+    }
+
+    public String getUniId() {
+        return UniId;
+    }
+
+    public void setUniId(String uniId) {
+        UniId = uniId;
+    }
+
+    public String getUniName() {
+        return UniName;
+    }
+
+    public void setUniName(String uniName) {
+        UniName = uniName;
+    }
 }

@@ -21,7 +21,14 @@ public class IntentCourseManager {
         UniName = intent.getStringExtra("UniName");
         this.myIntent = intent;
     }
-
+    public void setCourseName(String name){
+        myIntent.putExtra("CourseName", name);
+        CourseName = name;
+    }
+    public void setCourseId(String id){
+        myIntent.putExtra("CourseId", id);
+        CourseId = id;
+    }
     public String getUniName() {
         return UniName;
     }
@@ -48,6 +55,7 @@ public class IntentCourseManager {
         CourseName = "Física I";
         CourseId = "";
         UniName = "ITBA";
+        myIntent = new Intent();
     }
     public Intent GetIntent(){
         return myIntent;

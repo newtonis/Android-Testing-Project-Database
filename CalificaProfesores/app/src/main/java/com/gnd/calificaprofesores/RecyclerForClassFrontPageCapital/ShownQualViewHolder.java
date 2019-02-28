@@ -13,7 +13,7 @@ public class ShownQualViewHolder extends RecyclerView.ViewHolder {
         super(view);
         mView = view;
     }
-    public void setDetails(int conocimiento, int amabilidad, int clases){
+    public void setDetails(float conocimiento, float amabilidad, float clases){
         ProgressBar conocimientoView = mView.findViewById(R.id.progress_2);
         ProgressBar clasesView = mView.findViewById(R.id.progress_1);
         ProgressBar amabilidadView = mView.findViewById(R.id.progress_3);

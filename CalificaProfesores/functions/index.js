@@ -66,7 +66,7 @@ function getDelta(event, child_name){
     return delta;
 }
 
-exports.UpdateProfQual = functions.database.ref("/OpinionesProf/{profId}/{uid}")
+exports.UpdateProfQual1 = functions.database.ref("/OpinionesProf/{profId}/{uid}")
     .onWrite((event , context) => {
 
         var deltaConocimiento = getDelta(event, "conocimiento");
@@ -109,7 +109,7 @@ exports.UpdateProfQual = functions.database.ref("/OpinionesProf/{profId}/{uid}")
 
 
 
-exports.UpdateMatQual = functions.database.ref("/OpinionesMaterias/{matid}/{uid}")
+exports.UpdateMatQual1 = functions.database.ref("/OpinionesMaterias/{matid}/{uid}")
 	.onWrite((event , context) => {
 		var deltaRank = getDelta(event, "valoracion");
 		
@@ -152,13 +152,14 @@ exports.UpdateMatQual = functions.database.ref("/OpinionesMaterias/{matid}/{uid}
 
 /** agregar un nuevo profesor, o agregarle materias a un profesor **/
 
-exports.UpdateAddProfRequest = functions.database.ref("/ProfAddRequests/{uid}/{rid}")
+exports.UpdateAddProfRequest1 = functions.database.ref("/ProfAddRequests/{uid}/{rid}")
     .onWrite((event , context) => {
         materias = {};
         facultades = {};
         
         const arrMaterias = event.after.child("materias").val();
-        const profId = event.after.child("profId").val();
+        var profId = event.after.child("profId").val();
+        const name = event.after.child("profName").val();
 
         if (profId == "0"){
             const arrFacultades = event.after.child("facultades").val();
@@ -166,15 +167,20 @@ exports.UpdateAddProfRequest = functions.database.ref("/ProfAddRequests/{uid}/{r
             for (var child in arrFacultades){
                 facultades[child] = arrFacultades[child];
             }
-            const name = event.after.child("profName").val();
-            const searchName = name.toLowerCase();
+            const searchName = name.toLowerCase()
+            .replace(/á/g, "a")
+            .replace(/é/g, "e")
+            .replace(/í/g, "i")
+            .replace(/ó/g, "o")
+            .replace(/ú/g, "u");
 
             console.log("materias = ",arrMaterias);
             console.log("facultades = ",arrFacultades);
             console.log("profId = ",profId);
-            console.log("profName = ",profName);
+            console.log("profName = ",name);
 
-            admin.database().ref("Prof").push().set({
+            var newPostRef = admin.database().ref("Prof").push();
+            newPostRef.set({
                 Name : name,
                 SearchName : searchName,
                 amabilidad : 0,
@@ -190,54 +196,138 @@ exports.UpdateAddProfRequest = functions.database.ref("/ProfAddRequests/{uid}/{r
                 console.log('Error updating database');
                 return 0;
             });
-            return 1;
+            profId = newPostRef.key;
+            
         }else{
             console.log("Agregandole materias al profesor "+profId);
-            console.log("path = ","Prof/"+profId+"/Materias");
+            console.log("path = ","Prof/"+profId+"/Mat");
             for (var child in arrMaterias){
                 admin.database()
                 .ref("Prof/"+profId+"/Materias")
                 .child(child).set(arrMaterias[child]);
+                admin.database()
+                .ref("Prof/"+profId+"/Facultades")
+                .child(arrMaterias[child]["facultad"])
+                .set(arrMaterias[child]["facultad"]);
             }
-            return 1;
+
+            
         }
+        for (var child in arrMaterias){
+            admin.database().ref("Materias")
+            .child(child)
+            .child("Prof")
+            .child(profId)
+            .set(name).then(() => {
+                console.log('Successfully updated database Materias/'+child+'/Prof/'+profId);
+                return 0;
+            }).catch(() => {
+                console.log('Error updating database');
+                return 0;
+            });;
+        }
+
+        return 1;
     }
 );
 
-exports.UpdateAddClassRequest = functions.database.ref("/ClassAddRequests/{uid}/{rid}")
+exports.UpdateAddClassRequest1 = functions.database.ref("/ClassAddRequests/{uid}/{rid}")
     .onWrite((event, context) => {
+        const classId = event.after.child("classId").val();
+        const arrProf = event.after.child("prof").val();
+        
         const name = event.after.child("name").val();
         const facultadName = event.after.child("facultadName").val();
-        const facultadId = parseInt(event.after.child("facultadId").val());
-        
-        const arrProf = event.after.child("prof").val();
 
-        profesores = {};
+        if (classId == "0"){
+
+            const facultadId = event.after.child("facultadId").val();
+
+            console.log("Creando materia "+classId);
+            var newPostRef = admin.database().ref("Materias").push();
+            newPostRef.set({
+                Name : name.toLowerCase()
+                .replace(/á/g, "a")
+                .replace(/é/g, "e")
+                .replace(/í/g, "i")
+                .replace(/ó/g, "o")
+                .replace(/ú/g, "u"),
+                ShownName : name,
+                Facultad: facultadId,
+                FacultadName : facultadName,
+                count: 0,
+                totalScore: 0,
+                Prof: arrProf
+            }).then(() => {
+                console.log('Successfully updated Materias');
+                return 0;
+            }).catch(() => {
+                console.log('Error updating database');
+                return 0;
+            });
+
+            var id = newPostRef.key;
+            
+            admin.database()
+            .ref("MateriasPorFacultad")
+            .child(facultadId)
+            .child(id)
+            .set({
+                Name: name.toLowerCase()
+                .replace(/á/g, "a")
+                .replace(/é/g, "e")
+                .replace(/í/g, "i")
+                .replace(/ó/g, "o")
+                .replace(/ú/g, "u"),
+                ShownName: name
+            }).then(() => {
+                console.log('Successfully updated MateriasPorFacultad');
+                return 0;
+            }).catch(() => {
+                console.log('Error updating database');
+                return 0;
+            });
+
+            
+
+        }else{
         
-        for (var child in  arrProf){
-            profesores[child] = arrProf[child];
+            console.log("Agregandole profesores a la materia "+classId);
+            for (var child in arrProf){
+                admin.database()
+                .ref("Materias/"+classId+"/Prof")
+                .child(child).set(arrProf[child]);
+            }
         }
 
-        admin.database().ref("Materias").push().set({
-            Name : name.toLowerCase(),
-            ShownName : name,
-            Facultad: facultadId,
-            FacultadName : facultadName,
-            count: 0,
-            totalScore: 0,
-            prof: profesores
-        })
-
+        for (var prof in arrProf){
+            admin.database()
+            .ref("Prof")
+            .child(prof)
+            .child("Mat")
+            .child(id)
+            .set({
+                facultad: facultadName,
+                nombre: name
+            }).then(() => {
+                console.log('Successfully updated Prof/'+prof+'/Mat/'+id);
+                return 0;
+            }).catch(() => {
+                console.log('Error updating database');
+                return 0;
+            });
+        }
+        return 1;
     }
 );
 
-exports.UpdateAddUniRequest = functions.database.ref("/UniAddRequests/{uid}/{rid}")
+exports.UpdateAddUniRequest1 = functions.database.ref("/UniAddRequests/{uid}/{rid}")
     .onWrite((event, context) => {
         const uniCompleteName = event.after.child("uniShortName").val();
         const uniShortName = event.after.child("uniCompleteName").val();
 
         admin.database().ref("Facultades").push().set({
-            Name: uniShortName,
+            Name: uniShortName.toLowerCase(),
             uniCompleteName : uniCompleteName.toLowerCase()
             .replace(/á/g, "a")
             .replace(/é/g, "e")
@@ -246,6 +336,6 @@ exports.UpdateAddUniRequest = functions.database.ref("/UniAddRequests/{uid}/{rid
             .replace(/ú/g,"u"),
             ShownName : uniCompleteName
         })
-        
+        return 1;
     }
 );

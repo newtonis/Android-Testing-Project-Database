@@ -114,8 +114,9 @@ public class ActivityOpinarMateria extends AppCompatActivity {
         }
     }
     private void SendOpinion(){
+        mUserDataManager.listenForUserProfileData();
 
-        mUserDataManager.AddGotUserProfileData(mAuth.getUid(), new GotUserExtraDataListener() {
+        mUserDataManager.setmGotUserExtraDataListener(new GotUserExtraDataListener() {
             @Override
             public void gotExtraData(UserExtraData extraData) {
                 CourseComment comment = new CourseComment(

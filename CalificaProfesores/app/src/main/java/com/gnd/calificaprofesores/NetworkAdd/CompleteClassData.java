@@ -8,13 +8,16 @@ public class CompleteClassData {
     String name;
     String facultadId;
     String facultadName;
+    String classId;
+
     Map<String, String> prof;
 
-    public CompleteClassData(String name, String facultadId, String facultadName, Map<String, String> prof) {
+    public CompleteClassData(String name, String facultadId, String facultadName, String classId, Map<String, String> prof) {
         this.name = name;
         this.facultadId = facultadId;
         this.facultadName = facultadName;
         this.prof = prof;
+        this.classId = classId;
     }
 
     public String getName() {
@@ -47,5 +50,13 @@ public class CompleteClassData {
 
     public void setProf(Map<String, String> prof) {
         this.prof = prof;
+    }
+
+    public String getClassId() {
+        return classId;
+    }
+
+    public void setClassId(String classId) {
+        this.classId = classId;
     }
 }

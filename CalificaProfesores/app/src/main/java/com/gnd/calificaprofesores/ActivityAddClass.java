@@ -77,8 +77,8 @@ public class ActivityAddClass extends AppCompatActivity {
 
         final MiniSearchData miniSearchData = new MiniSearchData(
                 "Facultad ...",
-                "LAS FACULTAD NO FIGURA",
-                true,
+                "",
+                false,
                 1L,
                 new SearchCalledListener() {
             @Override
@@ -171,7 +171,7 @@ public class ActivityAddClass extends AppCompatActivity {
                 String facultadName = "";
                 Map<String, String> prof = new TreeMap<>();
 
-                if (miniSearchData.isAllowSwitch()){
+                if (!miniSearchData.isAllowSwitch()){
                     if (miniSearchData.getElementSet().size() < 1){
                         Toast.makeText(ActivityAddClass.this,
                                 "Debes seleccionar al menos una universidad",
@@ -194,6 +194,7 @@ public class ActivityAddClass extends AppCompatActivity {
                         courseInput.getText(),
                         facultadId,
                         facultadName,
+                        "0",
                         prof
                 ));
 

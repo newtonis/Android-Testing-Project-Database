@@ -20,17 +20,17 @@ public class SearchCourseHandler {
     private DatabaseReference mDatabase;
     private GotCourseListener listener;
     private Set<CourseData> courses;
-    private long uniId;
+    private String uniId;
     private String uniName;
 
 
-    public SearchCourseHandler(Long _uniId){
+    public SearchCourseHandler(String _uniId){
         mDatabase = FirebaseDatabase.getInstance().getReference().getRef();
         courses = new TreeSet<>();
         uniId = _uniId;
 
-        if (uniId != -1L) {
-            mDatabase.child("Facultades").child(Long.toString(uniId))
+        if (uniId != "") {
+            mDatabase.child("Facultades").child(uniId)
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -53,10 +53,10 @@ public class SearchCourseHandler {
         courses.clear();
 
 
-        if (uniId != -1L) {
+        if (uniId != "") {
             mDatabase
                     .child("MateriasPorFacultad")
-                    .child(Long.toString(uniId))
+                    .child(uniId)
                     .orderByChild("Name")
                     .startAt(text)
                     .endAt(text + "\uf8ff")
