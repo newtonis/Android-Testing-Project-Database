@@ -87,7 +87,7 @@ exports.UpdateProfQual1 = functions.database.ref("/OpinionesProf/{profId}/{uid}"
                 var conocimiento = parseInt(snapshot.child("conocimiento").val());
                 var amabilidad = parseInt(snapshot.child("amabilidad").val());
                 var clases = parseInt(snapshot.child("clases").val());
-                var count = parseInt(snapshot.child("clases").val());
+                var count = parseInt(snapshot.child("count").val());
 
                 console.log("deltaConocimiento = ", deltaConocimiento);
                 profScore.update({
@@ -203,7 +203,7 @@ exports.UpdateAddProfRequest1 = functions.database.ref("/ProfAddRequests/{uid}/{
             console.log("path = ","Prof/"+profId+"/Mat");
             for (var child in arrMaterias){
                 admin.database()
-                .ref("Prof/"+profId+"/Materias")
+                .ref("Prof/"+profId+"/Mat")
                 .child(child).set(arrMaterias[child]);
                 admin.database()
                 .ref("Prof/"+profId+"/Facultades")
