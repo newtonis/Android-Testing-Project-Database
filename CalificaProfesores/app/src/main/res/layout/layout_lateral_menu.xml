@@ -23,11 +23,24 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+        android:id="@+id/ButtonCambiarFacultad"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/alfa_slab_one"
+        android:text="@string/TextoBotonSelFacultad"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ButtonNovedades" />
+
+    <Button
         android:id="@+id/ButtonNovedades"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="150dp"
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/alfa_slab_one"
         android:text="@string/TextNovedades"
@@ -59,7 +72,7 @@
         android:text="@string/SearchTextMateria"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ButtonNovedades" />
+        app:layout_constraintTop_toBottomOf="@+id/ButtonCambiarFacultad" />
 
     <Button
         android:id="@+id/ButtonSalir"

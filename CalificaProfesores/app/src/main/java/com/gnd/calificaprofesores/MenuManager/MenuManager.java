@@ -42,7 +42,7 @@ public class MenuManager {
     private DrawerLayout mDrawerLayout;
     private UserDataManager userDataManager;
     private Button ButtonSalir, buttonBuscarMateria, buttonBuscarProfesor, buttonNovedades;
-
+    private Button buttonCambiarFacultad;
 
     public MenuManager(Context ctx, MaterialMenuView _materialMenuView, DrawerLayout _mDrawerLayout){
         this.materialMenuView = _materialMenuView;
@@ -104,6 +104,22 @@ public class MenuManager {
                                 mDrawerLayout.getContext(),
                                 ActivityUser.class
                         )
+                );
+            }
+        });
+
+        buttonCambiarFacultad = mDrawerLayout.findViewById(R.id.ButtonCambiarFacultad);
+        buttonCambiarFacultad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(
+                        mDrawerLayout.getContext(),
+                        ActivitySelectUni.class
+                );
+                intent.putExtra("forceSelect",true);
+
+                mDrawerLayout.getContext().startActivity(
+                        intent
                 );
             }
         });

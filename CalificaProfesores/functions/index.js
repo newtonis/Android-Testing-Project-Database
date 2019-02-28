@@ -161,7 +161,7 @@ exports.UpdateAddProfRequest1 = functions.database.ref("/ProfAddRequests/{uid}/{
         var profId = event.after.child("profId").val();
         const name = event.after.child("profName").val();
 
-        if (profId == "0"){
+        if (profId == "0"){console.firebase.google.com/
             const arrFacultades = event.after.child("facultades").val();
         
             for (var child in arrFacultades){
@@ -187,7 +187,7 @@ exports.UpdateAddProfRequest1 = functions.database.ref("/ProfAddRequests/{uid}/{
                 clases : 0,
                 conocimiento : 0,
                 count : 0,
-                Materias : arrMaterias,
+                Mat : arrMaterias,
                 Facultades : facultades
             }).then(() => {
                 console.log('Successfully updated database');
