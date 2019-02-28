@@ -106,6 +106,7 @@ public class ActivitySearchProfessor extends AppCompatActivity {
             public void onGotProf(Set<ProfData> data) {
                 if (data.isEmpty()){
                     SetLoaded();
+                    adapter.clear();
                     adapter.AddElement(new NoInfoData(
                             "NO FUE ENCONTRADO EL/LA PROFESOR/A",
                             "AGREGAR NUEVO PROFESOR/A",
@@ -158,16 +159,19 @@ public class ActivitySearchProfessor extends AppCompatActivity {
     private void SetLoading(){
         progressWheel.setVisibility(View.VISIBLE);
         sadIcon.setVisibility(View.INVISIBLE);
+        mResultList.setVisibility(View.INVISIBLE);
         ClearListItems();
     }
     private void SetLoaded(){
         progressWheel.setVisibility(View.INVISIBLE);
         sadIcon.setVisibility(View.INVISIBLE);
+        mResultList.setVisibility(View.VISIBLE);
         ClearListItems();
     }
     private void SetNoResults(){
         progressWheel.setVisibility(View.INVISIBLE);
         sadIcon.setVisibility(View.VISIBLE);
+        mResultList.setVisibility(View.INVISIBLE);
         ClearListItems();
     }
     private void ClearListItems(){

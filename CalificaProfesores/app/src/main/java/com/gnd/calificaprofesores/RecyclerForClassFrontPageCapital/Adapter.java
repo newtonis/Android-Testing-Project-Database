@@ -47,8 +47,8 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             case 2:
                 itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_item_rating_bar, viewGroup, false);
                 return new StarsViewHolder(itemView);
-            case 3:
-                itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.search_list_element_mini, viewGroup, false);
+            case 3: //search_list_element_mini
+                itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.search_list_element, viewGroup, false);
                 return new SelectableItemViewHolder(itemView);
             case 4:
                 itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_expandable_text_view, viewGroup, false);
@@ -83,8 +83,8 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             case 14:
                 itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_item_mini_search, viewGroup, false);
                 return new MiniSearchViewHolder(itemView);
-            case 15:
-                itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.search_list_element_mini, viewGroup, false);
+            case 15: // search_list_element_mini
+                itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.search_list_element, viewGroup, false);
                 return new MiniSearchListItemViewHolder(itemView);
             case 16:
                 itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_input_text_singleline, viewGroup, false);

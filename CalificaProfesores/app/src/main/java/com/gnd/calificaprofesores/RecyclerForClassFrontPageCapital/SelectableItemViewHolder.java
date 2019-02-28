@@ -34,15 +34,15 @@ public class SelectableItemViewHolder extends RecyclerView.ViewHolder {
                 if (model.getClicked()){
                     mView.findViewById(R.id.Content).setBackgroundResource(R.drawable.item_color_selected);
                 }else{
-                    mView.findViewById(R.id.Content).setBackgroundResource(R.drawable.item_color);
+                    mView.findViewById(R.id.Content).setBackgroundResource(R.drawable.layout_bg_no_corner);
                 }
             }
-        });
-        if (model.getClicked()){
-            mView.findViewById(R.id.Content).setBackgroundResource(R.drawable.item_color_selected);
+        }); //setBackgroundResource
+        /*if (model.getClicked()){
+            mView.findViewById(R.id.Content).setBackgroundColor(R.drawable.item_color_selected);
         }else{
-            mView.findViewById(R.id.Content).setBackgroundResource(R.drawable.item_color);
-        }
-    }
+            mView.findViewById(R.id.Content).setBackgroundColor(R.drawable.item_color);
+        }*/
+}
 
 }

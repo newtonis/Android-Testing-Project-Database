@@ -63,6 +63,9 @@ public class ActivityOpinarMateria extends AppCompatActivity {
         TextView title = findViewById(R.id.TextTitle);
         title.setText(intent.GetCourseName());
 
+        TextView uni = findViewById(R.id.UniversityText);
+        uni.setText(intent.getUniName());
+
         recyclerView = findViewById(R.id.RecyclerView);
         adapter = new Adapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

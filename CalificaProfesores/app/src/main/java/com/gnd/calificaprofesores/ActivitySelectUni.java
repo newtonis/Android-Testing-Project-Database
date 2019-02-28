@@ -175,6 +175,8 @@ public class ActivitySelectUni extends AppCompatActivity {
             });
         }
 
+        searchUniHandler.Search("");
+
         menuManager = new MenuManager(
                 this,
                 (MaterialMenuView)findViewById(R.id.MaterialMenuButton),
