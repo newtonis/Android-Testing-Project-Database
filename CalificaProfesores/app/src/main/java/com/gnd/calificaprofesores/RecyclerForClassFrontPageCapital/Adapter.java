@@ -9,6 +9,10 @@ import android.view.ViewGroup;
 import com.gnd.calificaprofesores.NetworkSearchQueriesHandler.UniData;
 import com.gnd.calificaprofesores.OpinionItem.OpinionItemViewHolder;
 import com.gnd.calificaprofesores.R;
+import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.LateralMenuItems.MenuButtonData;
+import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.LateralMenuItems.MenuButtonViewHolder;
+import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.LateralMenuItems.MenuSeparatorData;
+import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.LateralMenuItems.MenuSeparatorViewHolder;
 import com.gnd.calificaprofesores.SearchItem.SearchItemViewHolder;
 import com.gnd.calificaprofesores.SmallLoadingViewHolder;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
@@ -101,6 +105,15 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             case 20:
                 itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_atribution, viewGroup, false);
                 return new AtributionViewHolder(itemView);
+            case 21:
+                itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_button, viewGroup, false);
+                return new MenuButtonViewHolder(itemView);
+            case 22:
+                itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_item_menu_button_no_bold, viewGroup, false);
+                return new MenuButtonViewHolder(itemView);
+            case 23:
+                itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_item_divider, viewGroup, false);
+                return new MenuButtonViewHolder(itemView);
         }
         return null;
     }
@@ -266,6 +279,21 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             AtributionViewHolder holder = (AtributionViewHolder) viewHolder;
 
             holder.setDetails(element.getText());
+        }else if(dataItem.GetType() == 21 || dataItem.GetType() == 22) {
+            MenuButtonData element = (MenuButtonData) dataItem;
+            MenuButtonViewHolder holder = (MenuButtonViewHolder) viewHolder;
+
+            holder.setDetails(
+                    element.getValue(),
+                    element.getClickListener(),
+                    element.isBold()
+            );
+        }else if(dataItem.GetType() == 23){
+            MenuSeparatorData element = (MenuSeparatorData) dataItem;
+            MenuSeparatorViewHolder holder = (MenuSeparatorViewHolder) viewHolder;
+
+            holder.setDetails(
+            );
         }
         /*opinionItemViewHolder.setDetails(dataItem.GetUniShortName(), dataItem.GetUniShownName(), 0L);
         opinionItemViewHolder.mView.setOnClickListener(dataItem.GetClickListener());*/

@@ -10,15 +10,6 @@
     android:background="@color/MenuColor">
 
     <View
-        android:id="@+id/divider16"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="24dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintTop_toBottomOf="@+id/buttonBuscarProfesor"
-        tools:layout_editor_absoluteX="0dp" />
-
-    <View
         android:id="@+id/divider15"
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -40,80 +31,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/ButtonCambiarFacultad"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="8dp"
-        android:fontFamily="@font/alfa_slab_one"
-        android:text="@string/TextoBotonSelFacultad"
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ButtonNovedades" />
-
-    <Button
-        android:id="@+id/ButtonNovedades"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="110dp"
-        android:layout_marginEnd="8dp"
-        android:fontFamily="@font/alfa_slab_one"
-        android:text="@string/TextNovedades"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/buttonBuscarProfesor"
-        android:layout_width="200dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="8dp"
-        android:fontFamily="@font/alfa_slab_one"
-        android:text="@string/SearchTextProfesor"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ButtonBuscarMateria" />
-
-    <Button
-        android:id="@+id/ButtonBuscarMateria"
-        android:layout_width="200dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="8dp"
-        android:fontFamily="@font/alfa_slab_one"
-        android:text="@string/SearchTextMateria"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ButtonCambiarFacultad" />
-
-    <Button
-        android:id="@+id/ButtonSalir"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/TextSalir"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ButtonAtribuciones" />
-
-    <Button
-        android:id="@+id/ButtonAtribuciones"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/TextAtribuciones"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider16" />
+        app:layout_constraintTop_toBottomOf="@+id/divider15" />
 
 </android.support.constraint.ConstraintLayout>

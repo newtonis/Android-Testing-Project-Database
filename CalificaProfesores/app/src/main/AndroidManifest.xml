@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.gnd.calificaprofesores">
+    package="com.gnd.calificaprofesores"
+    android:versionCode="0.1"
+    android:versionName="Califica profesores 0.1">
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
@@ -13,25 +15,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ActivityAtribuciones">
-
-        </activity>
-        <activity android:name=".ActivitySendCommentProf" />
-        <activity android:name=".ActivityOpinarMateria" />
-        <activity android:name=".ActivityClassFrontPageV2"></activity>
-        <activity android:name=".ActivityLogin">
+        <activity android:name=".ActivityPrivacyPolicy">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ActivityLink"></activity>
+        <activity android:name=".ActivityAtribuciones"></activity>
+        <activity android:name=".ActivitySendCommentProf" />
+        <activity android:name=".ActivityOpinarMateria" />
+        <activity android:name=".ActivityClassFrontPageV2" />
+        <activity android:name=".ActivityLogin">
+
+        </activity>
+        <activity android:name=".ActivityLink" />
         <activity android:name=".ActivitySignIn" />
-        <activity android:name=".ActivityUser"></activity>
+        <activity android:name=".ActivityUser" />
         <activity android:name=".ActivitySignUp" />
-        <activity android:name=".ActivitySelectUni"></activity>
-        <activity android:name=".ActivitySearchProfessor"></activity>
+        <activity android:name=".ActivitySelectUni" />
+        <activity android:name=".ActivitySearchProfessor" />
         <activity android:name=".ActivityProfesorFrontPage" />
 
         <meta-data
@@ -42,11 +45,11 @@
             android:name=".ActivityCalProf"
             android:screenOrientation="portrait" />
         <activity android:name=".ActivityClassFrontPage" />
-        <activity android:name=".ActivitySearchCourse"></activity>
-        <activity android:name=".ActivityAddClass"></activity>
-        <activity android:name=".ActivityAddUni"></activity>
-        <activity android:name=".ActivityAddProf"></activity>
-        <activity android:name=".ActivityProfFrontPageV2"></activity>
+        <activity android:name=".ActivitySearchCourse" />
+        <activity android:name=".ActivityAddClass" />
+        <activity android:name=".ActivityAddUni" />
+        <activity android:name=".ActivityAddProf" />
+        <activity android:name=".ActivityProfFrontPageV2" />
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -62,7 +65,7 @@
         </activity>
         <activity
             android:name="com.facebook.CustomTabActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
     </application>
 
 </manifest>

@@ -7,6 +7,8 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +19,7 @@ import com.balysv.materialmenu.MaterialMenuView;
 import com.firebase.ui.auth.AuthUI;
 import com.gnd.calificaprofesores.ActivityAtribuciones;
 import com.gnd.calificaprofesores.ActivityLogin;
+import com.gnd.calificaprofesores.ActivityPrivacyPolicy;
 import com.gnd.calificaprofesores.ActivitySearchCourse;
 import com.gnd.calificaprofesores.ActivitySearchProfessor;
 import com.gnd.calificaprofesores.ActivitySelectUni;
@@ -26,6 +29,9 @@ import com.gnd.calificaprofesores.NetworkHandler.GotUserExtraDataListener;
 import com.gnd.calificaprofesores.NetworkHandler.UserDataManager;
 import com.gnd.calificaprofesores.NetworkHandler.UserExtraData;
 import com.gnd.calificaprofesores.R;
+import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.Adapter;
+import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.LateralMenuItems.MenuButtonData;
+import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.LateralMenuItems.MenuSeparatorData;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,13 +44,21 @@ import java.util.Set;
 
 public class MenuManager {
 
+    private RecyclerView recyclerView;
+    private Adapter adapter;
+
     private MaterialMenuDrawable materialMenu;
     private MaterialMenuView materialMenuView;
     private DrawerLayout mDrawerLayout;
     private UserDataManager userDataManager;
-    private Button ButtonSalir, buttonBuscarMateria, buttonBuscarProfesor, buttonNovedades;
-    private Button buttonCambiarFacultad;
-    private Button buttonAtribuciones;
+    private MenuButtonData
+            ButtonSalir,
+            buttonBuscarMateria,
+            buttonBuscarProfesor,
+            buttonNovedades,
+            buttonCambiarFacultad,
+            buttonAtribuciones,
+            buttonPrivacyPolicy;
 
     public MenuManager(Context ctx, MaterialMenuView _materialMenuView, DrawerLayout _mDrawerLayout){
         this.materialMenuView = _materialMenuView;
@@ -63,7 +77,139 @@ public class MenuManager {
 
         SetTitle(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
 
-        ButtonSalir = mDrawerLayout.findViewById(R.id.ButtonSalir);
+        adapter = new Adapter();
+        recyclerView = mDrawerLayout.findViewById(R.id.RecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(mDrawerLayout.getContext()));
+        recyclerView.setAdapter(adapter);
+
+        buttonNovedades = new MenuButtonData(
+                getText(R.string.TextNovedades),
+                true
+        );
+
+        buttonNovedades.setClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawerLayout.getContext().startActivity(
+                        new Intent(
+                                mDrawerLayout.getContext(),
+                                ActivityUser.class
+                        )
+                );
+            }
+        });
+
+        adapter.AddElement(buttonNovedades);
+
+        buttonBuscarMateria = new MenuButtonData(
+                getText(R.string.SearchTextMateria),
+                true
+        );
+        buttonBuscarMateria.setClickListener(
+                new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v) {
+                        mDrawerLayout.getContext().startActivity(
+                                new Intent(
+                                        mDrawerLayout.getContext(),
+                                        ActivitySelectUni.class
+                                )
+                        );
+                    }
+                }
+        );
+
+        adapter.AddElement(buttonBuscarMateria);
+
+
+        buttonBuscarProfesor = new MenuButtonData(
+                getText(R.string.SearchTextProfesor),
+                true
+        );
+
+        buttonBuscarProfesor.setClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                mDrawerLayout.getContext().startActivity(
+                        new Intent(
+                                mDrawerLayout.getContext(),
+                                ActivitySearchProfessor.class
+                        )
+                );
+            }
+        });
+
+        adapter.AddElement(buttonBuscarProfesor);
+
+
+        buttonCambiarFacultad = new MenuButtonData(
+                getText(R.string.TextoBotonSelFacultad),
+                true
+        );
+
+        buttonCambiarFacultad.setClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View v) {
+                   Intent intent = new Intent(
+                           mDrawerLayout.getContext(),
+                           ActivitySelectUni.class
+                   );
+                   intent.putExtra("forceSelect",true);
+
+                   mDrawerLayout.getContext().startActivity(
+                           intent
+                   );
+               }
+           }
+        );
+
+        adapter.AddElement(buttonCambiarFacultad);
+
+        adapter.AddElement(new MenuSeparatorData());
+
+        buttonAtribuciones = new MenuButtonData(
+                getText(R.string.TextAtribuciones),
+                false
+        );
+
+        buttonAtribuciones.setClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(
+                        mDrawerLayout.getContext(),
+                        ActivityAtribuciones.class
+                );
+                mDrawerLayout.getContext().startActivity(
+                        intent
+                );
+            }
+        });
+
+        adapter.AddElement(buttonAtribuciones);
+
+        buttonPrivacyPolicy = new MenuButtonData(
+                getText(R.string.TextPrivacyPolicy),
+                false
+        );
+
+        buttonPrivacyPolicy.setClickListener(new View.OnClickListener() {
+                 @Override
+                 public void onClick(View v) {
+                     Intent intent = new Intent(
+                             mDrawerLayout.getContext(),
+                             ActivityPrivacyPolicy.class
+                     );
+                     mDrawerLayout.getContext().startActivity(
+                             intent
+                     );
+                 }
+             }
+        );
+
+        adapter.AddElement(buttonPrivacyPolicy);
+
+        adapter.notifyDataSetChanged();
+        /*ButtonSalir = mDrawerLayout.findViewById(R.id.ButtonSalir);
         ButtonSalir.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -138,7 +284,10 @@ public class MenuManager {
                         intent
                 );
             }
-        });
+        });*/
+    }
+    private String getText(int id){
+        return  mDrawerLayout.getContext().getResources().getText(R.string.SearchTextMateria).toString();
     }
     public void SetTitle(String title){
         TextView text = mDrawerLayout.findViewById(R.id.ShownName);
