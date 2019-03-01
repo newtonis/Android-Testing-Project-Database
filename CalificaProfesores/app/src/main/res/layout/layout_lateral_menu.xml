@@ -9,6 +9,24 @@
     android:layout_gravity="left|start"
     android:background="@color/MenuColor">
 
+    <View
+        android:id="@+id/divider16"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="24dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintTop_toBottomOf="@+id/buttonBuscarProfesor"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <View
+        android:id="@+id/divider15"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="76dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
+
     <TextView
         android:id="@+id/ShownName"
         android:layout_width="wrap_content"
@@ -40,7 +58,7 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="110dp"
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/alfa_slab_one"
         android:text="@string/TextNovedades"
@@ -79,11 +97,23 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
         android:text="@string/TextSalir"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonBuscarProfesor" />
+        app:layout_constraintTop_toBottomOf="@+id/ButtonAtribuciones" />
+
+    <Button
+        android:id="@+id/ButtonAtribuciones"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/TextAtribuciones"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider16" />
 
 </android.support.constraint.ConstraintLayout>

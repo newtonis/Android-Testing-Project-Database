@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.balysv.materialmenu.MaterialMenuDrawable;
 import com.balysv.materialmenu.MaterialMenuView;
 import com.firebase.ui.auth.AuthUI;
+import com.gnd.calificaprofesores.ActivityAtribuciones;
 import com.gnd.calificaprofesores.ActivityLogin;
 import com.gnd.calificaprofesores.ActivitySearchCourse;
 import com.gnd.calificaprofesores.ActivitySearchProfessor;
@@ -43,6 +44,7 @@ public class MenuManager {
     private UserDataManager userDataManager;
     private Button ButtonSalir, buttonBuscarMateria, buttonBuscarProfesor, buttonNovedades;
     private Button buttonCambiarFacultad;
+    private Button buttonAtribuciones;
 
     public MenuManager(Context ctx, MaterialMenuView _materialMenuView, DrawerLayout _mDrawerLayout){
         this.materialMenuView = _materialMenuView;
@@ -118,6 +120,20 @@ public class MenuManager {
                 );
                 intent.putExtra("forceSelect",true);
 
+                mDrawerLayout.getContext().startActivity(
+                        intent
+                );
+            }
+        });
+
+        buttonAtribuciones = mDrawerLayout.findViewById(R.id.ButtonAtribuciones);
+        buttonAtribuciones.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(
+                        mDrawerLayout.getContext(),
+                        ActivityAtribuciones.class
+                );
                 mDrawerLayout.getContext().startActivity(
                         intent
                 );

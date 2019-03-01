@@ -98,6 +98,9 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             case 19:
                 itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_item_small_message_and_button, viewGroup, false);
                 return new ClickableViewHolder(itemView);
+            case 20:
+                itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_atribution, viewGroup, false);
+                return new AtributionViewHolder(itemView);
         }
         return null;
     }
@@ -258,6 +261,11 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     element.getListener()
             );
 
+        }else if(dataItem.GetType() == 20){
+            AtributionData element = (AtributionData) dataItem;
+            AtributionViewHolder holder = (AtributionViewHolder) viewHolder;
+
+            holder.setDetails(element.getText());
         }
         /*opinionItemViewHolder.setDetails(dataItem.GetUniShortName(), dataItem.GetUniShownName(), 0L);
         opinionItemViewHolder.mView.setOnClickListener(dataItem.GetClickListener());*/
