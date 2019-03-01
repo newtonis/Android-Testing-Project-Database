@@ -84,7 +84,7 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_item_mini_search, viewGroup, false);
                 return new MiniSearchViewHolder(itemView);
             case 15: // search_list_element_mini
-                itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.search_list_element, viewGroup, false);
+                itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.search_list_element_mini, viewGroup, false);
                 return new MiniSearchListItemViewHolder(itemView);
             case 16:
                 itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_input_text_singleline, viewGroup, false);

@@ -218,7 +218,7 @@ public class ActivitySelectUni extends AppCompatActivity {
     }*/
 
     protected void firebaseUniSearch(String searchText){
-
+        adapter.clear();
         searchUniHandler.Search(searchText.toLowerCase());
 
         /// hacemos queries por dos criterios y luego unimos

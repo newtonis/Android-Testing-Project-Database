@@ -47,7 +47,9 @@ public class MiniSearchViewHolder extends RecyclerView.ViewHolder {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.toString().length() >= 0) {
+                if (s.toString().length() >= 0 &&
+                        (model.getMaxElements() == -1L || model.getElementSet().size() < model.getMaxElements())
+                ) {
                     model.getSearchCalledListener().onSearchCalled(s.toString().toLowerCase());
                 }else{
                     model.SearchResults(new ArrayList<UniData>());

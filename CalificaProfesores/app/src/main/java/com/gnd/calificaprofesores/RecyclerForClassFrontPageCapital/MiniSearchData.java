@@ -149,7 +149,6 @@ public class MiniSearchData extends AdapterElement{
             miniSearchListItemData.setListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                         element.SetType(13); // deletable item type
                         if (
                                 !elementSet.contains(element) &&
@@ -175,6 +174,9 @@ public class MiniSearchData extends AdapterElement{
                             buttonSelectedListener.onButtonSelected(elementSet.size() == maxElements);
                         }
                         eraseText();
+
+                        adapter.clear();
+                        adapter.notifyDataSetChanged();
                     }
             });
 
