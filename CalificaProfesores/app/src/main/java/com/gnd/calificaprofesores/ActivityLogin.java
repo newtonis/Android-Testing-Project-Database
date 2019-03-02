@@ -20,6 +20,13 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.firebase.ui.auth.data.model.User;
+import com.gnd.calificaprofesores.NetworkHandler.GotUserExtraDataListener;
+import com.gnd.calificaprofesores.NetworkHandler.GotUserRightsListener;
+import com.gnd.calificaprofesores.NetworkHandler.UserDataManager;
+import com.gnd.calificaprofesores.NetworkHandler.UserDataManagerInstance;
+import com.gnd.calificaprofesores.NetworkHandler.UserExtraData;
+import com.gnd.calificaprofesores.NetworkHandler.UserExtraDataInstance;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -189,10 +196,10 @@ public class ActivityLogin extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
 
-                            Intent intent = new Intent(ActivityLogin.this, ActivityUser.class);
-                            startActivity(intent);
+                            loginSucessful();
+
+
 
                         } else {
                             // If sign in fails, display a message to the user.
@@ -206,6 +213,30 @@ public class ActivityLogin extends AppCompatActivity {
                 });
     }
 
+    public void loginSucessful(){
+        /*UserDataManager dataManager = UserDataManagerInstance.getInstance();
+
+        dataManager.setGotUserRightsListener(new GotUserRightsListener() {
+            @Override
+            public void onGotUserRights(boolean admin) {
+                UserExtraDataInstance.getInstance().setAdmin(admin);
+            }
+        });
+
+        dataManager.setmGotUserExtraDataListener(new GotUserExtraDataListener() {
+            @Override
+            public void gotExtraData(UserExtraData extraData) {
+                UserExtraDataInstance.getInstance().setUniName(extraData.getUniName());
+                UserExtraDataInstance.getInstance().setShowName(extraData.getShowName());
+                UserExtraDataInstance.getInstance().setUniId(extraData.getUniId());
+            }
+        });
+        dataManager.listenForUserRights();
+        dataManager.listenForUserProfileData();*/
+
+        Intent intent = new Intent(ActivityLogin.this, ActivityUser.class);
+        startActivity(intent);
+    }
     private void handleFacebookAccessToken(AccessToken token) {
         Log.d(TAG, "handleFacebookAccessToken:" + token);
 

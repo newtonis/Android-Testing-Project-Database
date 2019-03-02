@@ -65,7 +65,7 @@ public class ActivitySearchCourse extends AppCompatActivity {
     private Adapter adapter;
 
     private SearchCourseHandler searchCourseHandler;
-    private String uniId; // identificacion de la univerisdad de la que se buscaran cursos
+    private String uniId, uniName; // identificacion de la univerisdad de la que se buscaran cursos
     private CourseCommentsDataManager courseDataManager;
 
     private ProgressWheel progressWheel;
@@ -81,7 +81,9 @@ public class ActivitySearchCourse extends AppCompatActivity {
         /** Cargamos la universidad de la que buscaremos cursos **/
         Intent intent = getIntent();
         uniId = intent.getStringExtra("Uni");
-        searchCourseHandler = new SearchCourseHandler(uniId);
+        uniName = intent.getStringExtra("UniName");
+
+        searchCourseHandler = new SearchCourseHandler(uniId, uniName);
         ShownDataListed = new ArrayList<>();
         adapter = new Adapter();
         mUserDatabase = FirebaseDatabase.getInstance().getReference("MateriasPorFacultad/"+String.valueOf(uniId));

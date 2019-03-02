@@ -92,7 +92,7 @@ public class ActivityLink extends AppCompatActivity {
             }
         };
 
-        searchCourseHandler = new SearchCourseHandler("");
+        searchCourseHandler = new SearchCourseHandler("", "");
         searchProfHandler = new SearchProfHandler();
 
         intent = getIntent();

@@ -27,6 +27,7 @@ public class UserDataManager {
     private GotUserExtraDataListener mGotUserExtraDataListener;
     private GotUserProfCommentListener mGotUserProfCommentListener;
     private SentUniDataListener sentUniDataListener;
+    private GotUserRightsListener gotUserRightsListener;
 
     private String uid;
 
@@ -38,6 +39,10 @@ public class UserDataManager {
         currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference( ).getRef();
         uid = FirebaseAuth.getInstance().getUid();
+        gotUserRightsListener = null;
+        sentUniDataListener = null;
+        mGotUserProfCommentListener = null;
+        mGotUserExtraDataListener = null;
     }
 
     public void setUni(String uniName, String uniId){
@@ -186,6 +191,25 @@ public class UserDataManager {
         );
     }
 
+    public void listenForUserRights(){
+        mDatabase
+                .child("Admin")
+                .child(uid)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (gotUserRightsListener != null){
+                            gotUserRightsListener.onGotUserRights(dataSnapshot.exists());
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+    }
+
     public GotUserExtraDataListener getmGotUserExtraDataListener() {
         return mGotUserExtraDataListener;
     }
@@ -200,5 +224,13 @@ public class UserDataManager {
 
     public void setSentUniDataListener(SentUniDataListener sentUniDataListener) {
         this.sentUniDataListener = sentUniDataListener;
+    }
+
+    public GotUserRightsListener getGotUserRightsListener() {
+        return gotUserRightsListener;
+    }
+
+    public void setGotUserRightsListener(GotUserRightsListener gotUserRightsListener) {
+        this.gotUserRightsListener = gotUserRightsListener;
     }
 }

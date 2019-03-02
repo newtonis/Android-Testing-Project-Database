@@ -2,6 +2,7 @@ package com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital;
 
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -26,6 +27,11 @@ public class InputLineTextViewHolder extends RecyclerView.ViewHolder  {
         if (model.isFlagInitial()) {
             inputView.setText("");
             model.setFlagInitial(false);
+        }
+
+        if (!model.isSingleLine()){
+            inputView.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+            inputView.setSingleLine(false);
         }
 
         model.setEditable(inputView.getEditableText());

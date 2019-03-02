@@ -1,15 +1,18 @@
 package com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital;
 
+import java.util.Map;
+
 public class NewsItemData extends AdapterElement{
     String title, content, author;
-    long timestamp;
+    Map timestamp = null;
+    long timestamp_long;
 
     public NewsItemData(String title, String content, String author, long timestamp) {
         super(9);
         this.title = title;
         this.content = content;
         this.author = author;
-        this.timestamp = timestamp;
+        this.timestamp_long = timestamp;
     }
 
     public String getTitle() {
@@ -36,11 +39,19 @@ public class NewsItemData extends AdapterElement{
         this.author = author;
     }
 
-    public long getTimestamp() {
+    public Map getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(long timestamp) {
+    public void setTimestamp(Map timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public long getTimestampLong(){
+        return timestamp_long;
+    }
+
+    public void setTimestampLong(long timestamp){
+        timestamp_long = timestamp;
     }
 }

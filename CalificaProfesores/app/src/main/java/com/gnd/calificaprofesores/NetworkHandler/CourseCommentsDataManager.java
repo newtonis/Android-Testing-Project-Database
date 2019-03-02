@@ -147,24 +147,26 @@ public class CourseCommentsDataManager {
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            long sumAmabilidad = (long) dataSnapshot.child("amabilidad").getValue();
-                            long sumClases = (long) dataSnapshot.child("clases").getValue();
-                            long sumConocimiento = (long) dataSnapshot.child("conocimiento").getValue();
-                            long count_value = (long) dataSnapshot.child("count").getValue();
+                            if (dataSnapshot.exists()) {
+                                long sumAmabilidad = (long) dataSnapshot.child("amabilidad").getValue();
+                                long sumClases = (long) dataSnapshot.child("clases").getValue();
+                                long sumConocimiento = (long) dataSnapshot.child("conocimiento").getValue();
+                                long count_value = (long) dataSnapshot.child("count").getValue();
 
-                            if (count != 0) {
-                                prof.setAmabildiad((float) sumAmabilidad / count_value);
-                                prof.setClases((float) sumClases / count_value);
-                                prof.setConocimiento((float) sumConocimiento / count_value);
-                            } else {
-                                prof.setAmabildiad(-1f);
-                                prof.setClases(-1f);
-                                prof.setConocimiento(-1f);
-                            }
-                            count++;
+                                if (count != 0) {
+                                    prof.setAmabildiad((float) sumAmabilidad / count_value);
+                                    prof.setClases((float) sumClases / count_value);
+                                    prof.setConocimiento((float) sumConocimiento / count_value);
+                                } else {
+                                    prof.setAmabildiad(-1f);
+                                    prof.setClases(-1f);
+                                    prof.setConocimiento(-1f);
+                                }
+                                count++;
 
-                            if (count == courseData.getProfessors().size()) {
-                                gotCourseDataListener.onGotCourseInfo(courseData);
+                                if (count == courseData.getProfessors().size()) {
+                                    gotCourseDataListener.onGotCourseInfo(courseData);
+                                }
                             }
                         }
 

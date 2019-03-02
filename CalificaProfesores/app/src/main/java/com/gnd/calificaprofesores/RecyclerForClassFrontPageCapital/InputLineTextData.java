@@ -9,6 +9,7 @@ public class InputLineTextData extends AdapterElement{
     Editable editable;
     String defaultText;
     boolean flagInitial;
+    boolean singleLine;
 
     public InputLineTextData(String hintText, String showText){
         super(16);
@@ -16,6 +17,7 @@ public class InputLineTextData extends AdapterElement{
         this.showText = showText;
         editable = null;
         flagInitial = true;
+        singleLine = false;
     }
 
     public String getDefaultText() {
@@ -62,5 +64,13 @@ public class InputLineTextData extends AdapterElement{
     }
     public void clear(){
         editable.clear();
+    }
+
+    public boolean isSingleLine() {
+        return singleLine;
+    }
+
+    public void setSingleLine(boolean singleLine) {
+        this.singleLine = singleLine;
     }
 }

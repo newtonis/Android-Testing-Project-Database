@@ -161,5 +161,23 @@
         <div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank" title="Creative Commons BY 3.0">CC 3.0 BY</a></div>
     </string>
     <string name="TextPrivacyPolicy">POLÍTICA DE PRIVACIDAD</string>
+
+    <string name="TextVerificarMaterias">
+        REVISAR MATERIAS
+    </string>
+
+    <string name="TextVerificarProfesores">
+        REVISAR PROFESORES
+    </string>
+
+    <string name="TextWriteNews">
+        REDACTAR NOTICIA
+    </string>
+    <string name="TextVerificar">
+        VERIFICAR
+    </string>
+    <string name="TextAceptar">ACEPTAR</string>
+    <string name="TextRechazar">RECHAZAR</string>
+
 </resources>
 

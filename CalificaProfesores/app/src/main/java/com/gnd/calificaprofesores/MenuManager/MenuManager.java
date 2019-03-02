@@ -25,9 +25,14 @@ import com.gnd.calificaprofesores.ActivitySearchProfessor;
 import com.gnd.calificaprofesores.ActivitySelectUni;
 import com.gnd.calificaprofesores.ActivitySignIn;
 import com.gnd.calificaprofesores.ActivityUser;
+import com.gnd.calificaprofesores.ActivityVerificar;
+import com.gnd.calificaprofesores.ActivityWriteNews;
 import com.gnd.calificaprofesores.NetworkHandler.GotUserExtraDataListener;
+import com.gnd.calificaprofesores.NetworkHandler.GotUserRightsListener;
 import com.gnd.calificaprofesores.NetworkHandler.UserDataManager;
+import com.gnd.calificaprofesores.NetworkHandler.UserDataManagerInstance;
 import com.gnd.calificaprofesores.NetworkHandler.UserExtraData;
+import com.gnd.calificaprofesores.NetworkHandler.UserExtraDataInstance;
 import com.gnd.calificaprofesores.R;
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.Adapter;
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.LateralMenuItems.MenuButtonData;
@@ -58,9 +63,14 @@ public class MenuManager {
             buttonNovedades,
             buttonCambiarFacultad,
             buttonAtribuciones,
-            buttonPrivacyPolicy;
+            buttonPrivacyPolicy,
+            buttonSalir;
 
-    public MenuManager(Context ctx, MaterialMenuView _materialMenuView, DrawerLayout _mDrawerLayout){
+    private MenuButtonData
+            buttonVerificar,
+            buttonWriteNews;
+
+    public MenuManager(Context ctx, MaterialMenuView _materialMenuView, DrawerLayout _mDrawerLayout) {
         this.materialMenuView = _materialMenuView;
         this.mDrawerLayout = _mDrawerLayout;
 
@@ -77,8 +87,22 @@ public class MenuManager {
 
         SetTitle(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
 
+        if (UserExtraDataInstance.getInstance().isGotDataAdmin()){
+            addMenus(UserExtraDataInstance.getInstance().isAdmin());
+        }else {
+            UserDataManagerInstance.getInstance().setGotUserRightsListener(new GotUserRightsListener() {
+                @Override
+                public void onGotUserRights(boolean admin) {
+                    addMenus(admin);
+                    UserExtraDataInstance.getInstance().setAdmin(admin);
+                }
+            });
+            UserDataManagerInstance.getInstance().listenForUserRights();
+        }
+    }
+    public void addMenus(boolean admin){
         adapter = new Adapter();
-        recyclerView = mDrawerLayout.findViewById(R.id.RecyclerView);
+        recyclerView = mDrawerLayout.findViewById(R.id.RecyclerViewMenu);
         recyclerView.setLayoutManager(new LinearLayoutManager(mDrawerLayout.getContext()));
         recyclerView.setAdapter(adapter);
 
@@ -167,6 +191,11 @@ public class MenuManager {
 
         adapter.AddElement(new MenuSeparatorData());
 
+        if (admin){
+            addAdminMenus();
+            adapter.AddElement(new MenuSeparatorData());
+        }
+
         buttonAtribuciones = new MenuButtonData(
                 getText(R.string.TextAtribuciones),
                 false
@@ -184,6 +213,7 @@ public class MenuManager {
                 );
             }
         });
+
 
         adapter.AddElement(buttonAtribuciones);
 
@@ -206,9 +236,28 @@ public class MenuManager {
              }
         );
 
+
+
         adapter.AddElement(buttonPrivacyPolicy);
 
+        buttonSalir = new MenuButtonData(
+                getText(R.string.TextSalir),
+                false
+        );
+
+        buttonSalir.setClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LogOut();
+            }
+        });
+
+        adapter.AddElement(buttonSalir);
+
         adapter.notifyDataSetChanged();
+
+
+
         /*ButtonSalir = mDrawerLayout.findViewById(R.id.ButtonSalir);
         ButtonSalir.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -286,8 +335,43 @@ public class MenuManager {
             }
         });*/
     }
+    public void addAdminMenus(){
+        buttonWriteNews = new MenuButtonData(
+                getText(R.string.TextWriteNews),
+                true
+        );
+        buttonWriteNews.setClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(
+                        mDrawerLayout.getContext(),
+                        ActivityWriteNews.class
+                );
+                mDrawerLayout.getContext().startActivity(intent);
+            }
+        });
+        adapter.AddElement(buttonWriteNews);
+
+        buttonVerificar = new MenuButtonData(
+                getText(R.string.TextVerificar),
+                true
+        );
+
+        buttonVerificar.setClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(
+                        mDrawerLayout.getContext(),
+                        ActivityVerificar.class
+                );
+                mDrawerLayout.getContext().startActivity(intent);
+            }
+        });
+        adapter.AddElement(buttonVerificar);
+
+    }
     private String getText(int id){
-        return  mDrawerLayout.getContext().getResources().getText(R.string.SearchTextMateria).toString();
+        return  mDrawerLayout.getContext().getResources().getText(id).toString();
     }
     public void SetTitle(String title){
         TextView text = mDrawerLayout.findViewById(R.id.ShownName);
@@ -296,6 +380,8 @@ public class MenuManager {
 
     }
     private void LogOut(){
+        UserExtraDataInstance.getInstance().logOut();
+
         AuthUI.getInstance().signOut(mDrawerLayout.getContext())
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                            @Override

@@ -113,7 +113,10 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 return new MenuButtonViewHolder(itemView);
             case 23:
                 itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_item_divider, viewGroup, false);
-                return new MenuButtonViewHolder(itemView);
+                return new MenuSeparatorViewHolder(itemView);
+            case 24:
+                itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_item_verify_change, viewGroup, false);
+                return new MenuSeparatorViewHolder(itemView);
         }
         return null;
     }
@@ -197,7 +200,7 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     element.getTitle(),
                     element.getContent(),
                     element.getAuthor(),
-                    element.getTimestamp()
+                    element.getTimestampLong()
             );
         }else if(dataItem.GetType() == 10){
             NoInfoData element = (NoInfoData) dataItem;
@@ -294,6 +297,18 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             holder.setDetails(
             );
+        }else if(dataItem.GetType() == 24){
+            VerifyInfoData element = (VerifyInfoData) dataItem;
+            VerifyInfoViewHolder holder = (VerifyInfoViewHolder) viewHolder;
+
+            holder.setDetails(
+                    element.getTitle(),
+                    element.getContent(),
+                    element.getTimestamp(),
+                    element.getAcceptAction(),
+                    element.getRejectAction()
+            );
+
         }
         /*opinionItemViewHolder.setDetails(dataItem.GetUniShortName(), dataItem.GetUniShownName(), 0L);
         opinionItemViewHolder.mView.setOnClickListener(dataItem.GetClickListener());*/

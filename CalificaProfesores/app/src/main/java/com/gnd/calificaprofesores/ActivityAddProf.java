@@ -53,7 +53,7 @@ public class ActivityAddProf extends AppCompatActivity {
         setContentView(R.layout.activity_add_prof);
 
         adapter = new Adapter();
-        searchCourseHandler = new SearchCourseHandler("");
+        searchCourseHandler = new SearchCourseHandler("", "");
 
         recyclerView = findViewById(R.id.RecyclerView);
 

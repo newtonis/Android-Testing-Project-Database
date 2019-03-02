@@ -24,28 +24,33 @@ public class SearchCourseHandler {
     private String uniName;
 
 
-    public SearchCourseHandler(String _uniId){
+    public SearchCourseHandler(String _uniId, String _uniName){
         mDatabase = FirebaseDatabase.getInstance().getReference().getRef();
         courses = new TreeSet<>();
         uniId = _uniId;
+        uniName = _uniName.toUpperCase();
+        /*** nota si el usuareio tiene una universidad que no existe crashea ***/
 
-        if (uniId != "") {
-            mDatabase.child("Facultades").child(uniId)
-                    .addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+       /*mDatabase.child("Facultades").child(uniId)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()){
                             uniName = (String) dataSnapshot.child("Name").getValue();
                             uniName.toUpperCase();
+                        }else{
+                            uniName = "";
+                            uniId = "";
                         }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
 
-                        }
-                    });
-        }else{
-            uniName = "NOUNI";
-        }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });*/
     }
 
     public void Search(String text) {
