@@ -1,79 +1,87 @@
 package com.gnd.calificaprofesores.NetworkAdd;
 
+import com.google.firebase.database.ServerValue;
+
 import java.util.Map;
 
-public class CompleteProfData {
-    private String ProfName;
-    private String ProfId; // 0 means new professor
+/** representa el campo de la base de datos para una solicitud para agregar un profesor **/
 
-    private Map<String, String> Facultades;
-    private Map<String, SmallMateriaData> Materias;
+public class CompleteProfData {
+    private String ProfName, profId;
+    private boolean create; // 0 means new professor
+
+    private Map<String, String> facultades;
+    private Map<String, SmallMateriaData> materias;
 
     private boolean erase;
-    private boolean ConMaterias;
-
+    private Map timestamp;
 
     public CompleteProfData(
             String profName,
             String profId,
+            boolean create,
             Map<String, String> facultades,
             Map<String, SmallMateriaData> materias,
-            boolean erase,
-            boolean ConMaterias
+            boolean erase
     ) {
         ProfName = profName;
-        ProfId = profId;
-        Facultades = facultades;
-        Materias = materias;
+        this.profId = profId;
+        this.create = create;
+        this.facultades = facultades;
+        this.materias = materias;
         this.erase = erase;
-        this.ConMaterias = ConMaterias;
+        timestamp = ServerValue.TIMESTAMP;
     }
 
     public String getProfName() {
         return ProfName;
     }
 
-    public String getProfId() {
-        return ProfId;
+    public boolean getCreate() {
+        return create;
     }
 
     public Map<String, String> getFacultades() {
-        return Facultades;
+        return facultades;
     }
 
     public Map<String, SmallMateriaData> getMaterias() {
-        return Materias;
+        return materias;
     }
 
     public boolean isErase() {
         return erase;
     }
 
-    public boolean isConMaterias() {
-        return ConMaterias;
-    }
-
     public void setProfName(String profName) {
         ProfName = profName;
     }
 
-    public void setProfId(String profId) {
-        ProfId = profId;
+    public void setCreate(boolean profId) {
+        this.create = create;
     }
 
     public void setFacultades(Map<String, String> facultades) {
-        Facultades = facultades;
+        this.facultades = facultades;
     }
 
     public void setMaterias(Map<String, SmallMateriaData> materias) {
-        Materias = materias;
+        this.materias = materias;
     }
 
     public void setErase(boolean erase) {
         this.erase = erase;
     }
 
-    public void setConMaterias(boolean conMaterias) {
-        ConMaterias = conMaterias;
+    public Map getTimestamp() {
+        return timestamp;
+    }
+
+    public String getProfId() {
+        return profId;
+    }
+
+    public void setProfId(String profId) {
+        this.profId = profId;
     }
 }

@@ -188,16 +188,18 @@ public class ActivityLink extends AppCompatActivity {
                 }
 
                 if (materias.size() == 0){
-                    Toast.makeText(ActivityLink.this, "Debes agregar al menos una materia",
+                    Toast.makeText(
+                            ActivityLink.this,
+                            "Debes agregar al menos una materia",
                             Toast.LENGTH_SHORT).show();
                 }else {
                     addProfessorHandler.addProfessor(new CompleteProfData(
                             intentProfManager.GetProfName(),
                             intentProfManager.GetProfId(),
+                            false,
                             new TreeMap<String, String>(),
                             materias,
-                            false,
-                            true
+                            false
                     ));
                     adapter.removeElement(button);
                     adapter.AddElement(new SmallLoadingData());

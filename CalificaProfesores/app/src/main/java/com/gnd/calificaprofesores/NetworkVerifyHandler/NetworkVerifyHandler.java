@@ -38,6 +38,7 @@ public class NetworkVerifyHandler {
 
         database
                 .child("UniAddRequests")
+                .orderByChild("timestamp")
                 .limitToFirst(20)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -86,6 +87,7 @@ public class NetworkVerifyHandler {
     public void listenForProfAddRequests(){
         database
                 .child("ProfAddRequests")
+                .orderByChild("timestamp")
                 .limitToFirst(20)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -97,13 +99,16 @@ public class NetworkVerifyHandler {
                                 continue;
                             }
                             for (final DataSnapshot postsnapshot : userContent.getChildren()) {
-                                if (!postsnapshot.hasChild("conMaterias")) {
-                                    continue;
-                                }
                                 if (!postsnapshot.hasChild("profId")) {
                                     continue;
                                 }
                                 if (!postsnapshot.hasChild("profName")) {
+                                    continue;
+                                }
+                                if (!postsnapshot.hasChild("erase")) {
+                                    continue;
+                                }
+                                if (!postsnapshot.hasChild("create")) {
                                     continue;
                                 }
 
@@ -242,7 +247,8 @@ public class NetworkVerifyHandler {
     public void addProfElement(final DataSnapshot postsnapshot, final String key, UserExtraData extraData){
 
         String profName = (String)postsnapshot.child("profName").getValue();
-        String profId = (String)postsnapshot.child("profId").getValue();
+        boolean create = (boolean)postsnapshot.child("create").getValue();
+
         String text;
         String title;
 
@@ -255,13 +261,13 @@ public class NetworkVerifyHandler {
                 materias = materias.append( "<br> - <b>" + nombre + "</b>" + " (" + facultad + ")");
             }
         }
-        if (profId.equals("0")){
+        if (create){
             text = "El usuario <b>" + extraData.getShowName() + "</b> ha agregado al profesor <b>"
             + profName + "</b> con las materias <br>" + materias.toString();
             title = "Profesor agregado";
         }else{
-            text = "El usuario " + extraData.getShowName() +
-                    " queire agregarle al profesor <b>" + profName
+            text = "El usuario <b>" + extraData.getShowName() +
+                    "</b> quiere agregarle al profesor <b>" + profName
                     + "</b> las materias \n" + materias.toString() ;
 
             title = "Materias agregadas a profesor";
@@ -273,6 +279,48 @@ public class NetworkVerifyHandler {
                 text,
                 timestamp
         );
+
+        data.setAcceptAction(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final SmallLoadingData loading = new SmallLoadingData();
+                if (buttonSelectedListener != null){
+                    buttonSelectedListener.onButtonSelected(data, loading);
+                }
+                database
+                        .child("ProfAddRequests")
+                        .child(key)
+                        .child(postsnapshot.getKey())
+                        .removeValue()
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        doneActionListener.onDoneAction("Profesor aceptado", loading);
+                    }
+                });
+            }
+        });
+
+        data.setRejectAction(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final SmallLoadingData loading = new SmallLoadingData();
+                if (buttonSelectedListener != null) {
+                    buttonSelectedListener.onButtonSelected(data, loading);
+                }
+                database
+                        .child("ProfAddRequests")
+                        .child(key)
+                        .child(postsnapshot.getKey())
+                        .child("erase")
+                        .setValue(true).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        doneActionListener.onDoneAction("Profesor removido", loading);
+                    }
+                });
+            }
+        });
 
         gotRequestItemListener.onGotRequestItemListener(data);
     }
@@ -305,7 +353,7 @@ public class NetworkVerifyHandler {
             text = "El usuario <b>" + extraData.getShowName() + "</b> ha agregado la materia <b>"
                     + courseName + "</b> de la institución <b>" + facultadName + "</b> "
                     + profesoresText;
-            title = "Profesor agregado";
+            title = "Curso agregado";
         }else{
             if (profesoresText.toString().equals("con los profesores")){
                 profesoresText = new StringBuilder();
@@ -316,7 +364,7 @@ public class NetworkVerifyHandler {
                     + "</b> a la <b>" + facultadName + "</b>" +
                     profesoresText;
 
-            title = "Profesores agregados a materia";
+            title = "Profesores agregados al curso";
         }
         long timestamp = (long) postsnapshot.child("timestamp").getValue();
 
@@ -325,6 +373,48 @@ public class NetworkVerifyHandler {
                 text,
                 timestamp
         );
+
+        data.setAcceptAction(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final SmallLoadingData loading = new SmallLoadingData();
+                if (buttonSelectedListener != null){
+                    buttonSelectedListener.onButtonSelected(data, loading);
+                }
+                database
+                        .child("ClassAddRequests")
+                        .child(key)
+                        .child(postsnapshot.getKey())
+                        .removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        doneActionListener.onDoneAction("Curso aceptado", loading);
+                    }
+                });
+            }
+        });
+
+        data.setRejectAction(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final SmallLoadingData loading = new SmallLoadingData();
+                if (buttonSelectedListener != null){
+                    buttonSelectedListener.onButtonSelected(data, loading);
+                }
+                database
+                        .child("ClassAddRequests")
+                        .child(key)
+                        .child(postsnapshot.getKey())
+                        .child("erase")
+                        .setValue(true)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        doneActionListener.onDoneAction("Curso removido", loading);
+                    }
+                });
+            }
+        });
 
         gotRequestItemListener.onGotRequestItemListener(data);
     }

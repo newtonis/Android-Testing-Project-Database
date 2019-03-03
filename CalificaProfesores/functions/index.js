@@ -150,37 +150,44 @@ exports.UpdateMatQual1 = functions.database.ref("/OpinionesMaterias/{matid}/{uid
     }
 );
 
-/** agregar un nuevo profesor, o agregarle materias a un profesor **/
+/** agregar un nuevo profesor **/
 
-exports.UpdateAddProfRequest1 = functions.database.ref("/ProfAddRequests/{uid}/{rid}")
-    .onWrite((event , context) => {
+exports.CreateProfRequest1 = functions.database.ref("/ProfAddRequests/{uid}/{rid}")
+    .onCreate((event , context) => {
+
         materias = {};
         facultades = {};
         
-        const arrMaterias = event.after.child("materias").val();
-        var profId = event.after.child("profId").val();
-        const name = event.after.child("profName").val();
-
-        if (profId == "0"){
-            const arrFacultades = event.after.child("facultades").val();
+        const arrMaterias = event.child("materias").val();
+        const name = event.child("profName").val();
         
-            for (var child in arrFacultades){
-                facultades[child] = arrFacultades[child];
-            }
-            const searchName = name.toLowerCase()
-            .replace(/á/g, "a")
-            .replace(/é/g, "e")
-            .replace(/í/g, "i")
-            .replace(/ó/g, "o")
-            .replace(/ú/g, "u");
+        var profId = event.child("profId").val();
 
-            console.log("materias = ",arrMaterias);
+        const arrFacultades = event.child("facultades").val();
+        
+        for (var child in arrFacultades){
+            facultades[arrFacultades[child]] = arrFacultades[child];
+        }
+        const searchName = name.toLowerCase()
+        .replace(/á/g, "a")
+        .replace(/é/g, "e")
+        .replace(/í/g, "i")
+        .replace(/ó/g, "o")
+        .replace(/ú/g, "u");
+
+        const create = event.child("create").val();
+
+        if (create){
+            console.log("Creando profesor ...");
+
+            /*console.log("materias = ",arrMaterias);
             console.log("facultades = ",arrFacultades);
             console.log("profId = ",profId);
-            console.log("profName = ",name);
+            console.log("profName = ",name);*/
 
-            var newPostRef = admin.database().ref("Prof").push();
-            newPostRef.set({
+            // primero agregamos el profesor
+            admin.database().ref("Prof").child(profId)
+            .set({
                 Name : name,
                 SearchName : searchName,
                 amabilidad : 0,
@@ -190,47 +197,153 @@ exports.UpdateAddProfRequest1 = functions.database.ref("/ProfAddRequests/{uid}/{
                 Mat : arrMaterias,
                 Facultades : facultades
             }).then(() => {
-                console.log('Successfully updated database');
+                console.log('Successfully updated database Prof/'+profId);
                 return 0;
             }).catch(() => {
                 console.log('Error updating database');
                 return 0;
             });
-            profId = newPostRef.key;
-            
         }else{
             console.log("Agregandole materias al profesor "+profId);
             console.log("path = ","Prof/"+profId+"/Mat");
             for (var child in arrMaterias){
                 admin.database()
-                .ref("Prof/"+profId+"/Mat")
-                .child(child).set(arrMaterias[child]);
+                .ref("Prof/"+profId+"/Mat/"+child)
+                .set(arrMaterias[child]);
+                
                 admin.database()
-                .ref("Prof/"+profId+"/Facultades")
-                .child(arrMaterias[child]["facultad"])
-                .set(arrMaterias[child]["facultad"]);
+                .ref("Prof/"+profId+"/Facultades/"+arrMaterias[child]["facultad"])
+                .set(arrMaterias[child]["facultad"])
+                .then(() => {
+                    console.log('Successfully updated database Prof/'+profId+'/Mat/'+child);
+                    return 1;
+                }).catch(() => {
+                    console.log('Error updating database');
+                    return 0;
+                });
             }
-
-            
         }
+        // luego agregamos a las materias correspondientes la referencia al profesor
         for (var child in arrMaterias){
-            admin.database().ref("Materias")
-            .child(child)
-            .child("Prof")
-            .child(profId)
+            admin.database().ref("Materias/"+child+"/Prof/"+profId)
             .set(name).then(() => {
                 console.log('Successfully updated database Materias/'+child+'/Prof/'+profId);
                 return 0;
             }).catch(() => {
                 console.log('Error updating database');
                 return 0;
-            });;
+            });
         }
+        return 1;
+    }
+); // ok
+
+/* Eliminar la solucitud para agregar 
+un profesor o una adicion de materias a un profesor **/
+
+exports.UpdateProfRequest1 = functions.database.ref("/ProfAddRequests/{uid}/{rid}")
+    .onUpdate((event , context) => {
+        console.log("Updating admin action on prof ",context.params.rid);
+
+        materias = {};
+        facultades = {};
+        
+        const arrMaterias = event.after.child("materias").val();
+        const create = event.after.child("create").val(); 
+        // se llama profId pero deberia ser create(true)/add(false)
+        const profId = event.after.child("profId").val();
+
+        const name = event.after.child("profName").val();
+        const erase = event.after.child("erase").val();
+
+        
+        if (erase){
+            console.log("Eliminando profesor");
+            // hay dos casos. 
+            // Que estemos rechazando la solucitud para agregarle materias a un profesor (caso 1)
+            // Que estemos rechazando la solucitud para crear un profesor (caso 2)
+
+            if (create){ // caso 1
+                /// Eliminamos links de materias al profesor
+                for (var child in arrMaterias){
+                    console.log("Deleting link Materias/"+child+"/Prof/"+profId);
+                    admin.database()
+                    .ref("Materias/"+child+"/Prof/"+profId).remove()
+                    .then(() => {
+                        console.log("Successfully updated database Materias/"+child+"/Prof/"+profId);
+                        return 1;
+                    }).catch(() => {
+                        console.log('Error updating database');
+                        return 0;
+                    });
+                }
+                console.log("Deleting prof Prof/"+profId);
+
+                /// Eliminamos el profesor
+                admin.database()
+                .ref("Prof/"+profId)
+                .remove()
+                .then(() => {
+                    console.log("Successfully updated database Prof/"+profId);
+                    return 1;
+                }).catch(() => {
+                    console.log('Error updating database');
+                    return 0;
+                });
+            }else{ // caso 2
+                //console.log("Eliminando adicion de universidades al prof Prof/"+profId);
+                
+                /** Para hacer: elimiar facultades un profesor no tiene mas **/
+
+                console.log("Eliminando adicion de materias al prof Prof/"+profId);
+
+                for (var child in arrMaterias){
+                    admin.database()
+                    .ref("Prof/"+profId+"/Mat/"+child).remove()
+                    .then(() => {
+                        console.log("Successfully updated database Prof/"+profId+"/Mat/"+child);
+                        return 1;
+                    }).catch(() => {
+                        console.log('Error updating database');
+                        return 0;
+                    });;
+
+
+                    console.log("Deleting link "+child+"/Prof/"+profId);
+                    admin.database()
+                    .ref("Materias/"+child+"/Prof/"+profId).remove()
+                    .then(() => {
+                        console.log("Successfully updated database Materias"+child+"/Prof/"+profId);
+                        return 1;
+                    }).catch(() => {
+                        console.log('Error updating database');
+                        return 0;
+                    });
+                }
+
+
+            }
+        }else{
+            console.log("Situacion inesperada");
+        }
+        /*console.log("Eliminando request "+context.params.uid+"/"+context.params.rid);
+
+        admin.database()
+        .ref("ProfAddRequests/"+context.params.uid+"/"+context.params.rid)
+        .remove()
+        .then(() => {
+            console.log("Successfully removed request "+context.params.uid+"/"+context.params.rid);
+            return 1;
+        }).catch(() => {
+            console.log('Error updating database');
+            return 0;
+        });*/
 
         return 1;
     }
 );
 
+// falta actualizar
 exports.UpdateAddClassRequest1 = functions.database.ref("/ClassAddRequests/{uid}/{rid}")
     .onWrite((event, context) => {
         const classId = event.after.child("classId").val();
@@ -319,7 +432,7 @@ exports.UpdateAddClassRequest1 = functions.database.ref("/ClassAddRequests/{uid}
         }
         return 1;
     }
-);
+); 
 
 exports.UpdateAddUniRequest1 = functions.database.ref("/UniAddRequests/{uid}/{rid}")
     .onCreate((event, context) => {
@@ -327,7 +440,7 @@ exports.UpdateAddUniRequest1 = functions.database.ref("/UniAddRequests/{uid}/{ri
         const uniCompleteName = event.child("uniShortName").val();
         const uniShortName = event.child("uniCompleteName").val();
                 // create uni
-        admin.database().ref("Facultades").child(context.params.rid).set({
+        admin.database().ref("Facultades/"+context.params.rid).set({
             Name: uniShortName.toLowerCase(),
             uniCompleteName : uniCompleteName.toLowerCase()
             .replace(/á/g, "a")
@@ -339,47 +452,50 @@ exports.UpdateAddUniRequest1 = functions.database.ref("/UniAddRequests/{uid}/{ri
         });
         return 1;
     }
-);
+); // ok
 
 exports.UpdateAdminActionUniRequest1 = functions.database.ref("/UniAddRequests/{uid}/{rid}")
     .onUpdate((event, context) => {       
         console.log("Updating admin action on uni ",context.params.rid);
         const uniCompleteName = event.after.child("uniShortName").val();
         const uniShortName = event.after.child("uniCompleteName").val();
+        
+        const remove = event.after.child("erase").val();
 
-        admin.database()
-        .ref("MateriasPorFacultad")
-        .child(event.after.key)
-        .remove().then(() => {
-            console.log('Successfully removed uni ' + event.after.key + ' links');
-            return 0;
-        }).catch(() => {
-            console.log('Error removing uni');
-            return 0;
-        });
-        // delete uni
-        admin.database()
-        .ref("Facultades")
-        .child(event.after.key)
-        .remove().then(() => {
-            console.log('Successfully removed uni ' + event.after.key + ' data');
-            return 0;
-        }).catch(() => {
-            console.log('Error removing uni');
-            return 0;
-        });
+        if (remove){
+            console.log("Removing university ...");
+            admin.database()
+            .ref("MateriasPorFacultad/"+event.after.key)
+            .remove().then(() => {
+                console.log('Successfully removed uni ' + event.after.key + ' links');
+                return 0;
+            }).catch(() => {
+                console.log('Error removing uni');
+                return 0;
+            });
+            // delete uni
+            admin.database()
+            .ref("Facultades/"+event.after.key)
+            .remove().then(() => {
+                console.log('Successfully removed uni ' + event.after.key + ' data');
+                return 0;
+            }).catch(() => {
+                console.log('Error removing uni');
+                return 0;
+            });
 
-        admin.database()
-        .ref("UniAddRequests")
-        .child(context.params.uid)
-        .child(context.params.rid)
-        .remove().then(() => {
-            console.log("Uni "+event.before.key+" request erased");
-            return 0;
-        }).catch(() => {
-            console.log("Error removing uni " + event.before.key+ + "request");
-            return 0;
-        });
-        return 1;
+            admin.database()
+            .ref("UniAddRequests/"+context.params.uid+"/"+context.params.rid)
+            .remove().then(() => {
+                console.log("Uni "+event.before.key+" request erased");
+                return 0;
+            }).catch(() => {
+                console.log("Error removing uni " + event.before.key+ + "request");
+                return 0;
+            });
+            return 1;
+        }else{
+            console.log("No action");
+        }
     }
-);
+); // ok

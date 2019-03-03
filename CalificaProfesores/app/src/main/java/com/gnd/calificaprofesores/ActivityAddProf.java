@@ -17,6 +17,7 @@ import com.gnd.calificaprofesores.NetworkAdd.CompleteProfData;
 import com.gnd.calificaprofesores.NetworkAdd.ProfessorAddedListener;
 import com.gnd.calificaprofesores.NetworkAdd.SmallMateriaData;
 import com.gnd.calificaprofesores.NetworkHandler.CourseData;
+import com.gnd.calificaprofesores.NetworkHandler.UserExtraDataInstance;
 import com.gnd.calificaprofesores.NetworkSearchQueriesHandler.GotCourseListener;
 import com.gnd.calificaprofesores.NetworkSearchQueriesHandler.SearchCourseHandler;
 import com.gnd.calificaprofesores.NetworkSearchQueriesHandler.UniData;
@@ -53,7 +54,11 @@ public class ActivityAddProf extends AppCompatActivity {
         setContentView(R.layout.activity_add_prof);
 
         adapter = new Adapter();
-        searchCourseHandler = new SearchCourseHandler("", "");
+
+        String uniId = UserExtraDataInstance.getInstance().getUniId();
+        String uniName = UserExtraDataInstance.getInstance().getUniName();
+
+        searchCourseHandler = new SearchCourseHandler(uniId, uniName);
 
         recyclerView = findViewById(R.id.RecyclerView);
 
@@ -145,11 +150,12 @@ public class ActivityAddProf extends AppCompatActivity {
                 addProfessorHandler.addProfessor(new CompleteProfData(
                         profInput.getText(),
                         "0",
+                        true,
                         facultades,
                         materias,
-                        false,
-                        miniSearchData.isAllowSwitch()
+                        false
                 ));
+
                 adapter.removeElement(button);
                 adapter.AddElement(new SmallLoadingData());
             }

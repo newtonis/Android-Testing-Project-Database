@@ -22,10 +22,14 @@ public class AddProfessorHandler {
     }
 
     public void addProfessor(CompleteProfData profData){
-        db
-                .child("ProfAddRequests")
-                .child(FirebaseAuth.getInstance().getUid())
-                .push().setValue(profData).addOnSuccessListener(new OnSuccessListener<Void>() {
+        DatabaseReference ref = db
+                .child("ProfAddRequests/"+FirebaseAuth.getInstance().getUid())
+                .push();
+        if (profData.getProfId().equals("0")) {
+            String profId = ref.getKey();
+            profData.setProfId(profId);
+        }
+        ref.setValue(profData).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 if (professorAddedListener != null) {

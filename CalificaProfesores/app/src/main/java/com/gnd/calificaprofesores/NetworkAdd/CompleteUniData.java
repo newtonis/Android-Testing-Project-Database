@@ -5,11 +5,11 @@ import com.google.firebase.database.ServerValue;
 import java.util.Map;
 
 public class CompleteUniData {
-    String uniShortName;
-    String uniCompleteName;
-    Map timestamp;
-    Long longTimestamp;
-    boolean erase;
+    private String uniShortName;
+    private String uniCompleteName;
+    private Map timestamp;
+    private boolean erase;
+
     public CompleteUniData(String uniShortName, String uniCompleteName) {
         this.uniShortName = uniShortName;
         this.uniCompleteName = uniCompleteName;
