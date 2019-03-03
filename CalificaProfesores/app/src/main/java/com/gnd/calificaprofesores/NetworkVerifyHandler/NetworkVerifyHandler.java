@@ -130,7 +130,55 @@ public class NetworkVerifyHandler {
 
     }
     public void listenForCourseAddRequests(){
+        database
+                .child("ClassAddRequests")
+                .limitToFirst(20)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
 
+
+                        for (final DataSnapshot userContent : dataSnapshot.getChildren()){
+                            if (userContent.getKey().equals("user_id")){
+                                continue;
+                            }
+                            for (final DataSnapshot postsnapshot : userContent.getChildren()) {
+                                if (!postsnapshot.hasChild("classId")) {
+                                    continue;
+                                }
+                                if (!postsnapshot.hasChild("facultadId")) {
+                                    continue;
+                                }
+                                if (!postsnapshot.hasChild("facultadName")) {
+                                    continue;
+                                }
+                                if (!postsnapshot.hasChild("name")){
+                                    continue;
+                                }
+                                if (!postsnapshot.hasChild("timestamp")){
+                                    continue;
+                                }
+
+                                UserDataManager userDataManager = new UserDataManager(userContent.getKey());
+
+                                userDataManager
+                                        .listenForUserProfileData(new GotUserExtraDataListener() {
+                                            @Override
+                                            public void gotExtraData(UserExtraData extraData) {
+                                                addCourseElement(postsnapshot, userContent.getKey(), extraData);
+                                            }
+                                        });
+
+                                //users.add(userDataManager);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
     }
 
     public void addUniElement(final DataSnapshot snapshot, final String key, UserExtraData extraData){
@@ -191,10 +239,7 @@ public class NetworkVerifyHandler {
         gotRequestItemListener.onGotRequestItemListener(data);
 
     }
-    public void addProfElement(
-            final DataSnapshot postsnapshot,
-            final String key,
-            UserExtraData extraData){
+    public void addProfElement(final DataSnapshot postsnapshot, final String key, UserExtraData extraData){
 
         String profName = (String)postsnapshot.child("profName").getValue();
         String profId = (String)postsnapshot.child("profId").getValue();
@@ -207,12 +252,12 @@ public class NetworkVerifyHandler {
             for (DataSnapshot materia : postsnapshot.child("materias").getChildren()){
                 String nombre = (String)materia.child("nombre").getValue();
                 String facultad = (String)materia.child("facultad").getValue();
-                materias = materias.append( "\n - <b>" + nombre + "</b>" + " (" + facultad + ")</dd> \n");
+                materias = materias.append( "<br> - <b>" + nombre + "</b>" + " (" + facultad + ")");
             }
         }
         if (profId.equals("0")){
             text = "El usuario <b>" + extraData.getShowName() + "</b> ha agregado al profesor <b>"
-            + profName + "</b> con las materias \n" + materias.toString();
+            + profName + "</b> con las materias <br>" + materias.toString();
             title = "Profesor agregado";
         }else{
             text = "El usuario " + extraData.getShowName() +
@@ -220,6 +265,58 @@ public class NetworkVerifyHandler {
                     + "</b> las materias \n" + materias.toString() ;
 
             title = "Materias agregadas a profesor";
+        }
+        long timestamp = (long) postsnapshot.child("timestamp").getValue();
+
+        final VerifyInfoData data = new VerifyInfoData(
+                title,
+                text,
+                timestamp
+        );
+
+        gotRequestItemListener.onGotRequestItemListener(data);
+    }
+    public void addCourseElement(final DataSnapshot postsnapshot, final String key, UserExtraData extraData){
+
+        String courseName = (String)postsnapshot.child("name").getValue();
+        String facultadName = (String)postsnapshot.child("facultadName").getValue();
+        String classId = (String)postsnapshot.child("classId").getValue();
+
+        String text;
+        String title;
+
+        StringBuilder profesoresText = new StringBuilder();
+
+        profesoresText = profesoresText.append("con los profesores");
+        if (postsnapshot.hasChild("prof")){
+            for (DataSnapshot child : postsnapshot.child("prof").getChildren()) {
+                String nombre = (String)child.getValue();
+                String profId = (String)child.getKey();
+
+                profesoresText = profesoresText.append( "<br> - <b>" + nombre + "</b>" + " (" + profId + ")");
+            }
+        }
+
+        if (classId.equals("0")){
+            if (profesoresText.toString().equals("con los profesores")){
+                profesoresText = new StringBuilder();
+                profesoresText = profesoresText.append(" sin profesores");
+            }
+            text = "El usuario <b>" + extraData.getShowName() + "</b> ha agregado la materia <b>"
+                    + courseName + "</b> de la institución <b>" + facultadName + "</b> "
+                    + profesoresText;
+            title = "Profesor agregado";
+        }else{
+            if (profesoresText.toString().equals("con los profesores")){
+                profesoresText = new StringBuilder();
+                profesoresText = profesoresText.append(" sin profesores");
+            }
+            text = "El usuario " + extraData.getShowName() +
+                    " le ha agregado a la materia <b>" + courseName + "</b> de la institución <b>" + facultadName
+                    + "</b> a la <b>" + facultadName + "</b>" +
+                    profesoresText;
+
+            title = "Profesores agregados a materia";
         }
         long timestamp = (long) postsnapshot.child("timestamp").getValue();
 

@@ -45,6 +45,7 @@ public class ActivityVerificar extends AppCompatActivity {
 
         networkVerifyHandler.listenForUniRequests();
         networkVerifyHandler.listenForProfAddRequests();
+        networkVerifyHandler.listenForCourseAddRequests();
 
         networkVerifyHandler.setDoneActionListener(new DoneActionListener() {
             @Override
