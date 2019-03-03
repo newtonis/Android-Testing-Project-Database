@@ -74,7 +74,7 @@ public class MenuManager {
         this.materialMenuView = _materialMenuView;
         this.mDrawerLayout = _mDrawerLayout;
 
-        userDataManager = new UserDataManager();
+        userDataManager = new UserDataManager("");
 
         this.materialMenuView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,6 +95,7 @@ public class MenuManager {
                 public void onGotUserRights(boolean admin) {
                     addMenus(admin);
                     UserExtraDataInstance.getInstance().setAdmin(admin);
+                    UserExtraDataInstance.getInstance().setGotDataAdmin(true);
                 }
             });
             UserDataManagerInstance.getInstance().listenForUserRights();

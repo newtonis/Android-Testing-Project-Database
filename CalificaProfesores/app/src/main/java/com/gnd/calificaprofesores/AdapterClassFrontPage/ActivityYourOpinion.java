@@ -61,7 +61,7 @@ public class ActivityYourOpinion extends Fragment {
         //placeholder = new Placeholder();
         CourseManager = new IntentCourseManager(getActivity().getIntent());
 
-        UserDataManager userData = new UserDataManager();
+        UserDataManager userData = new UserDataManager("");
 
         String CourseId = CourseManager.GetCourseId();
 

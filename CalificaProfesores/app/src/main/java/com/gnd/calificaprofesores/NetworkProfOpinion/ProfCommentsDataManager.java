@@ -57,9 +57,9 @@ public class ProfCommentsDataManager {
                                     (String)postSnapshot.child("content").getValue(),
                                     materias,
                                     new TreeMap<String, String>(),
-                                    (Long)postSnapshot.child("amabilidad").getValue(),
                                     (Long)postSnapshot.child("conocimiento").getValue(),
                                     (Long)postSnapshot.child("clases").getValue(),
+                                    (Long)postSnapshot.child("amabilidad").getValue(),
                                     (boolean)postSnapshot.child("anonimo").getValue(),
                                     (boolean)postSnapshot.child("conTexto").getValue()
                             ));

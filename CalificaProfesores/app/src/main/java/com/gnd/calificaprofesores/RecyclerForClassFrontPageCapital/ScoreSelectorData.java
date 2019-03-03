@@ -13,6 +13,7 @@ public class ScoreSelectorData extends AdapterElement {
         itemsValue[0] = v1;
         itemsValue[1] = v2;
         itemsValue[2] = v3;
+
     }
 
     public Integer[] getItemsValue() {

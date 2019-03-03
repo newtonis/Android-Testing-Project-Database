@@ -74,7 +74,7 @@ public class ActivitySelectUni extends AppCompatActivity {
         ShownDataListed = new ArrayList<>();
         searchUniHandler = new SearchUniHandler();
         adapter = new Adapter();
-        userDataManager = new UserDataManager();
+        userDataManager = new UserDataManager("");
 
         /*** Cargamos widgets **/
         mUniInput = findViewById(R.id.courseInput2);
@@ -157,7 +157,7 @@ public class ActivitySelectUni extends AppCompatActivity {
         });
 
         if (!intent.getBooleanExtra("forceSelect",false)) {
-            userDataManager.listenForUserProfileData();
+            userDataManager.listenForUserProfileData(null);
             userDataManager.setmGotUserExtraDataListener(new GotUserExtraDataListener() {
                 @Override
                 public void gotExtraData(UserExtraData extraData) {

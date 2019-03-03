@@ -1,6 +1,7 @@
 package com.gnd.calificaprofesores;
 
 import android.content.Intent;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.balysv.materialmenu.MaterialMenuView;
+import com.gnd.calificaprofesores.MenuManager.MenuManager;
 import com.gnd.calificaprofesores.NetworkNewsHandler.GotNewsListener;
 import com.gnd.calificaprofesores.NetworkNewsHandler.NetworkNewsHandler;
 import com.gnd.calificaprofesores.NetworkNewsHandler.SentNewsListener;
@@ -29,6 +32,7 @@ public class ActivityWriteNews extends AppCompatActivity {
 
     private InputLineTextData titulo, contenido;
     private ButtonData button;
+    private MenuManager menuManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,5 +98,10 @@ public class ActivityWriteNews extends AppCompatActivity {
 
 
         adapter.notifyDataSetChanged();
+
+        menuManager = new MenuManager(
+                this,
+                (MaterialMenuView)findViewById(R.id.MaterialMenuButton),
+                (DrawerLayout)findViewById(R.id.DrawerLayout));
     }
 }

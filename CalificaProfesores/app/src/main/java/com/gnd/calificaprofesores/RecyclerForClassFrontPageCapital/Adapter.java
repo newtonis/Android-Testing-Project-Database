@@ -116,7 +116,7 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 return new MenuSeparatorViewHolder(itemView);
             case 24:
                 itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_item_verify_change, viewGroup, false);
-                return new MenuSeparatorViewHolder(itemView);
+                return new VerifyInfoViewHolder(itemView);
         }
         return null;
     }
@@ -318,6 +318,11 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
     public void removeElement(AdapterElement element){
         Items.remove(element);
+    }
+    public void replaceElement(AdapterElement target, AdapterElement newValue){
+        int index = Items.indexOf(target);
+        Items.add(index, newValue);
+        removeElement(target);
     }
     public void clear(){
         Items.clear();

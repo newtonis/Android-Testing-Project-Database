@@ -9,7 +9,7 @@ public class CompleteClassData {
     String facultadId;
     String facultadName;
     String classId;
-
+    boolean erase;
     Map<String, String> prof;
 
     public CompleteClassData(String name, String facultadId, String facultadName, String classId, Map<String, String> prof) {
@@ -18,6 +18,7 @@ public class CompleteClassData {
         this.facultadName = facultadName;
         this.prof = prof;
         this.classId = classId;
+        erase = false;
     }
 
     public String getName() {
@@ -58,5 +59,13 @@ public class CompleteClassData {
 
     public void setClassId(String classId) {
         this.classId = classId;
+    }
+
+    public boolean isErase() {
+        return erase;
+    }
+
+    public void setErase(boolean erase) {
+        this.erase = erase;
     }
 }

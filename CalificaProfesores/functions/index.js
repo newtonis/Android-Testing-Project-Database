@@ -161,7 +161,7 @@ exports.UpdateAddProfRequest1 = functions.database.ref("/ProfAddRequests/{uid}/{
         var profId = event.after.child("profId").val();
         const name = event.after.child("profName").val();
 
-        if (profId == "0"){console.firebase.google.com/
+        if (profId == "0"){
             const arrFacultades = event.after.child("facultades").val();
         
             for (var child in arrFacultades){
@@ -322,11 +322,12 @@ exports.UpdateAddClassRequest1 = functions.database.ref("/ClassAddRequests/{uid}
 );
 
 exports.UpdateAddUniRequest1 = functions.database.ref("/UniAddRequests/{uid}/{rid}")
-    .onWrite((event, context) => {
-        const uniCompleteName = event.after.child("uniShortName").val();
-        const uniShortName = event.after.child("uniCompleteName").val();
-
-        admin.database().ref("Facultades").push().set({
+    .onCreate((event, context) => {
+        console.log("Creating uni "+context.params.rid);
+        const uniCompleteName = event.child("uniShortName").val();
+        const uniShortName = event.child("uniCompleteName").val();
+                // create uni
+        admin.database().ref("Facultades").child(context.params.rid).set({
             Name: uniShortName.toLowerCase(),
             uniCompleteName : uniCompleteName.toLowerCase()
             .replace(/á/g, "a")
@@ -335,7 +336,50 @@ exports.UpdateAddUniRequest1 = functions.database.ref("/UniAddRequests/{uid}/{ri
             .replace(/ó/g, "o")
             .replace(/ú/g,"u"),
             ShownName : uniCompleteName
-        })
+        });
+        return 1;
+    }
+);
+
+exports.UpdateAdminActionUniRequest1 = functions.database.ref("/UniAddRequests/{uid}/{rid}")
+    .onUpdate((event, context) => {       
+        console.log("Updating admin action on uni ",context.params.rid);
+        const uniCompleteName = event.after.child("uniShortName").val();
+        const uniShortName = event.after.child("uniCompleteName").val();
+
+        admin.database()
+        .ref("MateriasPorFacultad")
+        .child(event.after.key)
+        .remove().then(() => {
+            console.log('Successfully removed uni ' + event.after.key + ' links');
+            return 0;
+        }).catch(() => {
+            console.log('Error removing uni');
+            return 0;
+        });
+        // delete uni
+        admin.database()
+        .ref("Facultades")
+        .child(event.after.key)
+        .remove().then(() => {
+            console.log('Successfully removed uni ' + event.after.key + ' data');
+            return 0;
+        }).catch(() => {
+            console.log('Error removing uni');
+            return 0;
+        });
+
+        admin.database()
+        .ref("UniAddRequests")
+        .child(context.params.uid)
+        .child(context.params.rid)
+        .remove().then(() => {
+            console.log("Uni "+event.before.key+" request erased");
+            return 0;
+        }).catch(() => {
+            console.log("Error removing uni " + event.before.key+ + "request");
+            return 0;
+        });
         return 1;
     }
 );

@@ -1,6 +1,7 @@
 package com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -27,7 +28,7 @@ public class VerifyInfoViewHolder extends RecyclerView.ViewHolder {
         titleView.setText(title);
 
         TextView contentView = view.findViewById(R.id.TextContent);
-        contentView.setText(content);
+        contentView.setText(Html.fromHtml(content));
 
         Date date = new Date(timestamp);
 

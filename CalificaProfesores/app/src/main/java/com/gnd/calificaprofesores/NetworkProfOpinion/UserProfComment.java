@@ -21,9 +21,9 @@ public class UserProfComment {
             String _content,
             Map<String, String> _materias,
             Map<String, String> _timestamp,
-            Long _amabilidad,
             Long _conocimiento,
             Long _clases,
+            Long _amabilidad,
             boolean _anonimo,
             boolean _conTexto){
 

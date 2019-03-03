@@ -5,7 +5,7 @@ public class UserDataManagerInstance {
 
     public static UserDataManager getInstance(){
         if (userDataManager == null){
-            userDataManager = new UserDataManager();
+            userDataManager = new UserDataManager("");
         }
         return userDataManager;
     }

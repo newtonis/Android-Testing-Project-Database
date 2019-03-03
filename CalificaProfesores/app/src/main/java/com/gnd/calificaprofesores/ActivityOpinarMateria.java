@@ -96,7 +96,7 @@ public class ActivityOpinarMateria extends AppCompatActivity {
 
         mCourseCommentsDatamanager = new CourseCommentsDataManager(intentCourseManager.GetCourseId(),intentCourseManager.GetCourseName());
         mAuth = FirebaseAuth.getInstance();
-        mUserDataManager = new UserDataManager();
+        mUserDataManager = new UserDataManager("");
 
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -117,7 +117,7 @@ public class ActivityOpinarMateria extends AppCompatActivity {
         }
     }
     private void SendOpinion(){
-        mUserDataManager.listenForUserProfileData();
+        mUserDataManager.listenForUserProfileData(null);
 
         mUserDataManager.setmGotUserExtraDataListener(new GotUserExtraDataListener() {
             @Override

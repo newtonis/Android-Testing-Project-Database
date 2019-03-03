@@ -29,27 +29,36 @@ public class UserDataManager {
     private SentUniDataListener sentUniDataListener;
     private GotUserRightsListener gotUserRightsListener;
 
-    private String uid;
 
     FirebaseUser currentFirebaseUser;
     private DatabaseReference mDatabase;
     private int count;
+    private boolean external;
+    private String uid;
 
-    public UserDataManager(){
+    public UserDataManager(String _uid){
+        external = !_uid.equals("");
+        uid = _uid;
+
         currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference( ).getRef();
-        uid = FirebaseAuth.getInstance().getUid();
         gotUserRightsListener = null;
         sentUniDataListener = null;
         mGotUserProfCommentListener = null;
         mGotUserExtraDataListener = null;
     }
-
+    private String getUid(){
+        if (external){
+            return uid;
+        }else{
+            return FirebaseAuth.getInstance().getUid();
+        }
+    }
     public void setUni(String uniName, String uniId){
         count = 0;
 
         mDatabase
-                .child("UsersExtraData/"+uid+"/UniName")
+                .child("UsersExtraData/"+getUid()+"/UniName")
                 .setValue(uniName).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -61,7 +70,7 @@ public class UserDataManager {
         });
 
         mDatabase
-                .child("UsersExtraData/"+uid+"/UniId")
+                .child("UsersExtraData/"+getUid()+"/UniId")
                 .setValue(uniId).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -75,14 +84,14 @@ public class UserDataManager {
 
     public void setShownName(String shownName){
         mDatabase
-                .child("UsersExtraData/"+uid+"/ShownName")
+                .child("UsersExtraData/"+getUid()+"/ShownName")
                 .setValue(shownName);
     }
 
     public void AddGotUserCommentListener(String CourseId, final GotUserCommentListener listener){
         this.mGotUserCommentListener = listener;
 
-        mDatabase.child("OpinionesMaterias/"+CourseId+"/"+currentFirebaseUser.getUid()).addListenerForSingleValueEvent(
+        mDatabase.child("OpinionesMaterias/"+CourseId+"/"+getUid()).addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -115,30 +124,31 @@ public class UserDataManager {
     }
 
     public void ListenForUserProfComment(String ProfId){
-        String uid = FirebaseAuth.getInstance().getUid();
+        String uid = getUid();
         mDatabase.child("OpinionesProf")
                 .child(ProfId)
                 .child(uid)
                 .addListenerForSingleValueEvent(
                 new ValueEventListener() {
-                    List<UserProfComment> comments = new ArrayList<>();
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
                         if (dataSnapshot.exists()){
                             Map<String ,String> materias = new TreeMap<>();
 
                             for (DataSnapshot child : dataSnapshot.child("materias").getChildren()){
-                                materias.put(child.getKey(), (String)child.getValue());
+                                materias.put(
+                                        child.getKey(),
+                                        (String)child.getValue()
+                                );
                             }
                             UserProfComment comment = new UserProfComment(
                                     (String) dataSnapshot.child("author").getValue(),
                                     (String) dataSnapshot.child("content").getValue(),
                                     materias,
                                     new TreeMap<String, String>(),
-                                    (Long) dataSnapshot.child("amabilidad").getValue(),
                                     (Long) dataSnapshot.child("conocimiento").getValue(),
                                     (Long) dataSnapshot.child("clases").getValue(),
+                                    (Long) dataSnapshot.child("amabilidad").getValue(),
                                     (boolean) dataSnapshot.child("anonimo").getValue(),
                                     (boolean) dataSnapshot.child("conTexto").getValue()
                             );
@@ -160,9 +170,9 @@ public class UserDataManager {
 
     }
 
-    public void listenForUserProfileData(){
+    public void listenForUserProfileData(final GotUserExtraDataListener customListener){
 
-        mDatabase.child("UsersExtraData/"+uid).addListenerForSingleValueEvent(
+        mDatabase.child("UsersExtraData/"+getUid()).addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -180,7 +190,11 @@ public class UserDataManager {
                                     (String)dataSnapshot.child("UniName").getValue()
                             );
                         }
-                        mGotUserExtraDataListener.gotExtraData(data);
+                        if (customListener == null) {
+                            mGotUserExtraDataListener.gotExtraData(data);
+                        }else{
+                            customListener.gotExtraData(data);
+                        }
                     }
 
                     @Override
@@ -194,7 +208,7 @@ public class UserDataManager {
     public void listenForUserRights(){
         mDatabase
                 .child("Admin")
-                .child(uid)
+                .child(getUid())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

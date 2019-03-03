@@ -60,7 +60,7 @@ public class ActivityUser extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         networkNewsHandler = new NetworkNewsHandler();
-        userDataManager = new UserDataManager();
+        userDataManager = new UserDataManager("");
 
         networkNewsHandler.setGotNewsListener(new GotNewsListener() {
             @Override
