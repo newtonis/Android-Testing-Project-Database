@@ -178,6 +178,9 @@
     </string>
     <string name="TextAceptar">ACEPTAR</string>
     <string name="TextRechazar">RECHAZAR</string>
+    <string name="NotFoundText">NO ENCONTRADO</string>
+    <string name="SearchFailureText">EL CONTENIDO QUE BUSCAS NO HA SIDO ENCONTRADO</string>
+    <string name="notfound404">404</string>
 
 </resources>
 

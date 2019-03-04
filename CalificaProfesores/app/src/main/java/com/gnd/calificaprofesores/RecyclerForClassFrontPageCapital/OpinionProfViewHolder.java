@@ -44,7 +44,7 @@ public class OpinionProfViewHolder extends RecyclerView.ViewHolder {
         RatingBar stars = mView.findViewById(R.id.RatingBar);
         stars.setRating(score);
 
-        Date stamp = new Date((Long) timestamp);
+        Date stamp = new Date(timestamp);
 
         TextView TextDate = mView.findViewById(R.id.TextDate);
         TextDate.setText(stamp.toString());

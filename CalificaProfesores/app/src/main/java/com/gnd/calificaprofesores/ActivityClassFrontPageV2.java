@@ -6,6 +6,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
@@ -40,7 +41,7 @@ public class ActivityClassFrontPageV2 extends AppCompatActivity {
     private static String CourseName;
     private static String CourseId;
 
-    private Toolbar toolbar;
+    private LinearLayout toolbar;
     private IntentCourseManager intent;
 
     private MenuManager menuManager;
@@ -69,7 +70,7 @@ public class ActivityClassFrontPageV2 extends AppCompatActivity {
 
         tabs = findViewById(R.id.tabs);
         pager = findViewById(R.id.pager);
-        setSupportActionBar(toolbar);
+        //setSupportActionBar(toolbar);
 
         adapter = new AdapterClassFrontPage(getSupportFragmentManager());
         pager.setAdapter(adapter);

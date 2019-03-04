@@ -15,7 +15,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ActivityWriteNews"></activity>
+        <activity android:name=".error_404">
+
+        </activity>
+        <activity android:name=".ActivityWriteNews" />
         <activity android:name=".ActivityVerificar" />
         <activity android:name=".ActivityPrivacyPolicy" />
         <activity android:name=".ActivityAtribuciones" />

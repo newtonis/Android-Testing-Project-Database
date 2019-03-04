@@ -1,6 +1,7 @@
 package com.gnd.calificaprofesores.NetworkAdd;
 
 import com.gnd.calificaprofesores.NetworkHandler.ProfData;
+import com.google.firebase.database.ServerValue;
 
 import java.util.Map;
 
@@ -10,6 +11,7 @@ public class CompleteClassData {
     String facultadName;
     String classId;
     boolean erase;
+    Map timestamp;
     Map<String, String> prof;
 
     public CompleteClassData(String name, String facultadId, String facultadName, String classId, Map<String, String> prof) {
@@ -19,6 +21,7 @@ public class CompleteClassData {
         this.prof = prof;
         this.classId = classId;
         erase = false;
+        timestamp = ServerValue.TIMESTAMP;
     }
 
     public String getName() {
@@ -67,5 +70,13 @@ public class CompleteClassData {
 
     public void setErase(boolean erase) {
         this.erase = erase;
+    }
+
+    public Map getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Map timestamp) {
+        this.timestamp = timestamp;
     }
 }

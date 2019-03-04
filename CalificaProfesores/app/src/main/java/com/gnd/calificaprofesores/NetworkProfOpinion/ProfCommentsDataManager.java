@@ -46,13 +46,37 @@ public class ProfCommentsDataManager {
                         List<UserProfComment> comments = new ArrayList<>();
 
                         for (DataSnapshot postSnapshot : dataSnapshot.getChildren()){
+                            if (!postSnapshot.hasChild("author")){
+                                continue;
+                            }
+                            if (!postSnapshot.hasChild("content")){
+                                continue;
+                            }
+                            if (!postSnapshot.hasChild("conocimiento")){
+                                continue;
+                            }
+                            if (!postSnapshot.hasChild("clases")){
+                                continue;
+                            }
+                            if (!postSnapshot.hasChild("amabilidad")){
+                                continue;
+                            }
+                            if (!postSnapshot.hasChild("anonimo")) {
+                                continue;
+                            }
+                            if (!postSnapshot.hasChild("conTexto")){
+                                continue;
+                            }
+                            if (!postSnapshot.hasChild("timestamp")){
+                                continue;
+                            }
+
                             Map<String,String> materias = new TreeMap<>();
 
                             for (DataSnapshot child : postSnapshot.child("materias").getChildren()){
                                 materias.put(child.getKey(), (String)child.getValue());
                             }
-
-                            comments.add(new UserProfComment(
+                            UserProfComment comment = new UserProfComment(
                                     (String)postSnapshot.child("author").getValue(),
                                     (String)postSnapshot.child("content").getValue(),
                                     materias,
@@ -62,7 +86,9 @@ public class ProfCommentsDataManager {
                                     (Long)postSnapshot.child("amabilidad").getValue(),
                                     (boolean)postSnapshot.child("anonimo").getValue(),
                                     (boolean)postSnapshot.child("conTexto").getValue()
-                            ));
+                            );
+                            comment.setTimestamp_long((long)postSnapshot.child("timestamp").getValue());
+                            comments.add(comment);
 
 
                         }

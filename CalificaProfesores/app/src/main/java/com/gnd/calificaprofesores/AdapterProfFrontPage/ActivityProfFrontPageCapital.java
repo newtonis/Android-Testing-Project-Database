@@ -60,8 +60,8 @@ public class ActivityProfFrontPageCapital extends Fragment {
             public void onGotProfQualListener(float conocimiento, float clases, float amabilidad) {
                 SetLoaded(
                         conocimiento,
-                        amabilidad,
-                        clases
+                        clases,
+                        amabilidad
                 );
             }
         });

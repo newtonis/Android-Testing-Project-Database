@@ -23,18 +23,16 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0">
 
-            <android.support.v7.widget.Toolbar
-                app:contentInsetStart="0dp"
-                app:contentInsetLeft="0dp"
+            <LinearLayout
                 android:id="@+id/Toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_margin="0dp"
-                android:padding="0dp">
+                android:orientation="horizontal">
 
                 <android.support.constraint.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.1">
 
                     <com.balysv.materialmenu.MaterialMenuView
                         android:id="@+id/MaterialMenuButton"
@@ -42,41 +40,57 @@
                         android:layout_height="33dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
                         android:layout_marginBottom="8dp"
                         app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:mm_color="#158ECF"
                         app:mm_scale="@integer/demo_scale"
                         app:mm_strokeWidth="3"
                         app:mm_transformDuration="3000" />
+                </android.support.constraint.ConstraintLayout>
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.1">
 
                     <TextView
                         android:id="@+id/TextBuscarCurso"
-                        android:layout_width="wrap_content"
-                        android:layout_height="30dp"
+                        android:layout_width="278dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="8dp"
                         android:layout_marginBottom="8dp"
                         android:fontFamily="@font/alfa_slab_one"
                         android:gravity="center"
+                        android:inputType="textWebEditText|textMultiLine"
                         android:text="@string/ClassText"
                         android:textAlignment="center"
                         android:textColor="@color/browser_actions_title_color"
                         android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.497"
+                        app:layout_constraintHorizontal_bias="0.278"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.0" />
+                        app:layout_constraintVertical_bias="0.363" />
+                </android.support.constraint.ConstraintLayout>
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.1">
 
                     <ImageView
                         android:id="@+id/imageView"
                         android:layout_width="24dp"
                         android:layout_height="25dp"
                         android:layout_gravity="center"
+                        android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="8dp"
                         android:layout_marginBottom="8dp"
@@ -85,12 +99,13 @@
                         android:cropToPadding="false"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.555"
                         app:srcCompat="@drawable/blackboard" />
                 </android.support.constraint.ConstraintLayout>
 
-            </android.support.v7.widget.Toolbar>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -109,7 +124,7 @@
                     <TextView
                         android:id="@+id/UniversityText"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_weight="0"
                         android:fontFamily="@font/alfa_slab_one"
                         android:hapticFeedbackEnabled="false"
