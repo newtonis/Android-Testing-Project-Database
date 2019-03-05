@@ -7,7 +7,7 @@ import android.os.Bundle;
 import com.balysv.materialmenu.MaterialMenuView;
 import com.gnd.calificaprofesores.MenuManager.MenuManager;
 
-public class error_404 extends AppCompatActivity {
+public class ActivityError404 extends AppCompatActivity {
 
     private MenuManager menuManager;
 

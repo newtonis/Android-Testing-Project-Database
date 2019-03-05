@@ -25,7 +25,7 @@ public class InputLineTextViewHolder extends RecyclerView.ViewHolder  {
         inputView.setHint(showText);
         //inputView.setText();
         if (model.isFlagInitial()) {
-            inputView.setText("");
+            inputView.setText(model.getDefaultText());
             model.setFlagInitial(false);
         }
 

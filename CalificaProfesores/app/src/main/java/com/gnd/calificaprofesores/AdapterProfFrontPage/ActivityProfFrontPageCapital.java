@@ -1,5 +1,6 @@
 package com.gnd.calificaprofesores.AdapterProfFrontPage;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,12 +11,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.gnd.calificaprofesores.ActivityError404;
 import com.gnd.calificaprofesores.IntentsManager.IntentProfManager;
 import com.gnd.calificaprofesores.NetworkHandler.UserDataManager;
 import com.gnd.calificaprofesores.NetworkProfOpinion.GotProfQualListener;
 import com.gnd.calificaprofesores.NetworkProfOpinion.ProfCommentsDataManager;
 import com.gnd.calificaprofesores.R;
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.Adapter;
+import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.Error404Data;
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.ProfessorData;
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.ShownQualData;
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.StarsData;
@@ -64,6 +67,11 @@ public class ActivityProfFrontPageCapital extends Fragment {
                         amabilidad
                 );
             }
+
+            @Override
+            public void onError() {
+                setFailure();
+            }
         });
 
         profCommentsDataManager.RequestProfQual();
@@ -87,6 +95,22 @@ public class ActivityProfFrontPageCapital extends Fragment {
         myAdapter.AddElement(new ShownQualData(conocimiento,clases,amabilidad));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+
+        myAdapter.notifyDataSetChanged();
+    }
+
+    public void setFailure(){
+        mView = mLayoutInflater.inflate(R.layout.layout_recycler_view, mContainer, false);
+        placeholder.removeAllViews();
+        placeholder.addView(mView);
+
+        recyclerView = mView.findViewById(R.id.RecyclerView);
+
+        myAdapter = new Adapter();
+        recyclerView.setAdapter(myAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        myAdapter.AddElement(new Error404Data());
 
         myAdapter.notifyDataSetChanged();
     }

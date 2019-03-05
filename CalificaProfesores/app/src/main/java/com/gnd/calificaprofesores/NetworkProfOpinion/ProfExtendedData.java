@@ -11,6 +11,9 @@ public class ProfExtendedData {
     public ProfExtendedData(String id, String name) {
         this.id = id;
         this.name = name;
+        conocimiento = -1f;
+        amabildiad = -1f;
+        clases = -1f;
     }
 
     public String getId() {

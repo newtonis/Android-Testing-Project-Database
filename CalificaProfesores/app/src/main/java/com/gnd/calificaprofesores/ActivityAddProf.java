@@ -78,14 +78,14 @@ public class ActivityAddProf extends AppCompatActivity {
             }
         };
 
-        profInput = new InputLineTextData("Profesor ...","Nombre del profesor");
+        profInput = new InputLineTextData("Profesor ...","Nombre Apellido");
         adapter.AddElement(profInput);
 
         adapter.AddElement(new TitleData("SELECCIONAR MATERIAS"));
 
         final MiniSearchData miniSearchData = new MiniSearchData(
                 "Materia ...",
-                "LAS MATERIAS NO FIGURAN",
+                "AGREGAR MATERIAS DESPUÉS",
                 true,
                 -1L,
                 new SearchCalledListener() {
@@ -95,6 +95,7 @@ public class ActivityAddProf extends AppCompatActivity {
             }
         });
 
+        miniSearchData.setEnabled(false);
 
         searchCourseHandler.AddOnGotCourseListener(new GotCourseListener() {
             @Override
@@ -170,6 +171,12 @@ public class ActivityAddProf extends AppCompatActivity {
         adapter.AddElement(button);
         adapter.notifyDataSetChanged();
 
+        Intent intent = getIntent();
+
+        if (intent.hasExtra("profName")){
+            String profName = intent.getStringExtra("profName");
+            profInput.setDefaultText(profName);
+        }
 
         menuManager = new MenuManager(
                 this,

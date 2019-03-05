@@ -117,6 +117,9 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             case 24:
                 itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_item_verify_change, viewGroup, false);
                 return new VerifyInfoViewHolder(itemView);
+            case 25:
+                itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_item_404, viewGroup, false);
+                return new Error404ViewHolder(itemView);
         }
         return null;
     }
@@ -308,6 +311,8 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     element.getAcceptAction(),
                     element.getRejectAction()
             );
+
+        }else if(dataItem.GetType() == 25){
 
         }
         /*opinionItemViewHolder.setDetails(dataItem.GetUniShortName(), dataItem.GetUniShownName(), 0L);

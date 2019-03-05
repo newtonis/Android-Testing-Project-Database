@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.content.Intent;
 
+import com.gnd.calificaprofesores.ActivityError404;
 import com.gnd.calificaprofesores.ActivityOpinarMateria;
 import com.gnd.calificaprofesores.ActivityProfFrontPageV2;
 import com.gnd.calificaprofesores.AdapterProfFrontPage.ActivityOpinion;
@@ -28,6 +29,7 @@ import com.gnd.calificaprofesores.OpinionItem.CourseComment;
 import com.gnd.calificaprofesores.R;
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.Adapter;
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.AdapterElement;
+import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.Error404Data;
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.NoInfoData;
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.OpinionProfData;
 import com.gnd.calificaprofesores.RecyclerForClassFrontPageCapital.ProfessorData;
@@ -77,13 +79,14 @@ public class ActivityClassFrontPageCapital extends Fragment {
 
             @Override
             public void onFailed() {
-
+                onFail();
             }
         });
         dataManager.ListenForCourseDetailedData();
 
         return placeholder;
     }
+
     public void onLoaded(){
         mView = mLayoutInflater.inflate(R.layout.layout_course_front_info, mContainer, false);
         placeholder.removeAllViews();
@@ -132,28 +135,59 @@ public class ActivityClassFrontPageCapital extends Fragment {
                     }
             ));
         }else{
+            boolean someProf = false;
             for (final ProfExtendedData prof : course.getProfessors()){
-                ProfessorData profData = new ProfessorData(
-                        prof.getName(),
-                        prof.getConocimiento(),
-                        prof.getClases(),
-                        prof.getAmabildiad()
-                );
-                profData.setClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        IntentProfManager profManager = new IntentProfManager(
-                                new Intent(getContext(), ActivityProfFrontPageV2.class),
-                                prof.getName(),
-                                prof.getId()
-                        );
-                        startActivity(profManager.GetIntent());
-                    }
-                });
-                myAdapter.AddElement(profData);
+                if (prof.getAmabildiad() != -1f) {
+                    ProfessorData profData = new ProfessorData(
+                            prof.getName(),
+                            prof.getConocimiento(),
+                            prof.getClases(),
+                            prof.getAmabildiad()
+                    );
+                    profData.setClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            IntentProfManager profManager = new IntentProfManager(
+                                    new Intent(getContext(), ActivityProfFrontPageV2.class),
+                                    prof.getName(),
+                                    prof.getId()
+                            );
+                            startActivity(profManager.GetIntent());
+                        }
+                    });
+                    myAdapter.AddElement(profData);
+                    someProf = true;
+                }
+            }
+            if (!someProf){
+                myAdapter.AddElement(new NoInfoData(
+                        "No hay información de profesores",
+                        "AGREGAR PROFESOR",
+                        new View.OnClickListener(){
+                            @Override
+                            public void onClick(View v) {
 
+                            }
+                        }
+                ));
             }
         }
+
+        myAdapter.notifyDataSetChanged();
+    }
+
+    public void onFail(){
+        mView = mLayoutInflater.inflate(R.layout.layout_recycler_view, mContainer, false);
+        placeholder.removeAllViews();
+        placeholder.addView(mView);
+
+        recyclerView = mView.findViewById(R.id.RecyclerView);
+
+        myAdapter = new Adapter();
+        recyclerView.setAdapter(myAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        myAdapter.AddElement(new Error404Data());
 
         myAdapter.notifyDataSetChanged();
     }

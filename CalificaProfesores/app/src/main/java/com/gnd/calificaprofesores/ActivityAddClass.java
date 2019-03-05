@@ -17,6 +17,9 @@ import com.gnd.calificaprofesores.NetworkAdd.AddProfessorHandler;
 import com.gnd.calificaprofesores.NetworkAdd.ClassAddedListener;
 import com.gnd.calificaprofesores.NetworkAdd.CompleteClassData;
 import com.gnd.calificaprofesores.NetworkHandler.CourseData;
+import com.gnd.calificaprofesores.NetworkHandler.UserDataManagerInstance;
+import com.gnd.calificaprofesores.NetworkHandler.UserExtraData;
+import com.gnd.calificaprofesores.NetworkHandler.UserExtraDataInstance;
 import com.gnd.calificaprofesores.NetworkSearchQueriesHandler.GotProfListener;
 import com.gnd.calificaprofesores.NetworkSearchQueriesHandler.GotUniListener;
 import com.gnd.calificaprofesores.NetworkSearchQueriesHandler.ProfData;
@@ -69,6 +72,13 @@ public class ActivityAddClass extends AppCompatActivity {
         courseInput = new InputLineTextData("Materia ...","Nombre de la materia");
         //courseInput.clear();
 
+        Intent intent = getIntent();
+
+        if (intent.hasExtra("className")){
+            String className = intent.getStringExtra("className");
+            courseInput.setDefaultText(className);
+        }
+
         adapter.AddElement(courseInput);
         titleData = new TitleData("SELECCIONAR FACULTAD");
 
@@ -86,6 +96,9 @@ public class ActivityAddClass extends AppCompatActivity {
                 searchUniHandler.Search(text.toLowerCase());
             }
         });
+        UserExtraData userExtraData = UserExtraDataInstance.getInstance();
+
+
 
         searchUniHandler.AddOnGetUniListener(new GotUniListener() {
             @Override
@@ -130,6 +143,8 @@ public class ActivityAddClass extends AppCompatActivity {
                         searchProfHandler.Search(text.toLowerCase());
                     }
                 });
+
+        miniSearchData2.setEnabled(false);
 
         searchProfHandler.AddOnGotProfListener(new GotProfListener() {
             @Override
@@ -219,6 +234,17 @@ public class ActivityAddClass extends AppCompatActivity {
                 this,
                 (MaterialMenuView)findViewById(R.id.MaterialMenuButton),
                 (DrawerLayout)findViewById(R.id.DrawerLayout));
+
+        if (!userExtraData.getUniName().equals("")){
+            miniSearchData.addElementToSet2(
+                    new UniData(
+                            userExtraData.getUniId(),
+                            userExtraData.getUniName(),
+                            userExtraData.getUniCompleteName()
+                    )
+            );
+            miniSearchData.notifyDataSetChanged();
+        }
     }
     public void classAdded(){
         Toast.makeText(

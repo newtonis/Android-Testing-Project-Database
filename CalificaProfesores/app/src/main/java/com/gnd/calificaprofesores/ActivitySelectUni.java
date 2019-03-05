@@ -26,7 +26,9 @@ import com.gnd.calificaprofesores.MenuManager.MenuManager;
 import com.gnd.calificaprofesores.NetworkHandler.GotUserExtraDataListener;
 import com.gnd.calificaprofesores.NetworkHandler.SentUniDataListener;
 import com.gnd.calificaprofesores.NetworkHandler.UserDataManager;
+import com.gnd.calificaprofesores.NetworkHandler.UserDataManagerInstance;
 import com.gnd.calificaprofesores.NetworkHandler.UserExtraData;
+import com.gnd.calificaprofesores.NetworkHandler.UserExtraDataInstance;
 import com.gnd.calificaprofesores.NetworkSearchQueriesHandler.GotUniListener;
 import com.gnd.calificaprofesores.NetworkSearchQueriesHandler.SearchUniHandler;
 import com.gnd.calificaprofesores.NetworkSearchQueriesHandler.UniData;
@@ -140,7 +142,7 @@ public class ActivitySelectUni extends AppCompatActivity {
                             public void onClick(View v) {
                                 SetLoading();
 
-                                selectUni(item.GetId(), item.GetUniShortName());
+                                selectUni(item.GetId(), item.GetUniShortName(), item.GetUniShownName());
 
                             }
                         });
@@ -157,22 +159,29 @@ public class ActivitySelectUni extends AppCompatActivity {
         });
 
         if (!intent.getBooleanExtra("forceSelect",false)) {
-            userDataManager.listenForUserProfileData(null);
-            userDataManager.setmGotUserExtraDataListener(new GotUserExtraDataListener() {
-                @Override
-                public void gotExtraData(UserExtraData extraData) {
-                    if (extraData.getUniId() != "") {
-                        Intent intent = new Intent(
-                                ActivitySelectUni.this,
-                                ActivitySearchCourse.class
-                        );
-                        intent.putExtra("Uni", extraData.getUniId());
-                        intent.putExtra("UniName", extraData.getUniName());
+            if (!UserExtraDataInstance.getInstance().getUniId().equals("")){
+                UserExtraData extraData = UserExtraDataInstance.getInstance();
+                selectUni(
+                        extraData.getUniId(),
+                        extraData.getUniName(),
+                        extraData.getUniCompleteName()
+                );
+            }else {
 
-                        startActivity(intent);
+                userDataManager.listenForUserProfileData(null);
+                userDataManager.setmGotUserExtraDataListener(new GotUserExtraDataListener() {
+                    @Override
+                    public void gotExtraData(UserExtraData extraData) {
+                        if (!extraData.getUniId().equals("")) {
+                            selectUni(
+                                    extraData.getUniId(),
+                                    extraData.getUniName(),
+                                    extraData.getUniCompleteName()
+                            );
+                        }
                     }
-                }
-            });
+                });
+            }
         }
 
         searchUniHandler.Search("");
@@ -180,23 +189,43 @@ public class ActivitySelectUni extends AppCompatActivity {
         menuManager = new MenuManager(
                 this,
                 (MaterialMenuView)findViewById(R.id.MaterialMenuButton),
-                (DrawerLayout)findViewById(R.id.DrawerLayout));
+                (DrawerLayout)findViewById(R.id.DrawerLayout)
+        );
 
     }
-    protected void selectUni(final String uniId,final String uniShortName){
-        userDataManager.setUni(uniShortName, uniId);
+    protected void selectUni(final String uniId,final String uniShortName, final String uniCompleteName){
+        userDataManager.setUni(uniShortName, uniId, uniCompleteName);
+
+        UserExtraDataInstance.getInstance()
+                .setUniId(uniId);
+        UserExtraDataInstance.getInstance()
+                .setUniName(uniShortName);
+        UserExtraDataInstance.getInstance()
+                .setUniCompleteName(uniCompleteName);
+
+
 
         userDataManager.setSentUniDataListener(new SentUniDataListener() {
             @Override
             public void onSentUni() {
                 Intent intent = new Intent(ActivitySelectUni.this, ActivitySearchCourse.class);
-                intent.putExtra("Uni", uniId);
-                intent.putExtra("UniName", uniShortName);
+                /*intent.putExtra("Uni", uniId);
+                intent.putExtra("UniName", uniShortName);*/
+
 
                 startActivity(intent);
+
+                SetLoaded();
+                adapter.clear();
+                adapter.notifyDataSetChanged();
             }
         });
 
+        userDataManager.setUni(
+                UserExtraDataInstance.getInstance().getUniName(),
+                UserExtraDataInstance.getInstance().getUniId(),
+                UserExtraDataInstance.getInstance().getUniCompleteName()
+        );
     }
     /*private FirebaseRecyclerOptions<BasicListItem> SearchAndMakeList(Query firebaseSearchQuery){
         return new FirebaseRecyclerOptions.Builder<BasicListItem>()

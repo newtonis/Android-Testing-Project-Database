@@ -44,6 +44,7 @@ public class MiniSearchData extends AdapterElement{
         adapter = new Adapter();
         adapter2 = new Adapter();
         buttonSelectedListener = null;
+        editable = null;
     }
 
     public Long getMaxElements() {
@@ -149,43 +150,51 @@ public class MiniSearchData extends AdapterElement{
             miniSearchListItemData.setListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                        element.SetType(13); // deletable item type
-                        if (
-                                !elementSet.contains(element) &&
-                                (maxElements == -1L || elementSet.size() < maxElements)
-                        ) {
-                            element.SetClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    elementSet.remove(element);
-                                    adapter2.removeElement(element);
-                                    if (buttonSelectedListener != null){
-                                        buttonSelectedListener.onButtonSelected(elementSet.size() == maxElements);
-                                    }
-                                    adapter2.notifyDataSetChanged();
-                                }
-                            });
-
-                            adapter2.AddElement(element);
-                            adapter2.notifyDataSetChanged();
-                        }
-                        elementSet.add(element);
-                        if (buttonSelectedListener != null){
-                            buttonSelectedListener.onButtonSelected(elementSet.size() == maxElements);
-                        }
-                        eraseText();
-
-                        adapter.clear();
-                        adapter.notifyDataSetChanged();
-                    }
+                    addElementToSet2(element);
+                }
             });
 
             adapter.AddElement(miniSearchListItemData);
         }
         adapter.notifyDataSetChanged();
     }
+    public void addElementToSet2(final UniData element){
+        element.SetType(13); // deletable item type
+        if (
+                !elementSet.contains(element) &&
+                        (maxElements == -1L || elementSet.size() < maxElements)
+        ) {
+            element.SetClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    elementSet.remove(element);
+                    adapter2.removeElement(element);
+                    if (buttonSelectedListener != null){
+                        buttonSelectedListener.onButtonSelected(elementSet.size() == maxElements);
+                    }
+                    adapter2.notifyDataSetChanged();
+                }
+            });
+            addToElementSet(element);
+            adapter2.notifyDataSetChanged();
+        }
+        eraseText();
+
+        adapter.clear();
+        adapter.notifyDataSetChanged();
+    }
+    public void addToElementSet(UniData element){
+        element.SetType(13);
+        adapter2.AddElement(element);
+        elementSet.add(element);
+        if (buttonSelectedListener != null){
+            buttonSelectedListener.onButtonSelected(elementSet.size() == maxElements);
+        }
+    }
     public void eraseText(){
-        editable.clear();
+        if (editable != null) {
+            editable.clear();
+        }
     }
 
     public Editable getEditable() {

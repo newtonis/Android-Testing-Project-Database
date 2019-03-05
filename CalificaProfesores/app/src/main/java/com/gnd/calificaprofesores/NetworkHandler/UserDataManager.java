@@ -2,6 +2,7 @@ package com.gnd.calificaprofesores.NetworkHandler;
 
 import android.support.annotation.NonNull;
 
+import com.firebase.ui.auth.data.model.User;
 import com.gnd.calificaprofesores.NetworkProfOpinion.UserProfComment;
 import com.gnd.calificaprofesores.OpinionItem.CourseComment;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -54,16 +55,34 @@ public class UserDataManager {
             return FirebaseAuth.getInstance().getUid();
         }
     }
-    public void setUni(String uniName, String uniId){
+
+    public void setUni(String uniName, String uniId, String uniCompleteName){
+        Map<String,String> uniData = new TreeMap<>();
+        uniData.put("UniId", uniId);
+        uniData.put("UniName", uniName);
+        uniData.put("UniCompleteName", uniCompleteName);
+
         count = 0;
 
         mDatabase
+                .child("UsersExtraData/"+getUid()+"/uni")
+                .setValue(uniData)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        count++;
+                        if (count == 1) {
+                            sentUniDataListener.onSentUni();
+                        }
+                    }
+                });
+        /*mDatabase
                 .child("UsersExtraData/"+getUid()+"/UniName")
                 .setValue(uniName).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 count ++;
-                if (count == 2){
+                if (count == 4){
                     sentUniDataListener.onSentUni();
                 }
             }
@@ -75,11 +94,23 @@ public class UserDataManager {
             @Override
             public void onSuccess(Void aVoid) {
                 count ++;
-                if (count == 2){
+                if (count == 4){
                     sentUniDataListener.onSentUni();
                 }
             }
         });
+
+        mDatabase
+                .child("UsersExtraData/"+getUid()+"/UniCompleteName")
+                .setValue(uniCompleteName).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                count ++;
+                if (count == 4){
+                    sentUniDataListener.onSentUni();
+                }
+            }
+        });*/
     }
 
     public void setShownName(String shownName){
@@ -170,25 +201,44 @@ public class UserDataManager {
 
     }
 
-    public void listenForUserProfileData(final GotUserExtraDataListener customListener){
+    public void listenForUserProfileData(
+            final GotUserExtraDataListener customListener){
 
-        mDatabase.child("UsersExtraData/"+getUid()).addListenerForSingleValueEvent(
+            mDatabase.child("UsersExtraData/"+getUid()).addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        UserExtraData data = new UserExtraData(
-                                (String)dataSnapshot.child("ShownName").getValue()
-                        );
 
-                        if (dataSnapshot.hasChild("UniId")){
-                            data.setUniId(
-                                    (String)dataSnapshot.child("UniId").getValue()
-                            );
-                        }
-                        if (dataSnapshot.hasChild("UniName")){
-                            data.setUniName(
-                                    (String)dataSnapshot.child("UniName").getValue()
-                            );
+                        UserExtraData data = new UserExtraData();
+
+                        data.setShowName((String)dataSnapshot.child("ShownName").getValue());
+                        if (dataSnapshot.hasChild("uni")) {
+                            DataSnapshot postsnapshot = dataSnapshot.child("uni");
+                            String uniId = (String)postsnapshot.child("UniId").getValue();
+                            String uniName = (String)postsnapshot.child("UniName").getValue();
+                            String uniCompleteName = (String)postsnapshot.child("UniCompleteName").getValue();
+
+                            data.setUniId(uniId);
+                            data.setUniName(uniName);
+                            data.setUniCompleteName(uniCompleteName);
+
+                            eraseOldSystem();
+                        }else {
+                            if (dataSnapshot.hasChild("UniId")) {
+                                data.setUniId(
+                                        (String) dataSnapshot.child("UniId").getValue()
+                                );
+                            }
+                            if (dataSnapshot.hasChild("UniName")) {
+                                data.setUniName(
+                                        (String) dataSnapshot.child("UniName").getValue()
+                                );
+                            }
+                            if (dataSnapshot.hasChild("UniCompleteName")) {
+                                data.setUniCompleteName(
+                                        (String) dataSnapshot.child("UniCompleteName").getValue()
+                                );
+                            }
                         }
                         if (customListener == null) {
                             mGotUserExtraDataListener.gotExtraData(data);
@@ -204,7 +254,17 @@ public class UserDataManager {
                 }
         );
     }
-
+    public void eraseOldSystem(){
+        mDatabase
+                .child("UsersExtraData/"+getUid()+"/UniId")
+                .removeValue();
+        mDatabase
+                .child("UsersExtraData/"+getUid()+"/UniName")
+                .removeValue();
+        mDatabase
+                .child("UsersExtraData/"+getUid()+"/UniCompleteName")
+                .removeValue();
+    }
     public void listenForUserRights(){
         mDatabase
                 .child("Admin")

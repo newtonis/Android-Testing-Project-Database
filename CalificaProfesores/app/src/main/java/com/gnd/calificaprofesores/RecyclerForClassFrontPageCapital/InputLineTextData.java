@@ -18,6 +18,7 @@ public class InputLineTextData extends AdapterElement{
         editable = null;
         flagInitial = true;
         singleLine = false;
+        defaultText = "";
     }
 
     public String getDefaultText() {

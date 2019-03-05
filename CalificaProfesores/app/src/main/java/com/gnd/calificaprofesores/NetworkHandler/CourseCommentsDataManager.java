@@ -28,7 +28,7 @@ public class CourseCommentsDataManager {
     private String CourseName;
     private GotCourseInfoListener gotCourseDataListener;
     private GotCommentListener gotCommentListener;
-
+    private boolean someProf;
     private Integer count;
 
     public CourseCommentsDataManager(String _CourseId, String _CourseName){
@@ -103,6 +103,31 @@ public class CourseCommentsDataManager {
                 .addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.hasChild("Facultad")){
+                    callError();
+                    return;
+                }
+                if (!dataSnapshot.hasChild("FacultadName")){
+                    callError();
+                    return;
+                }
+                if (!dataSnapshot.hasChild("ShownName")){
+                    callError();
+                    return;
+                }
+                if (!dataSnapshot.hasChild("count")) {
+                    callError();
+                    return;
+                }
+                if (!dataSnapshot.hasChild("totalScore")){
+                    callError();
+                    return;
+                }
+                if (!dataSnapshot.hasChild("Name")){
+                    callError();
+                    return;
+                }
+
                 CourseData courseData = new CourseData(
                         CourseId,
                         (String)dataSnapshot.child("ShownName").getValue(),
@@ -110,12 +135,13 @@ public class CourseCommentsDataManager {
                 );
 
                 List<ProfExtendedData> profData = new ArrayList<>();
-
-                for (DataSnapshot child : dataSnapshot.child("Prof").getChildren()){
-                    profData.add(new ProfExtendedData(
-                            child.getKey(),
-                            (String)child.getValue()
-                    ));
+                if (dataSnapshot.hasChild("Prof")) {
+                    for (DataSnapshot child : dataSnapshot.child("Prof").getChildren()) {
+                        profData.add(new ProfExtendedData(
+                                child.getKey(),
+                                (String) child.getValue()
+                        ));
+                    }
                 }
                 courseData.setProfessors(profData);
 
@@ -124,11 +150,13 @@ public class CourseCommentsDataManager {
 
                 if (count != 0) {
                     courseData.setScore((float) totalScore / count);
+
                 }else{
                     courseData.setScore(-1f);
-                }
 
+                }
                 CallForProfessorsScores(courseData);
+
             }
 
             @Override
@@ -137,9 +165,16 @@ public class CourseCommentsDataManager {
             }
         });
     }
+    public void callError(){
+        gotCourseDataListener.onFailed();
+    }
     public void CallForProfessorsScores(final CourseData courseData){
         count = 0;
+        someProf = false;
 
+        if (courseData.getProfessors().size() == 0){
+            gotCourseDataListener.onGotCourseInfo(courseData);
+        }
         for (final ProfExtendedData prof : courseData.getProfessors()) {
             mDatabase
                     .child("Prof")
@@ -147,38 +182,59 @@ public class CourseCommentsDataManager {
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.exists()) {
-                                long sumAmabilidad = (long) dataSnapshot.child("amabilidad").getValue();
-                                long sumClases = (long) dataSnapshot.child("clases").getValue();
-                                long sumConocimiento = (long) dataSnapshot.child("conocimiento").getValue();
-                                long count_value = (long) dataSnapshot.child("count").getValue();
+                            count++;
 
-                                if (count != 0) {
-                                    prof.setAmabildiad((float) sumAmabilidad / count_value);
-                                    prof.setClases((float) sumClases / count_value);
-                                    prof.setConocimiento((float) sumConocimiento / count_value);
-                                } else {
-                                    prof.setAmabildiad(-1f);
-                                    prof.setClases(-1f);
-                                    prof.setConocimiento(-1f);
-                                }
-                                count++;
-
-                                if (count == courseData.getProfessors().size()) {
-                                    gotCourseDataListener.onGotCourseInfo(courseData);
-                                }
+                            if (dataSnapshot.getValue() == null){
+                                checkEnd(courseData);
+                                return;
                             }
+                            if (!dataSnapshot.hasChild("amabilidad")){
+                                checkEnd(courseData);
+                                return;
+                            }
+                            if (!dataSnapshot.hasChild("clases")){
+                                checkEnd(courseData);
+                                return;
+                            }
+                            if (!dataSnapshot.hasChild("conocimiento")){
+                                checkEnd(courseData);
+                                return;
+                            }
+                            if (!dataSnapshot.hasChild("count")){
+                                checkEnd(courseData);
+                                return;
+                            }
+                            long sumAmabilidad = (long) dataSnapshot.child("amabilidad").getValue();
+                            long sumClases = (long) dataSnapshot.child("clases").getValue();
+                            long sumConocimiento = (long) dataSnapshot.child("conocimiento").getValue();
+                            long count_value = (long) dataSnapshot.child("count").getValue();
+
+                            prof.setAmabildiad((float) sumAmabilidad / count_value);
+                            prof.setClases((float) sumClases / count_value);
+                            prof.setConocimiento((float) sumConocimiento / count_value);
+                            someProf = true;
+                            checkEnd(courseData);
+
                         }
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                            count ++;
+                            checkEnd(courseData);
                         }
                     });
         }
 
-    }
 
+    }
+    public void checkEnd(final CourseData courseData){
+        if (count == courseData.getProfessors().size()) {
+
+            gotCourseDataListener.onGotCourseInfo(courseData);
+
+        }
+
+    }
     public GotCourseInfoListener getGotCourseDataListener() {
         return gotCourseDataListener;
     }

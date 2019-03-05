@@ -98,6 +98,8 @@ public class ActivitySearchProfessor extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ActivitySearchProfessor.this, ActivityAddProf.class);
+                intent.putExtra("profName", mProfInput.getText().toString());
+
                 startActivity(intent);
             }
         };

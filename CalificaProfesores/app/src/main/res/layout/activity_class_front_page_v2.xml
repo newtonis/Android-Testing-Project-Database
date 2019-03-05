@@ -30,13 +30,13 @@
                 android:orientation="horizontal">
 
                 <android.support.constraint.ConstraintLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="48dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.1">
+                    android:layout_weight="0.000001">
 
                     <com.balysv.materialmenu.MaterialMenuView
                         android:id="@+id/MaterialMenuButton"
-                        android:layout_width="46dp"
+                        android:layout_width="30dp"
                         android:layout_height="33dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -54,12 +54,12 @@
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.1">
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
 
                     <TextView
                         android:id="@+id/TextBuscarCurso"
-                        android:layout_width="278dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -81,9 +81,9 @@
                 </android.support.constraint.ConstraintLayout>
 
                 <android.support.constraint.ConstraintLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="40dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.1">
+                    android:layout_weight="0.001">
 
                     <ImageView
                         android:id="@+id/imageView"

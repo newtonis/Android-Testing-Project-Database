@@ -55,7 +55,6 @@ public class MenuManager {
     private MaterialMenuDrawable materialMenu;
     private MaterialMenuView materialMenuView;
     private DrawerLayout mDrawerLayout;
-    private UserDataManager userDataManager;
     private MenuButtonData
             ButtonSalir,
             buttonBuscarMateria,
@@ -73,8 +72,6 @@ public class MenuManager {
     public MenuManager(Context ctx, MaterialMenuView _materialMenuView, DrawerLayout _mDrawerLayout) {
         this.materialMenuView = _materialMenuView;
         this.mDrawerLayout = _mDrawerLayout;
-
-        userDataManager = new UserDataManager("");
 
         this.materialMenuView.setOnClickListener(new View.OnClickListener() {
             @Override

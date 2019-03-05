@@ -30,6 +30,7 @@ import com.gnd.calificaprofesores.MenuManager.MenuManager;
 import com.gnd.calificaprofesores.NetworkHandler.CourseCommentsDataManager;
 import com.gnd.calificaprofesores.NetworkHandler.CourseData;
 import com.gnd.calificaprofesores.NetworkHandler.GotCourseInfoListener;
+import com.gnd.calificaprofesores.NetworkHandler.UserExtraDataInstance;
 import com.gnd.calificaprofesores.NetworkSearchQueriesHandler.GotCourseListener;
 import com.gnd.calificaprofesores.NetworkSearchQueriesHandler.SearchCourseHandler;
 import com.gnd.calificaprofesores.NetworkSearchQueriesHandler.SearchUniHandler;
@@ -80,8 +81,8 @@ public class ActivitySearchCourse extends AppCompatActivity {
 
         /** Cargamos la universidad de la que buscaremos cursos **/
         Intent intent = getIntent();
-        uniId = intent.getStringExtra("Uni");
-        uniName = intent.getStringExtra("UniName");
+        uniId = UserExtraDataInstance.getInstance().getUniId(); //intent.getStringExtra("Uni");
+        uniName = UserExtraDataInstance.getInstance().getUniName(); //intent.getStringExtra("UniName");
 
         searchCourseHandler = new SearchCourseHandler(uniId, uniName);
         ShownDataListed = new ArrayList<>();
@@ -97,8 +98,8 @@ public class ActivitySearchCourse extends AppCompatActivity {
         sadIcon.bringToFront();
         progressWheel.bringToFront();
 
-        TextView uniText = findViewById(R.id.UniversityText);
-        uniText.setText(intent.getStringExtra("UniName"));
+        final TextView uniText = findViewById(R.id.UniversityText);
+        uniText.setText(uniName);
 
         ConstraintLayout layoutUni = findViewById(R.id.SelectUniLayout);
         layoutUni.setOnClickListener(new View.OnClickListener() {
@@ -138,6 +139,7 @@ public class ActivitySearchCourse extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ActivitySearchCourse.this, ActivityAddClass.class);
+                intent.putExtra("className", mCourseInput.getText().toString());
 
                 startActivity(intent);
             }

@@ -181,6 +181,8 @@ public class ProfCommentsDataManager {
                                                 0f
                                         );
                                     }
+                                }else{
+                                    gotProfQualListener.onError();
                                 }
                             }
 

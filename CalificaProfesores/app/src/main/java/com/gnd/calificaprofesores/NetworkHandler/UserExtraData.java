@@ -8,6 +8,8 @@ public class UserExtraData{
     private String ShownName;
     private String UniId;
     private String UniName;
+    private String UniCompleteName;
+
     private boolean isAdmin;
     private boolean gotDataAdmin;
 
@@ -15,6 +17,7 @@ public class UserExtraData{
         ShownName = "";
         UniId = "";
         UniName = "";
+        UniCompleteName = "";
         isAdmin = false;
         gotDataAdmin = false;
     }
@@ -23,6 +26,7 @@ public class UserExtraData{
         this.ShownName = _ShownName;
         UniId = "";
         UniName = "";
+        UniCompleteName = "";
         isAdmin = false;
         gotDataAdmin = false;
     }
@@ -76,5 +80,14 @@ public class UserExtraData{
         UniId = "";
         UniName = "";
         ShownName = "";
+        UniCompleteName = "";
+    }
+
+    public String getUniCompleteName() {
+        return UniCompleteName;
+    }
+
+    public void setUniCompleteName(String uniCompleteName) {
+        UniCompleteName = uniCompleteName;
     }
 }
