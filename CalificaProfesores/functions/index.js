@@ -341,13 +341,6 @@ exports.UpdateProfRequest1 = functions.database.ref("/ProfAddRequests/{uid}/{rid
     }
 ); // ok
 
-/*exports.CreateClassRequest1 = functions.database.ref("/ClassAddRequests/{uid}/{rid}")
-    .onCreate((event, context) => {
-
-    }
-);*/
-// falta actualizar
-
 exports.AddClassRequest1 = functions.database.ref("/ClassAddRequests/{uid}/{rid}")
     .onCreate((event, context) => {
         const classId = event.child("classId").val();
@@ -374,10 +367,10 @@ exports.AddClassRequest1 = functions.database.ref("/ClassAddRequests/{uid}/{rid}
             totalScore: 0,
             Prof: arrProf
         }).then(() => {
-            console.log('Successfully created materia '+ name + " (id="+id+")");
+            console.log('Exitosamente actualizando materia '+ name + " (id="+id+")");
             return 1;
         }).catch(() => {
-            console.log('Error updating database');
+            console.log('Error actualizando database');
             return 0;
         });
 
@@ -394,33 +387,45 @@ exports.AddClassRequest1 = functions.database.ref("/ClassAddRequests/{uid}/{rid}
             .replace(/ú/g, "u"),
             ShownName: name
         }).then(() => {
-            console.log("Successfully updated MateriasPorFacultad/"+facultadId+"/"+id);
+            console.log("Exitosamente actualizando MateriasPorFacultad/"+facultadId+"/"+id);
             return 1;
         }).catch(() => {
-            console.log('Error updating database');
+            console.log('Error actualizando database');
             return 0;
         });
 
         for (var prof in arrProf){
-            console.log("creando link Prof/"+prof+"/Mat/"+id);
+            console.log("Creando link Prof/"+prof+"/Mat/"+id);
             admin.database()
-            .ref("Prof/"+prof+"/Mat/"+id)
+            .ref("Prof/"+prof+"/Mat/"+id) // actualizamos materias del profesor
             .set({
                 facultad: facultadName,
                 nombre: name
             }).then(() => {
-                console.log("Successfully updated link Prof/"+prof+"/Mat/"+id);
+                console.log("Exitosamente actualizado link Prof/"+prof+"/Mat/"+id);
                 return 1;
             }).catch(() => {
-                console.log('Error updating database');
+                console.log('Error actualizando database');
                 return 0;
             });
-        }
 
+            /***** CODIGO AGREGADO REVISIÓN 25/08/2019 *****/
+                console.log("Actualizando universidad del profesor Prof/"+prof+"/Mat/"+id);
+                admin.database() /// actualizamos facultades del profesor
+                .ref("Prof/"+prof+"/Facultades/"+facultadName).set(facultadName)
+                .then(() => {
+                    console.log("Exitosamiente actualizada universidad Prof/"+prof+"/Facultades/"+facultadName);
+                    return 1;
+                }).catch(() => {
+                    console.log('Error actualizando database');
+                    return 0;
+                });
+            /***** FIN DE CÓDIGO AGREGADO REVISIÓN 25/08/2019 *****/
+
+        }
         return 1;
     }
 ); 
-
 
 exports.UpdateClassRequest1 = functions.database.ref("/ClassAddRequests/{uid}/{rid}")
     .onUpdate((event, context) => {
@@ -452,10 +457,10 @@ exports.UpdateClassRequest1 = functions.database.ref("/ClassAddRequests/{uid}/{r
                 admin.database()
                 .ref("Prof/"+prof+"/Mat/"+id)
                 .remove().then(() => {
-                    console.log("Successfully updated link Prof/"+prof+"/Mat/"+id);
+                    console.log("Exitosamente actualizado link Prof/"+prof+"/Mat/"+id);
                     return 1;
                 }).catch(() => {
-                    console.log('Error updating database');
+                    console.log('Error actualizando database');
                     return 0;
                 });
             }
@@ -465,10 +470,10 @@ exports.UpdateClassRequest1 = functions.database.ref("/ClassAddRequests/{uid}/{r
             admin.database()
             .ref("Materias/"+id)
             .remove().then(() => {
-                console.log("Successfully deleting Materias/"+id);
+                console.log("Exitosamente eliminando Materias/"+id);
                 return 1;
             }).catch(() => {
-                console.log('Error updating database');
+                console.log('Error actualizando database');
                 return 0;
             });
 
@@ -480,10 +485,10 @@ exports.UpdateClassRequest1 = functions.database.ref("/ClassAddRequests/{uid}/{r
         .ref("MateriasPorFacultad/"+facultadId+"/"+id)
         .remove()
         .then(() => {
-            console.log("Successfully deleting MateriasPorFacultad/"+facultadId+"/"+id);
+            console.log("Exitosamente eliminando MateriasPorFacultad/"+facultadId+"/"+id);
             return 1;
         }).catch(() => {
-            console.log('Error updating database');
+            console.log('Error actualizando database');
             return 0;
         });
 
@@ -496,7 +501,7 @@ exports.UpdateClassRequest1 = functions.database.ref("/ClassAddRequests/{uid}/{r
             console.log("ClassAddRequests/"+context.params.uid+"/"+context.params.rid);
             return 1;
         }).catch(() => {
-            console.log('Error updating database');
+            console.log('Error actualizando database');
             return 0;
         });
             
@@ -506,7 +511,7 @@ exports.UpdateClassRequest1 = functions.database.ref("/ClassAddRequests/{uid}/{r
 
 exports.UpdateAddUniRequest1 = functions.database.ref("/UniAddRequests/{uid}/{rid}")
     .onCreate((event, context) => {
-        console.log("Creating uni "+context.params.rid);
+        console.log("Creando universidad "+context.params.rid);
         const uniCompleteName = event.child("uniShortName").val();
         const uniShortName = event.child("uniCompleteName").val();
                 // create uni
@@ -526,14 +531,14 @@ exports.UpdateAddUniRequest1 = functions.database.ref("/UniAddRequests/{uid}/{ri
 
 exports.UpdateAdminActionUniRequest1 = functions.database.ref("/UniAddRequests/{uid}/{rid}")
     .onUpdate((event, context) => {       
-        console.log("Updating admin action on uni ",context.params.rid);
+        console.log("Actualizando admin action en la universidad ",context.params.rid);
         const uniCompleteName = event.after.child("uniShortName").val();
         const uniShortName = event.after.child("uniCompleteName").val();
         
         const remove = event.after.child("erase").val();
 
         if (remove){
-            console.log("Removing university ...");
+            console.log("Eliminando universidad ...");
             admin.database()
             .ref("MateriasPorFacultad/"+event.after.key)
             .remove().then(() => {
@@ -547,25 +552,25 @@ exports.UpdateAdminActionUniRequest1 = functions.database.ref("/UniAddRequests/{
             admin.database()
             .ref("Facultades/"+event.after.key)
             .remove().then(() => {
-                console.log('Successfully removed uni ' + event.after.key + ' data');
+                console.log('Exitosamente eliminando uni ' + event.after.key + ' data');
                 return 1;
             }).catch(() => {
-                console.log('Error removing uni');
+                console.log('Error eliminando universidad');
                 return 0;
             });
 
             admin.database()
             .ref("UniAddRequests/"+context.params.uid+"/"+context.params.rid)
             .remove().then(() => {
-                console.log("Uni "+event.before.key+" request erased");
+                console.log("Universidad "+event.before.key+" request eliminanda");
                 return 1;
             }).catch(() => {
-                console.log("Error removing uni " + event.before.key+ + "request");
+                console.log("Error eliminando universidad " + event.before.key+ + "request");
                 return 0;
             });
             return 1;
         }else{
-            console.log("No action");
+            console.log("No accion");
         }
     }
 ); // ok
